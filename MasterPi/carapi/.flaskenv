@@ -1,0 +1,2 @@
+FLASK_APP=carapi.py
+FLASK_DEBUG=1
