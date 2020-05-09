@@ -18,6 +18,7 @@ listen in the appropriate manner.
 
 from datetime import datetime
 import validation
+#from validation import validateUser
 import utilities
 import os
 import time
@@ -48,7 +49,7 @@ class CarIDLoader:
 # in Decimal Degrees, and the time that it was updated is also stored.
 class CarLocationUpdater:
 
-    def __init__(self, currentCarLocation):
+    def __init__(self, currentCarLocation: dict):
         self.currentCarLocation = currentCarLocation
 
     # Format the return value if necessary. Return the original values
@@ -82,7 +83,7 @@ class CarDetails:
     # so it is is necessary when instantiating this object to call
     # the updateLocation method if you want to use the actual
     # location of the vehicle, but this will increase startup time.
-    def __init__(self, carID):
+    def __init__(self, carID: str):
         self.carID = carID
         # Potentially store the last location in a file.
         self.carLocation = {
@@ -91,9 +92,10 @@ class CarDetails:
             "Time" : datetime.now()
         }
         self.carLocked = True
+        self.currentUser = None
     
      # Returns the ID for passing onto Master Pi to validate booking.
-    def getCarID(self):
+    def getCarID(self) -> str:
         return self.carID
 
     # Returns the last location of the vehicle as a Dictionary for passing
@@ -101,6 +103,14 @@ class CarDetails:
     # Call update location first if you want the most up to date location
     def getCarLocation(self) -> dict:
         return self.carLocation
+
+    # Returns the current user of the vehicle, None if there is not a user.
+    def getCarUser(self) -> str:
+        return self.currentUser
+
+
+    def updateUser(self, username: str):
+        self.currentuser = username
 
     # Updates the current location of the car. This instantiates the
     # CarLocationUpdater and attempts to update the location - there
@@ -132,8 +142,8 @@ class CarDetails:
 # Essentially control stays here until the program exits.
 class CLIController:
 
-    def __init__(self, loadedCar: CarIDLoader):
-        self.loadedCar = loadedCar
+    def __init__(self, loadedCar: CarDetails):
+        self.currentCar = loadedCar
         self.running = True
         # might be better to encrypt this info...?
         # the encryption could probably be used to login, so
@@ -148,6 +158,7 @@ class CLIController:
         # These variable are stored inside the function to reduce visibility.
         # They will be completely integrated if an option to add face recognition
         # to a profile is offered.
+
         # TODO Deprecate this dictionary, as it should be contained in 
         # the validation module
         userdetails = {
@@ -155,45 +166,81 @@ class CLIController:
             "password": str(""),
             "faceID": None}
         while self.running:
-            if self.loadedCar.carLocked:
-                print("Welcome to Car Share System.\n")
-                print("You are at Car ID: {car}\n\
-                ".format(car = self.loadedCar.getCarID()))
-                print("Please choose from the following options:\n \
-                      1. Unlock vehicle with username and password. \n \
-                      2. Unlock vehicle with face recognition. \n")
-                userchoice = input("Please enter your selection as an integer: ")
-                # pass the result to the Validation module that validates the credentials.
-                # the username is returned, or False if invalid.
-                username = False
-                if userchoice == "1" or userchoice == "2":
-                    validateattempt = validation.validateUser(userchoice)
-                else:
-                    # Invalid choice - pause, clear screen, flush keyboard input.
-                    print("Invalid Choice!")
-                    time.sleep(3)
-                    try:
-                        clearutil = utilities.helperUtilities()
-                        clearutil.clear_keyboard(sys.stdin)
-                    except:
-                        print("Clear keyboard operation not supported in debugger or this OS.")
-                        print("Exiting Program")
-                        sys.exit(0)
-                    os.system("clear")
-                    continue
-                # IF the credentials are validated, the car is unlocked.
-                if username:
-                    self.loadedCar.carLocked = False
-                else:
-                    print("Invalid Credentials!")
-                    time.sleep(3)
-            else:
-                print("Welcome {user} - have a safe journey.\n\
-                ".format(user = self.userdetails["username"]))
+            # if self.loadedCar.carLocked:
+            #     print("Welcome to Car Share System.\n")
+            #     print("You are at Car ID: {car}\n\
+            #     ".format(car = self.loadedCar.getCarID()))
+            #     print("Please choose from the following options:\n \
+            #           1. Unlock vehicle with username and password. \n \
+            #           2. Unlock vehicle with face recognition. \n")
+            #     userchoice = input("Please enter your selection as an integer: ")
+            #     # pass the result to the Validation module that validates the credentials.
+            #     # the username is returned, or False if invalid.
+            #     # username = False
+            #     # if userchoice == "1" or userchoice == "2":
+            #     #     validateattempt = validation.validateUser(userchoice)
+            #     validateattempt = validation.validateUser(userchoice)
+            #     #else:
+            #     if !validateattempt:
+            #         # Invalid choice - pause, clear screen, flush keyboard input.
+            #         print("Invalid Choice!")
+            #         time.sleep(3)
+            #         try:
+            #             clearutil = utilities.helperUtilities()
+            #             clearutil.clear_keyboard(sys.stdin)
+            #         except:
+            #             print("Clear keyboard operation not supported in debugger or this OS.")
+            #             print("Exiting Program")
+            #             sys.exit(0)
+            #         os.system("clear")
+            #         continue
+            #     # IF the credentials are validated, the car is unlocked.
+            #     if username:
+            #         self.loadedCar.carLocked = False
+            #     else:
+            #         print("Invalid Credentials!")
+            #         time.sleep(3)
+            # else:
+            #     print("Welcome {user} - have a safe journey.\n\
+            #     ".format(user = self.userdetails["username"]))
+
+            os.system("clear")
+
+            print("Welcome to Car Share System.\n")
+            print("You are at Car ID: {car}\n\
+            ".format(car = self.currentCar.getCarID()))
+            print("Please choose from the following options:\n \
+                1. Unlock vehicle with username and password. \n \
+                2. Unlock vehicle with face recognition. \n")
+            userchoice = input("Please enter your selection as an integer: ")
+            # pass the result to the Validation module that validates the credentials.
+            # True is returned if the user was successful, and only after the
+            # booking has been completed. False is immediately returned if invalid.
+            # username = False
+            # if userchoice == "1" or userchoice == "2":
+            #     validateattempt = validation.validateUser(userchoice)
+            uservalidation = validation.validateUser(userchoice, self.currentCar)
+            isvalid = uservalidation.validateCredentials()
+            #print(type(isvalid))
+            #else:
+            if not isvalid:
+                # Invalid choice - pause, clear screen, flush keyboard input.
+                print("Invalid Choice!")
+                time.sleep(3)
+                try:
+                    clearutil = utilities.helperUtilities()
+                    clearutil.clear_keyboard(sys.stdin)
+                except:
+                    print("Clear keyboard operation not supported in debugger or this OS.")
+                    print("Exiting Program")
+                    sys.exit(0)
+                # TODO is this continue needed?
+                continue
+
                       
                         
 
-# Main for starting the Agent Pi Software.
+# Main class for starting the Agent Pi Software.
 class Main():
     def start(self):
         # Load the CarID and then create a Car Object for operating on,
@@ -201,7 +248,9 @@ class Main():
         CurrentCarIDLoader = CarIDLoader()
         currentCar = CarDetails(CurrentCarIDLoader.getCarID())
         del CurrentCarIDLoader
-        # Update the location on loading.
+
+        # Update the location on loading...?
+        # TODO this might not be necessary....
         currentCar.updateCarLocation()
 
         # Pass the car details to the CLIGenerators and enable 

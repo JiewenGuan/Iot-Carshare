@@ -3,7 +3,9 @@ import sys
 
 # Class containing helper utilities.
 class helperUtilities:
-    # Helper function to clear the keyboard after a sleep event.
+    # Helper function to clear the keyboard after a sleep event. 
+    # it consumes each line until none remain, and then returns control to
+    # the calling function
     def clear_keyboard(self, input_text):
         # This may not function on windows, - see https://docs.python.org/3/library/select.html
         # Fourth paramter is timeout - set to zero to remove delay.
