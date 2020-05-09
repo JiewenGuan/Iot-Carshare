@@ -109,8 +109,13 @@ class CarDetails:
         return self.currentUser
 
 
-    def updateUser(self, username: str):
-        self.currentuser = username
+    def removeUser(self):
+        self.currentUser = None
+        self.carLocked = False
+
+    def unlock_car(self, newuser: str):
+        self.currentUser = newuser
+        self.carLocked = True
 
     # Updates the current location of the car. This instantiates the
     # CarLocationUpdater and attempts to update the location - there

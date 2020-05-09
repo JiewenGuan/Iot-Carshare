@@ -5,6 +5,7 @@
 
 from getpass import getpass
 import sys
+import connection
 
 # Validation entrypoint. This can only be operated on when instantiated.
 # This reduces unwarranted use of the validation function
@@ -13,9 +14,9 @@ class validateUser:
     # The init does the usual, but the userselection is the key as it 
     # assists the validatecredentials function in determining which
     # validate technique to use.
-    def __init__(self, userselection: int, cardetails: dict):
+    def __init__(self, userselection: int, current_car: dict):
         self.userselection = userselection
-        self.currentCar = cardetails
+        self.current_car = current_car
         #self.validateCredentials()
         #print("is this executing?")
 
@@ -48,13 +49,18 @@ class validateUser:
             # eventually the boolean is returned 
             print("Validating credentials....")
             #TODO test whether it is necessary to clear the keyboard input....
-            isvaliduser = False
+            validate_connection = connection.confirmText()
+            isvaliduser = validate_connection.accept_credentials(username, password, self.current_car.getCarID())
 
             if isvaliduser:
-                cardetails.updateUser(username)
+                
                 # Action unlock. From here all actions during a booking should take
                 # place in and throughout this function call.
                 # Return to the main menu. (cascades back through calling functions)
+
+                # TODO Temporary - the unlock function called should be passed the 
+                # the username to unlock the car.
+                self.current_car.unlock_car(username)
                 break
             
             # decrement attempts and inform the user.
