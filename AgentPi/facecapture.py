@@ -55,6 +55,7 @@ class FaceCapture:
         # Create a VideoCapture object. Opens a camera for video capture - the parameter is 
         # the index of the camera to use. 
         # Could also be a video file (if someone sent in a video?)
+        # TODO Handle if a camera is not connected/available?
         cam = cv2.VideoCapture(0)
 
         # Sets with width (3, 640) and the height (4, 480) of the video feed.

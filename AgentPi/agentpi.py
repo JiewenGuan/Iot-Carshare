@@ -20,6 +20,7 @@ from datetime import datetime
 import validation
 #from validation import validateUser
 from cardetails import CarDetails as CarDetails
+from cardetails import CarLocationUpdater as CarLocationUpdater
 import utilities
 import os
 import time
@@ -44,37 +45,37 @@ class CarIDLoader:
         return self.thisCarID
 
 
-# This class stores and can be used to update the location of the
-# car. It is designed to be instantiated by a CarDetails Object.
-# The location is stored as a dictionary and containes values
-# in Decimal Degrees, and the time that it was updated is also stored.
-class CarLocationUpdater:
+# # This class stores and can be used to update the location of the
+# # car. It is designed to be instantiated by a CarDetails Object.
+# # The location is stored as a dictionary and containes values
+# # in Decimal Degrees, and the time that it was updated is also stored.
+# class CarLocationUpdater:
 
-    def __init__(self, currentCarLocation: dict):
-        self.currentCarLocation = currentCarLocation
+#     def __init__(self, currentCarLocation: dict):
+#         self.currentCarLocation = currentCarLocation
 
-    # Format the return value if necessary. Return the original values
-    # if the attempt to retrieve a locaiton fails.
-    def returnCarLocation(self):
-        retrievedLocation = self.updateCarLocation()
-        if retrievedLocation:
-            self.currentCarLocation["Longitude"] = retrievedLocation["Longitude"]
-            self.currentCarLocation["Latitude"] = retrievedLocation["Latitude"]
-            self.currentCarLocation["Time"] = datetime.now()
-        return self.currentCarLocation
+#     # Format the return value if necessary. Return the original values
+#     # if the attempt to retrieve a locaiton fails.
+#     def returnCarLocation(self):
+#         retrievedLocation = self.updateCarLocation()
+#         if retrievedLocation:
+#             self.currentCarLocation["Longitude"] = retrievedLocation["Longitude"]
+#             self.currentCarLocation["Latitude"] = retrievedLocation["Latitude"]
+#             self.currentCarLocation["Time"] = datetime.now()
+#         return self.currentCarLocation
 
-    # Internal method.
-    # Attempts to update the location, with a catch for all exceptions
-    # returning false. More detailed exception information should
-    # be handled by the function that actually determines the location.
-    # This should return a dictionary object that includes long/lat.
-    def updateCarLocation(self):
-        try:
-            # TODO For testing this will in future return a random location.
-            pass
-        except:
-            print("Error retrieving location data.")
-            return False
+#     # Internal method.
+#     # Attempts to update the location, with a catch for all exceptions
+#     # returning false. More detailed exception information should
+#     # be handled by the function that actually determines the location.
+#     # This should return a dictionary object that includes long/lat.
+#     def updateCarLocation(self):
+#         try:
+#             # TODO For testing this will in future return a random location.
+#             pass
+#         except:
+#             print("Error retrieving location data.")
+#             return False
 
 
 # # Contains and operates on the details regarding a car.
