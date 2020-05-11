@@ -123,7 +123,7 @@ class FaceRecognition:
                 # than one face in an image.) based on the data list.
                 # Also accepts a tolerance paramter (default 0.6), lower is more strict.
                 matches = face_recognition.compare_faces(data["encodings"], encoding)
-                name = "Unknown"
+                name = None
 
                 # check to see if we have found a match
                 # This takes O(n) memory which if the list is large would take 
@@ -162,11 +162,12 @@ class FaceRecognition:
         # Loop over the names (again hopefully just one) and return it to the
         # calling function.
             for name in names:
-                # print to console, identified person
-                print("Person found: {}".format(name))
-                # Set a flag to sleep the cam for fixed time
-                time.sleep(3.0)
-                # return name
+                if name is not None:
+                    # print to console, identified person
+                    print("Person found: {}".format(name))
+                    # Set a flag to sleep the cam for fixed time
+                    time.sleep(3.0)
+                    return name
 
         # Stop the thread that the VideoStream is operating on.
         vs.stop()
