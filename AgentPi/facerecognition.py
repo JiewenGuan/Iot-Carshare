@@ -16,6 +16,7 @@ import imutils
 import pickle
 import time
 import cv2
+import os
 
 # This class is instantiated and the recognise_face() method called to recognise a face
 # if it is stored in the pickle encoding. It accepts a path to the pickle file the 
@@ -55,14 +56,16 @@ class FaceRecognition:
         # TODO can remove the printing of err after testing. There may be other errors!
         data = None
         try:
-            with open(pickle_file, "rb").read() as f:
-                data = pickle.loads(f)
-        Except IOError as err:
+            with open(self.pickle_file, "rb") as f:
+                file = f.read()
+                data = pickle.loads(file)
+        except IOError as err:
             print(err)
             print("Error opening or decoding pickle file!")
             return None
-        except: 
+        except Exception as e: 
             print("Some other error when operating with pickle file!")
+            print(e)
             return None
 
         # initialize the video stream and then allow the camera sensor to warm up
@@ -82,6 +85,7 @@ class FaceRecognition:
             # Extract a frame from the video stream. Remember this is 
             # threaded so it is the most recent frame.
             frame = vs.read()
+            print("frame read")
 
             # convert the input frame from BGR to RGB then resize it to have
             # a width of 750px (to speedup processing)
@@ -114,44 +118,61 @@ class FaceRecognition:
             for encoding in encodings:
                 # attempt to match each face in the input image to our known
                 # encodings
+                # Compares the list of face encodings to the encoding captured.
+                # Returns a bool list (ordered) of True/False values (since there may be more
+                # than one face in an image.) based on the data list.
+                # Also accepts a tolerance paramter (default 0.6), lower is more strict.
                 matches = face_recognition.compare_faces(data["encodings"], encoding)
                 name = "Unknown"
 
                 # check to see if we have found a match
-                if True in matches:
+                # This takes O(n) memory which if the list is large would take 
+                # up considerable memory, so use if any instead.
+                #if True in matches:
+                if any(matches):
                     # find the indexes of all matched faces then initialize a
                     # dictionary to count the total number of times each face
                     # was matched
-                    # The 
-                    matchedIdxs = [i for (i, b) in enumerate(matches) if b]
+                    # The matches list is returned as an iterable object inside the function.
+                    # It returns the a list of each index of the matches iterable (a) based on the boolean
+                    # in matches (b) (technically matches[0] == enumerate(matches[][0]))
+                    matched_id_index = [index for (index, matches_boolean) in enumerate(matches) if matches_boolean]
+                    # Dictionary for names matched to be counted and incrememted with key name
                     counts = {}
 
                     # loop over the matched indexes and maintain a count for
                     # each recognized face face
-                    for i in matchedIdxs:
-                        name = data["names"][i]
+                    # Loop through the matched_id_index and extract the name from the 
+                    # associated data dictionary value - the name the encoding matched.
+                    # Append the count to the appropriate name in the dictionary name
+                    for index in matched_id_index:
+                        name = data["names"][index]
                         counts[name] = counts.get(name, 0) + 1
 
                     # determine the recognized face with the largest number
                     # of votes (note: in the event of an unlikely tie Python
                     # will select first entry in the dictionary)
+                    # Returns the name with the highest count, the statistically most
+                    # correct match.
                     name = max(counts, key = counts.get)
 
-                # update the list of names
+                # Adds the most popular name to the list.
                 names.append(name)
 
-        # loop over the recognized faces
+        # Loop over the names (again hopefully just one) and return it to the
+        # calling function.
             for name in names:
                 # print to console, identified person
                 print("Person found: {}".format(name))
                 # Set a flag to sleep the cam for fixed time
                 time.sleep(3.0)
+                # return name
 
         # Stop the thread that the VideoStream is operating on.
         vs.stop()
 
 
 # Testing
-if __init__ = "__main__":
+if __name__ == "__main__":
     face_recogniser = FaceRecognition("testpickle.pickle")
     face_recogniser.recognise_face()
