@@ -93,7 +93,7 @@ class FaceEncoder:
             # Loop over the encodings returned for the image (ideally just one).
             # TODO there should only be one of these, so is it necessary to loop?
             # TODO Although we are using different algorithms, so it is possible that 
-            # more than once face will be detected here vs previously. 
+            # more than once face will be detected here vs previously found. 
             print(len(encodings))
             for encoding in encodings:
                 # Each encoding from the image is appended to the list, with the 
@@ -105,16 +105,19 @@ class FaceEncoder:
         print("[INFO] serializing encodings...")
         encoding_data = { "encodings": image_encodings, "names": image_names }
 
+        # Convert this to a pickled object.
+        encoding_pickle = pickle.dumps(encoding_data)
+
         # Open file writing only in binary format, overwritting existing file. 
         # with open() closes the file automatically, and includes error handling.
         # pickle.dumps() serialises the data into a byte stream, known as "pickling".
         # with open(args["encodings"], "wb") as f:
         #     f.write(pickle.dumps(data))
         with open(self.encoding_file, "wb") as f:
-            f.write(pickle.dumps(encoding_data))
+            f.write(encoding_pickle)
 
 
 # For testing
 if __name__ == "__main__":
-    face_encoder = FaceEncoder("dataset", "testpickle")
+    face_encoder = FaceEncoder("dataset", "testpickle.pickle")
     face_encoder.encode_faces()

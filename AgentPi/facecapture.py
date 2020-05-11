@@ -10,6 +10,9 @@
 import cv2
 import os
 #import argparse
+# TODO If possible, update this to use the VideoStream class from imutils so
+# that a usb or picamera can be used - it abstracts cv2.VideoCapture and picamera 
+# in a threaded way which can improve performance.
 
 # This class is responsible for capturing the faces for entry into the fac detection
 # validation system. 
@@ -68,10 +71,11 @@ class FaceCapture:
         # Get the pre-built classifier
         face_detector = cv2.CascadeClassifier("haarcascade_frontalface_default.xml")
 
-        img_counter = 0
+        image_counter = 0
+        total_images = 10
         # Stop when 10 images are collected.
         # TODO Make a variable so that it can be more easily changed.
-        while img_counter <= 10:
+        while image_counter < 10:
             # TODO break out of this in a different manner.
             # Allows the input to break the capturing if loop after each image is captured
             key = input("Press q to quit or ENTER to continue: ")
@@ -129,19 +133,19 @@ class FaceCapture:
                 # TODO is this necessary?
                 cv2.rectangle(frame, (x, y), (x + w, y + h), (255, 0, 0), 2)
                 # Set the folder and filename, ensureing that there are leading zeros for
-                # img_counter i.e., 0001
-                img_name = "{}/{:04}.jpg".format(folder, img_counter)
+                # image_counter i.e., 0001
+                img_name = "{}/{:04}.jpg".format(folder, image_counter)
                 # imwrite(filename, image) saves the frame with just the face element
                 # based on the coordiantes via a numpy index: img[left:right, top:bottom]
                 # TODO Separate the cropping code into its own line?
                 cv2.imwrite(img_name, frame[y : y + h, x : x + w])
                 print("{} written!".format(img_name))
-                img_counter += 1
+                image_counter += 1
 
         # release the VideoCapture object - important for files.
         cam.release()
 
 # For Testing
 if __name__ == "__main__":
-    fc = FaceCapture("cam_test", "test_folder")
+    fc = FaceCapture("indy_test", "test_folder")
     fc.capture_face()
