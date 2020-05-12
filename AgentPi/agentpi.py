@@ -14,6 +14,16 @@ when the device is attempting to image a face/QR code.
 
 TODO it will broadcast bluetooth message to devices paired that 
 listen in the appropriate manner.
+
+TODO Catch any empty inputs in any of the forms. This could probably
+be generalised into a utility call...? Depends on how it handles the 
+empty string.
+user_Input = input('Enter a string: ')
+if not user_Input:
+  print('Error: This field has not been filled out')
+else:
+  value = int(user_Input)
+  print(value)
 """
 
 from datetime import datetime

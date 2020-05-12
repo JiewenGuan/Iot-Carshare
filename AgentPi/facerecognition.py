@@ -87,16 +87,17 @@ class FaceRecognition:
             frame = vs.read()
             print("frame read")
 
-            # convert the input frame from BGR to RGB then resize it to have
-            # a width of 750px (to speedup processing)
-            rgb = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-            # TODO This seems problematic - above we are setting rgb to the
+            # Convert the frame from BRG to RGB and resize it to the
+            # specified width while maintaining aspect ratio.
+            rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+            # TODO FIXED This seems problematic - above we are setting rgb to the
             # colour adjusted version of frame, but in the line below we are
             # overwritting the rgb object from before with a new one, which 
             # is not colour corrected, but the original frame. Should frame
             # be rgb in the line below?
             # rgb = imutils.resize(frame, width = args["resolution"])
-            rgb = imutils.resize(frame, width = detection_resolution)
+            # rgb = imutils.resize(frame, width = detection_resolution)
+            resized_rgb_frame = imutils.resize(rgb_frame, width = detection_resolution)
 
             # detect the (x, y)-coordinates of the bounding boxes
             # corresponding to each face in the input frame, then compute
@@ -104,14 +105,14 @@ class FaceRecognition:
             # boxes = face_recognition.face_locations(rgb, model = args["detection_method"])
             # Detects faces and returns an array of bounding boxes in css (top, right, 
             # bottom, left) order (like padding).
-            boxes = face_recognition.face_locations(rgb, model = detection_method)
+            boxes = face_recognition.face_locations(resized_rgb_frame, model = detection_method)
             # Computes a 128-dimensional face encoding (technically called an embedding 
             # which is actually a 128 float numpy array of underfined meaning) for each face 
             # in the image, returning a list of these encodings. 
             # Passed in the image and the bounding box. Also accepts a model parameter 
             # (large (default) or small - small is faster but only returns 5 points), 
             # and a num_jitters which randomly distorts the image before encoding. 
-            encodings = face_recognition.face_encodings(rgb, boxes)
+            encodings = face_recognition.face_encodings(resized_rgb_frame, boxes)
             names = []
 
             # loop over the facial embeddings
@@ -133,10 +134,16 @@ class FaceRecognition:
                     # find the indexes of all matched faces then initialize a
                     # dictionary to count the total number of times each face
                     # was matched
+                    # List comprehension
                     # The matches list is returned as an iterable object inside the function.
                     # It returns the a list of each index of the matches iterable (a) based on the boolean
-                    # in matches (b) (technically matches[0] == enumerate(matches[][0]))
-                    matched_id_index = [index for (index, matches_boolean) in enumerate(matches) if matches_boolean]
+                    # in matches (b) (technically matches[0] == enumerate(matches[][0])).
+                    matched_id_index = [
+                        index 
+                        for (index, matches_boolean) 
+                        in enumerate(matches) 
+                        if matches_boolean
+                        ]
                     # Dictionary for names matched to be counted and incrememted with key name
                     counts = {}
 
