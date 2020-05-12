@@ -21,7 +21,7 @@ class User(db.Model):
         data = {
             'id': self.id,
             'username': self.username,
-            'password_hash': self.password_hash
+            #'password_hash': self.password_hash
             #'bookings': url_for('get_user_bookings', id=self.id),
         }
         return data
@@ -45,9 +45,31 @@ class Car(db.Model):
     rate = db.Column(db.Float)
     status = db.Column(db.Integer)
     bookings = db.relationship('Booking', backref='car', lazy='dynamic')
-
+    
     def __repr__(self):
         return '<Car {}|{}>'.format(self.id, self.name)
+
+    def to_dict(self, include_email=False):
+        data = {
+            'id': self.id,
+            'name': self.name,
+            'make': self.make,
+            'body_type': self.body_type,
+            'colour': self.colour,
+            'seats': self.seats,
+            'location': self.location,
+            'rate': self.rate,
+            'status': self.status
+            #'bookings': url_for('get_car_bookings', id=self.id),
+        }
+        return data
+
+    def from_dict(self, data):
+        for field in data:
+            if field in data:
+                setattr(self, field, data[field])
+
+    
 
 
 class Booking(db.Model):
