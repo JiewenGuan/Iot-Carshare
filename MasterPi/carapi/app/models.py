@@ -73,7 +73,7 @@ class Car(db.Model):
 
 class Booking(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    timebooked = db.Column(db.DateTime, default=datetime.utcnow)
+    timebooked = db.Column(db.DateTime, default=datetime.now)
     timestart = db.Column(db.DateTime)
     dration = db.Column(db.Integer)
     timeend = db.Column(db.DateTime)

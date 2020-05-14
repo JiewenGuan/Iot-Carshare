@@ -1,11 +1,11 @@
 from app import app
-from app.forms import LoginForm, RegistrationForm, CarSearchForm
+from app.forms import LoginForm, RegistrationForm, CarSearchForm, BookingForm
 from app.models import User
 from flask import render_template, flash, redirect, url_for, request
 from flask_login import login_user, logout_user, current_user, login_required
 import requests
 from config import Config
-
+from datetime import date, datetime, timedelta
 @app.route('/')
 @app.route('/index', methods=['GET', 'POST'])
 @login_required
@@ -21,10 +21,8 @@ def index():
             data["make"]=form.make.data
         if form.seats.data is not None:
             data["seats"]=form.seats.data
-        print(data)
     r = requests.get('https://192.168.1.109:10100/cars',json = data, verify=False)
     retdata = r.json() or {}    
-    print(retdata)
     form.body_type.choices = make_select_list(Config.BODY_TYPE)
     form.colour.choices = make_select_list(Config.CAR_COLORS)
     return render_template('index.html', title='Home',form = form,cars = retdata, Config = Config)
@@ -53,7 +51,6 @@ def register():
         return redirect(url_for('index'))
     form = RegistrationForm()
     if form.validate_on_submit():
-        print("test")
         data = {'username':form.username.data,'password':form.password.data}
         r = requests.post('https://192.168.1.109:10100/users',json = data, verify=False)
         flash('Congratulations, you are now a registered user!')
@@ -64,6 +61,17 @@ def register():
 def logout():
     logout_user()
     return redirect(url_for('index'))
+
+@app.route('/book_car/<int:id>')
+def book_car_request(id):
+    form = BookingForm(date = date.today(),time = datetime.now() + timedelta(hours=1) , car_id = id, user_id = current_user.id, action = url_for('book_car'), method = "post")
+    return render_template('book.html', title = 'Make a Booking', form = form, id = id)
+
+@app.route('/book_car', methods=['POST'])
+def book_car():
+    form = BookingForm()
+    if form.validate_on_submit():
+        print(form.car_id.data)
 
 def make_select_list(arr):
     i = 0

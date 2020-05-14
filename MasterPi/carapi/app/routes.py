@@ -100,6 +100,14 @@ def update_car(id):
     db.session.commit()
     return jsonify(car.to_dict())
 
+@app.route('/book')
+def book():
+    data = request.get_json() or {}
+    if 'user_id' not in data or 'car_id' not in data or 'time_start' not in data or 'hours' not in data:
+        return bad_request('some fields are missing')
+    print(data)
+
+
 def bad_request(message):
     return error_response(400, message)
 

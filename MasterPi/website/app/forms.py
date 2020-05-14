@@ -2,7 +2,7 @@ from flask_wtf import FlaskForm
 from wtforms import HiddenField, StringField, PasswordField, BooleanField, SubmitField, SelectField, IntegerField
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
 import requests
-
+from wtforms.fields.html5 import DateField, TimeField
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
@@ -28,3 +28,12 @@ class CarSearchForm(FlaskForm):
     seats = IntegerField(render_kw={"placeholder": "Seats"})
     status = HiddenField(1)
     submit = SubmitField('Search')
+
+class BookingForm(FlaskForm):
+    car_id = HiddenField(validators=[DataRequired()])
+    user_id = HiddenField(validators=[DataRequired()])
+    date = DateField(validators=[DataRequired()])
+    time = TimeField(validators=[DataRequired()])
+    duration = IntegerField(validators=[DataRequired()],render_kw={"placeholder": "Hours"})
+    submit = SubmitField('Book')
+
