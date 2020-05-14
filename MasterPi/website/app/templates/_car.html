@@ -1,0 +1,25 @@
+<table class="table table-hover">
+    <tr>
+        <td>
+            {{car["name"]}} 
+        </td>
+        <td>
+            {{Config.BODY_TYPE[car["body_type"]]}} 
+        </td>
+        <td>
+            {{Config.CAR_COLORS[car["colour"]]}} 
+        </td>
+        <td>
+            {{car["make"]}} 
+        </td>
+        <td>
+            A${{car["rate"]}}
+        </td>
+        <td>
+            {{car["seats"]}}
+        </td>
+        <td>
+            {{Config.CAR_STATUSES[car["status"]]}}
+        </td>
+    </tr>
+</table>

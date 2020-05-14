@@ -1,8 +1,44 @@
 {% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
 
-{% block content %}
+{% block app_content %}
     <h1>Hi, {{ current_user.username }}!</h1>
-    {% for post in posts %}
-    <div><p>{{ post.author.username }} says: <b>{{ post.body }}</b></p></div>
-    {% endfor %}
+    {% if form %}
+    {{ wtf.quick_form(form, form_type='inline') }}
+    <br>
+    {% endif %}
+    <table class="table">
+        <thead>
+            <tr>
+                <th>
+                    Name
+                </th>
+                <th>
+                    Type
+                </th>
+                <th>
+                    Colour
+                </th>
+                <th>
+                    Make
+                </th>
+                <th>
+                    Rate
+                </th>
+                <th>
+                    Seats
+                </th>
+                <th>
+                    Status
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for car in cars %}
+                {% include '_car.html' %}
+            {% endfor %}
+        </tbody>
+    </table>
+    
+
 {% endblock %}

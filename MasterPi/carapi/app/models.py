@@ -66,8 +66,7 @@ class Car(db.Model):
 
     def from_dict(self, data):
         for field in data:
-            if field in data:
-                setattr(self, field, data[field])
+            setattr(self, field, data[field])
 
     
 

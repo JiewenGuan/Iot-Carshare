@@ -9,6 +9,13 @@ from werkzeug.http import HTTP_STATUS_CODES
 def index():
     return "Hello, World!"
 
+@app.route('/uniq/<string:name>', methods=['GET'])
+def uniq_name(name):
+    user = User.query.filter_by(username=name).first()
+    if user is not None:
+        return bad_request('use a different name')
+    return jsonify(User(username=name).to_dict())
+
 @app.route('/auth', methods=['POST'])
 def auth():
     data = request.get_json() or {}
@@ -32,9 +39,9 @@ def get_users():
 def create_user():
     data = request.get_json() or {}
     if 'username' not in data or 'password' not in data:
-        return bad_request('500 must include username and password fields')
+        return bad_request('must include username and password fields')
     if User.query.filter_by(username=data['username']).first():
-        return bad_request('500 please use a different username')
+        return bad_request('please use a different username')
     user = User()
     user.from_dict(data, new_user=True)
     db.session.add(user)
