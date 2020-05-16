@@ -1,7 +1,7 @@
 from app import app, db
 from app.models import User, Car, Booking
 from flask import jsonify, request, url_for
-from sqlalchemy import and_
+from sqlalchemy import and_, desc
 from werkzeug.http import HTTP_STATUS_CODES
 from datetime import datetime
 
@@ -112,7 +112,7 @@ def get_bookings():
 @app.route('/user_bookings/<int:id>')
 def user_bookings(id):
     query = db.session.query(Booking).filter(Booking.user_id == id)
-    return jsonify(list_to_dict(query.all()))
+    return jsonify(list_to_dict(query.order_by(desc(Booking.timestart)).all()))
 
 @app.route('/cancel_booking/<int:id>')
 def cancel_booking(id):

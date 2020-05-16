@@ -58,11 +58,13 @@ def register():
     return render_template('register.html', title='Register', form=form)
 
 @app.route('/logout')
+@login_required
 def logout():
     logout_user()
     return redirect(url_for('index'))
 
 @app.route('/book_car_request/<int:id>', methods=['GET', 'POST'])
+@login_required
 def book_car_request(id):
     form = BookingForm(date = date.today(),time = datetime.now() + timedelta(hours=1) , car_id = id, user_id = current_user.id)
     if form.validate_on_submit():
@@ -78,32 +80,42 @@ def book_car_request(id):
         r = requests.get('https://192.168.1.109:10100/cars/{}'.format(data['car_id']), verify=False)
         carData = r.json()
         if 'id' in bookingData:
-            flash('you booked {carname} for {hours} hours starting {start}'.format(carname = carData['name'], hours = bookingData['dration'], start = datetime.fromisoformat(bookingData['timestart']).strftime("%m/%d/%Y, %H:%M")))
+            start = datetime.fromisoformat(bookingData['timestart']).strftime("%m/%d/%Y, %H:%M")
+            flash('you booked {carname} for {hours} hours starting {start}'.format(carname = carData['name'], hours = bookingData['dration'], start = start))
             return redirect(url_for('index'))
         else:
             flash("The {carname} has been booked, try book another one".format(carname = carData['name']))
             return redirect(url_for('index'))
     return render_template('book.html', title = 'Make a Booking', form = form, id = id)
 
-"""@app.route('/book_car', methods=['POST'])
-def book_car():
-    form = BookingForm()
-    if form.validate_on_submit():
-        time_start = datetime.combine(form.date.data, form.time.data)
-        data = {
-            'user_id':form.user_id.data, 
-            'car_id':form.car_id.data, 
-            'time_start': time_start.isoformat(),
-            'hours':form.duration.data
-        }
-        r = requests.post('https://192.168.1.109:10100/book',json = data, verify=False)
-        bookingData = r.json()
-        r = requests.get('https://192.168.1.109:10100/cars/{}'.format(data['car_id']), verify=False)
-        carData = r.json()
-        flash('you booked {carname} for {hours} hours starting {start}'.format(carname = carData['name'], hours = bookingData['dration'], start = datetime.fromisoformat(bookingData['timestart']).strftime("%m/%d/%Y, %H:%M")))
+@app.route('/my_bookings', methods=['GET'])
+@login_required
+def my_bookings():
+    r = requests.get('https://192.168.1.109:10100/user_bookings/{}'.format(current_user.id), verify=False)
+    retdata = r.json() or {} 
+    for booking in retdata:
+        booking['timestart'] = datetime.fromisoformat(booking['timestart']).strftime("%m/%d/%Y, %H:%M")
+    return render_template('myBookings.html', title='My Bookings',bookings = retdata, Config = Config)
+
+
+@app.route('/car_info/<int:id>', methods=['GET'])
+def car_info(id):
+    r = requests.get('https://192.168.1.109:10100/cars/{}'.format(id), verify=False)
+    retdata = r.json() or {}
+    return render_template('index.html', title='Car No.{}'.format(id), cars = [retdata], Config = Config)
+
+@app.route('/cancel_booking/<int:id>')
+def cancel_booking(id):
+    r = requests.get('https://192.168.1.109:10100/cancel_booking/{}'.format(id), verify=False)
+    retdata = r.json() or {}
+    if 'id' in retdata:
+        start = datetime.fromisoformat(retdata['timestart']).strftime("%m/%d/%Y, %H:%M")
+        flash('Booking No.{bid} starting {start} is canceled'.format(bid = retdata['id'], start = start))
         return redirect(url_for('index'))
-    flash('booking failed, try again')
-    return redirect(url_for('index'))"""
+    else:
+        flash('An Error Occored:{}'.format(retdata['message']))
+        return redirect(url_for('index'))
+
 
 
 def make_select_list(arr):
