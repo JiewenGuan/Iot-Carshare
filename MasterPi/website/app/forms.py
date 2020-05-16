@@ -3,6 +3,7 @@ from wtforms import HiddenField, StringField, PasswordField, BooleanField, Submi
 from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
 import requests
 from wtforms.fields.html5 import DateField, TimeField
+from datetime import date as da, datetime, timedelta
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
@@ -36,4 +37,17 @@ class BookingForm(FlaskForm):
     time = TimeField(validators=[DataRequired()])
     duration = IntegerField(validators=[DataRequired()],render_kw={"placeholder": "Hours"})
     submit = SubmitField('Book')
-
+    def validate_date(self, date):
+        print(date.data)
+        print(da.today())
+        if date.data != da.today():
+            raise ValidationError('We can only book cars for today at this version')
+    def validate_time(self, time):
+        if datetime.combine(da.today(),time.data) < (datetime.now() + timedelta(minutes=10)):
+            raise ValidationError('We need 10 minutes to prepare the car')
+        if datetime.combine(da.today(),time.data) > (datetime.now() + timedelta(hours=5)):
+            raise ValidationError("We don't support booking more then 5 hours in advance at this stage")
+    def validate_duration(self, duration):
+        if duration.data < 1:
+            raise ValidationError('Must book for 1 or more hours')
+            

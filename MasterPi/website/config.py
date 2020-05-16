@@ -5,3 +5,4 @@ class Config(object):
     CAR_COLORS = ['Color','red','green','blue','yello','white','black']
     BODY_TYPE = ['Body Type','sedan','truck','van','pickup','suv']
     CAR_STATUSES = ['in service', 'avaliable', 'booked']
+    BOOKING_STAT = ['canceled', 'active', 'returned']

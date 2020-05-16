@@ -1,5 +1,5 @@
 from app import db
-from datetime import datetime
+from datetime import datetime, timedelta
 from werkzeug.security import generate_password_hash, check_password_hash
 
 class User(db.Model):
@@ -83,3 +83,23 @@ class Booking(db.Model):
 
     def __repr__(self):
         return '<Booking {}|{}>'.format(self.user_id, self.car_id)
+    
+    def from_dict(self, data):
+        self.user_id = data['user_id']
+        self.car_id = data['car_id']
+        self.dration = data['hours']
+        self.timestart = datetime.fromisoformat(data['time_start'])
+        self.timeend = self.timestart + timedelta(hours=self.dration)
+    
+    def to_dict(self):
+        data={
+            'id' : self.id,
+            'timebooked' : self.timebooked.isoformat(),
+            'timestart' : self.timestart.isoformat(),
+            'dration' : self.dration,
+            'timeend' : self.timeend.isoformat(),
+            'status' : self.status,
+            'user_id' : self.user_id,
+            'car_id' : self.car_id,
+        }
+        return data

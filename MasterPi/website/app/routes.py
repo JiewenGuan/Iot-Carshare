@@ -62,16 +62,49 @@ def logout():
     logout_user()
     return redirect(url_for('index'))
 
-@app.route('/book_car/<int:id>')
+@app.route('/book_car_request/<int:id>', methods=['GET', 'POST'])
 def book_car_request(id):
-    form = BookingForm(date = date.today(),time = datetime.now() + timedelta(hours=1) , car_id = id, user_id = current_user.id, action = url_for('book_car'), method = "post")
+    form = BookingForm(date = date.today(),time = datetime.now() + timedelta(hours=1) , car_id = id, user_id = current_user.id)
+    if form.validate_on_submit():
+        time_start = datetime.combine(form.date.data, form.time.data)
+        data = {
+            'user_id':form.user_id.data, 
+            'car_id':form.car_id.data, 
+            'time_start': time_start.isoformat(),
+            'hours':form.duration.data
+        }
+        r = requests.post('https://192.168.1.109:10100/book',json = data, verify=False)
+        bookingData = r.json()
+        r = requests.get('https://192.168.1.109:10100/cars/{}'.format(data['car_id']), verify=False)
+        carData = r.json()
+        if 'id' in bookingData:
+            flash('you booked {carname} for {hours} hours starting {start}'.format(carname = carData['name'], hours = bookingData['dration'], start = datetime.fromisoformat(bookingData['timestart']).strftime("%m/%d/%Y, %H:%M")))
+            return redirect(url_for('index'))
+        else:
+            flash("The {carname} has been booked, try book another one".format(carname = carData['name']))
+            return redirect(url_for('index'))
     return render_template('book.html', title = 'Make a Booking', form = form, id = id)
 
-@app.route('/book_car', methods=['POST'])
+"""@app.route('/book_car', methods=['POST'])
 def book_car():
     form = BookingForm()
     if form.validate_on_submit():
-        print(form.car_id.data)
+        time_start = datetime.combine(form.date.data, form.time.data)
+        data = {
+            'user_id':form.user_id.data, 
+            'car_id':form.car_id.data, 
+            'time_start': time_start.isoformat(),
+            'hours':form.duration.data
+        }
+        r = requests.post('https://192.168.1.109:10100/book',json = data, verify=False)
+        bookingData = r.json()
+        r = requests.get('https://192.168.1.109:10100/cars/{}'.format(data['car_id']), verify=False)
+        carData = r.json()
+        flash('you booked {carname} for {hours} hours starting {start}'.format(carname = carData['name'], hours = bookingData['dration'], start = datetime.fromisoformat(bookingData['timestart']).strftime("%m/%d/%Y, %H:%M")))
+        return redirect(url_for('index'))
+    flash('booking failed, try again')
+    return redirect(url_for('index'))"""
+
 
 def make_select_list(arr):
     i = 0
