@@ -65,7 +65,7 @@ class SocketConnection:
         if socket_return is None:
             return None
         if socket_return["username"] == socket_dictionary["username"]:
-            return True
+            return socket_dictionary
         return False
         # In reality the username is returned from the server as 
         # confirmation that a booking is valid at the time.

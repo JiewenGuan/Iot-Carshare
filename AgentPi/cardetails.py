@@ -3,6 +3,7 @@ import utilities
 import os
 import time
 import sys
+from unlockedcar import UnlockedCar as UnlockedCar
 
 # Contains and operates on the details regarding a car.
 class CarDetails:
@@ -41,30 +42,42 @@ class CarDetails:
         self.currentuser = None
         self.carlocked = False
 
-    def unlock_car(self, newuser: str):
-        self.currentuser = newuser
-        self.carlocked = True
+    # def unlock_car(self, newuser: str):
+    #     self.currentuser = newuser
+    #     self.carlocked = True
+    #     os.system("clear")
+    #     print("Car Unlocked!")
+
+    #     # GUI Loop.
+    #     in_booking = True
+    #     while in_booking:
+    #         print("Welcome {}".format(self.get_car_user()))
+    #         print("Please select from the following options:\n \
+    #         1. Return the Car.")
+    #         user_choice = input("Enter your choice: ")
+
+    #         if user_choice == "1":
+    #             # TODO return the car via the MasterPi.
+    #             in_booking = False
+    #         os.system("clear")
+
+    #     # TODO do the things to return the car
+    #     print("Car Returned.")
+    #     time.sleep(3)
+
+    def unlock_car(self, car_dict: dict):
+        self.currentuser = car_dict["username"]
+        self.carlocked = False
         os.system("clear")
         print("Car Unlocked!")
-
-        # GUI Loop.
-        in_booking = True
-        while in_booking:
-            print("Welcome {}".format(self.get_car_user()))
-            print("Please select from the following options:\n \
-            1. Return the Car.")
-            user_choice = input("Enter your choice: ")
-
-            if user_choice == "1":
-                # TODO return the car via the MasterPi.
-                in_booking = False
-            os.system("clear")
+        time.sleep(1)
+        unlocked_car = UnlockedCar(car_dict)
+        unlocked_car.unlock_car()
 
         # TODO do the things to return the car
         print("Car Returned.")
+        self.carlocked = True
         time.sleep(3)
-        
-
 
 
     # Updates the current location of the car. This instantiates the

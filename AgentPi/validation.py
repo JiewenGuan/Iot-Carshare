@@ -51,7 +51,7 @@ class validateUser:
             password = getpass()
 
             # Call validation function - validation function should return a boolean
-            # then the boolean can be used to action the unlock functions.
+            # if invalid credentials, None if there was an error, and the car if successful.
             # eventually the boolean is returned 
             print("Validating credentials....")
             #TODO test whether it is necessary to clear the keyboard input....
@@ -64,11 +64,11 @@ class validateUser:
                 time.sleep(3)
                 continue
 
-            # Progressing this far means the result was True or False.
+            # Progressing this far means the result was a dictionary or False.
             # Unlock the car and break, so when the car is locked and
             # control is returned to this function, the program returns
             # to the main menu.
-            if is_valid_user:
+            if is_valid_user is not False:
                 # self.current_car.currenuser = username
                 # Action unlock. From here all actions during a booking should take
                 # place in and throughout this function call.
@@ -76,7 +76,8 @@ class validateUser:
 
                 # TODO Temporary - the unlock function called should be passed the 
                 # the username to unlock the car.
-                self.current_car.unlock_car(username)
+                #self.current_car.unlock_car(username)
+                self.current_car.unlock_car(is_valid_user)
                 break
             
 
