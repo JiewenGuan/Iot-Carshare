@@ -56,7 +56,18 @@ class validateUser:
             print("Validating credentials....")
             #TODO test whether it is necessary to clear the keyboard input....
             is_valid_user = self.socket_connection.validate_text_credentials(username, password)
+            
+            print("is_valid_user: {}".format(is_valid_user))
+            # Check if the connection returned a result, if not inform.
+            if is_valid_user is None:
+                print("Unable to connect to Server - try again later.")
+                time.sleep(3)
+                continue
 
+            # Progressing this far means the result was True or False.
+            # Unlock the car and break, so when the car is locked and
+            # control is returned to this function, the program returns
+            # to the main menu.
             if is_valid_user:
                 # self.current_car.currenuser = username
                 # Action unlock. From here all actions during a booking should take
@@ -67,6 +78,8 @@ class validateUser:
                 # the username to unlock the car.
                 self.current_car.unlock_car(username)
                 break
+            
+
             
             # decrement attempts and inform the user.
             attempts = attempts - 1

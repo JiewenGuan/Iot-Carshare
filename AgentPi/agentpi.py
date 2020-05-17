@@ -244,15 +244,18 @@ class CLIController:
                 # Invalid choice - pause, clear screen, flush keyboard input.
                 print("Invalid Choice!")
                 time.sleep(3)
-                try:
-                    clearutil = utilities.helperUtilities()
-                    clearutil.clear_keyboard(sys.stdin)
-                except:
-                    print("Clear keyboard operation not supported in debugger or this OS.")
-                    print("Exiting Program")
-                    sys.exit(0)
+                clearutil = utilities.helperUtilities()
+                clearutil.clear_keyboard()
+
+                # try:
+                #     clearutil = utilities.helperUtilities()
+                #     clearutil.clear_keyboard()
+                # except:
+                #     print("Clear keyboard operation not supported in debugger or this OS.")
+                #     print("Exiting Program")
+                #     sys.exit(0)
                 # TODO is this continue needed?
-                continue
+                # continue
 
                       
                         

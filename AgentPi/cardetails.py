@@ -56,6 +56,7 @@ class CarDetails:
             user_choice = input("Enter your choice: ")
 
             if user_choice == "1":
+                # TODO return the car via the MasterPi.
                 in_booking = False
             os.system("clear")
 

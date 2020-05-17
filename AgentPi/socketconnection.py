@@ -62,6 +62,8 @@ class SocketConnection:
         socket_return = self.establish_connection(socket_dictionary)
 
         # Process the dictionary and return based on the outcome.
+        if socket_return is None:
+            return None
         if socket_return["username"] == socket_dictionary["username"]:
             return True
         return False
@@ -90,34 +92,42 @@ class SocketConnection:
 
         # Open a socket and send the dictionary, then await a reply.
         returned_bytes = b""
-        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-            s.connect(self.ADDRESS)
-            print("Connected to Master")
-            s.sendall(encoded_dictionary)
-            
-            # Recieve the data
-            # TODO How do we exit this in a timely manner?
-            print("Awaiting Response")
+        try:
+            with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as (socket_connection):
+                socket_connection.connect(self.ADDRESS)
+                print("Connected to Master")
+                socket_connection.sendall(encoded_dictionary)
+                
+                # Recieve the data
+                # TODO How do we exit this in a timely manner?
+                print("Awaiting Response")
 
-            temporary_bytes = s.recv(1024)
-            returned_bytes += temporary_bytes
-            print("got something: {}".format(temporary_bytes))
+                temporary_bytes = socket_connection.recv(1024)
+                returned_bytes += temporary_bytes
+                print("got something: {}".format(temporary_bytes))
 
-            # while True:
-            #     temporary_bytes = s.recv(1024)
-            #     returned_bytes += temporary_bytes
-            #     print("got something: {}".format(temporary_bytes))
+                # while True:
+                #     temporary_bytes = s.recv(1024)
+                #     returned_bytes += temporary_bytes
+                #     print("got something: {}".format(temporary_bytes))
 
-                # if not temporary_bytes:
-                #     print("Breaking")
-                #     break
-                # count = 0
-                # if not temporary_bytes:
-                #     sleep(1)
-                #     count += 1 
-                #     if count > 4:
-                #         print("Failed to contact server - try again later.")
-                #         break
+                    # if not temporary_bytes:
+                    #     print("Breaking")
+                    #     break
+                    # count = 0
+                    # if not temporary_bytes:
+                    #     sleep(1)
+                    #     count += 1 
+                    #     if count > 4:
+                    #         print("Failed to contact server - try again later.")
+                    #         break
+        except ConnectionRefusedError as err:
+            print("Unable to connect - throwing error....")
+            print(err)
+            return None
+        except e:
+            print(e)
+            return None
                 
         # Exit the context manager, closing the connection and convert
         # the bytes back to a dictionary.
