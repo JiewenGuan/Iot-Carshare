@@ -24,7 +24,7 @@ class validateUser:
         #self.validateCredentials()
         #print("is this executing?")
         print(self.current_car)
-        self.socket_connection = SocketConnection(self.current_car.getCarID())
+        self.socket_connection = SocketConnection(self.current_car.get_car_id())
 
     # Solely for directing the users choice to the appropriate function.
     # Returns false if an invalid choice is made, otherwise returns
@@ -46,8 +46,8 @@ class validateUser:
         attempts = 3
         is_valid_user = False
         while attempts > 0:
-            username = input("\nPlease enter your username: ")
-            
+            username = input("\nPlease enter your log in details: \n \
+    Username: ")
             password = getpass()
 
             # Call validation function - validation function should return a boolean
@@ -58,7 +58,7 @@ class validateUser:
             is_valid_user = self.socket_connection.validate_text_credentials(username, password)
 
             if is_valid_user:
-                
+                # self.current_car.currenuser = username
                 # Action unlock. From here all actions during a booking should take
                 # place in and throughout this function call.
                 # Return to the main menu. (cascades back through calling functions)
@@ -66,7 +66,6 @@ class validateUser:
                 # TODO Temporary - the unlock function called should be passed the 
                 # the username to unlock the car.
                 self.current_car.unlock_car(username)
-                print("Car Unlocked!")
                 break
             
             # decrement attempts and inform the user.
@@ -75,12 +74,6 @@ class validateUser:
             Attempts remaining: {remains}".format(remains = attempts))
 
             
-
-            
-
-        
-
-
     # Attempts to validate a face detection. Instantiates and calles the 
     # facerecognition.py which accepts one parameter, the location of the 
     # encodings file (pickle).

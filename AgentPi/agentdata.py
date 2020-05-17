@@ -29,6 +29,7 @@ class DictionaryConstructor:
     # # 
     def __init__(
         self, 
+        action: int,
         car_id: str, 
         username: str, 
         password: str, 
@@ -36,6 +37,7 @@ class DictionaryConstructor:
         info_date_time: str,
         current_location: tuple):
 
+        self.action = action
         self.car_id = car_id
         self.username = username
         self.password = password
@@ -45,6 +47,7 @@ class DictionaryConstructor:
 
     def get_socket_dictionary(self) -> dict:
         socket_dictionary = {
+            "action": self.action,
             "car_id": self.car_id,
             "username": self.username,
             "password": self.password,
@@ -67,6 +70,7 @@ if __name__ == "__main__":
     print(date_time_tosend)
     date_time_tosend = date_time_tosend.isoformat()
     test_dict = DictionaryConstructor(
+        1,
         "IDofCar", 
         "users_name", 
         None,

@@ -40,12 +40,14 @@ class SocketConnection:
 
         self.IP_ADDRESS = "127.0.0.1"
         self.M_PI_PORT = 33333
+        self.ADDRESS = (self.IP_ADDRESS, self.M_PI_PORT)
 
     # This function will send the username, password, car_id and date to
     # the server for validation.
     def validate_text_credentials(self, username: str, password: str):
         # Construct the dictionary
         socket_dictionary_creator = DictionaryConstructor(
+            1,
             self.car_id, 
             username, 
             password, 
@@ -60,12 +62,14 @@ class SocketConnection:
         socket_return = self.establish_connection(socket_dictionary)
 
         # Process the dictionary and return based on the outcome.
-
-        # For testing only. In reality the username is returned from the server as 
-        # confirmation that a booking is valid at the time.
-        if username == password:
+        if socket_return["username"] == socket_dictionary["username"]:
             return True
         return False
+        # In reality the username is returned from the server as 
+        # confirmation that a booking is valid at the time.
+        # if username == password:
+        #     return True
+        # return False
 
     # Validate the face recognition.
     def validate_face_credentials(self, user_token: str):
@@ -87,16 +91,34 @@ class SocketConnection:
         # Open a socket and send the dictionary, then await a reply.
         returned_bytes = b""
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as s:
-            s.connect((IP_ADDRESS, M_PI_PORT))
+            s.connect(self.ADDRESS)
             print("Connected to Master")
             s.sendall(encoded_dictionary)
             
             # Recieve the data
             # TODO How do we exit this in a timely manner?
-            while True:
-                print("receiving datum")
-                temporary_bytes = s.recv(1024)
-                returned_bytes += temporary_bytes
+            print("Awaiting Response")
+
+            temporary_bytes = s.recv(1024)
+            returned_bytes += temporary_bytes
+            print("got something: {}".format(temporary_bytes))
+
+            # while True:
+            #     temporary_bytes = s.recv(1024)
+            #     returned_bytes += temporary_bytes
+            #     print("got something: {}".format(temporary_bytes))
+
+                # if not temporary_bytes:
+                #     print("Breaking")
+                #     break
+                # count = 0
+                # if not temporary_bytes:
+                #     sleep(1)
+                #     count += 1 
+                #     if count > 4:
+                #         print("Failed to contact server - try again later.")
+                #         break
+                
         # Exit the context manager, closing the connection and convert
         # the bytes back to a dictionary.
         returned_dictionary = json.loads(returned_bytes.decode("utf-8"))
@@ -104,13 +126,13 @@ class SocketConnection:
 
         # Update the returned dictionary to conform with the communication
         # standard, in case a date has been communicated in an ISO
-        # format and return to the calling function.
+        # format, and return to the calling function.
         if returned_dictionary["info_date_time"] is not None:
             print("Updating Socket Dictionary")
             try: 
                 update_dictionary = DictionaryDateUpdater(returned_dictionary["info_date_time"])
                 returned_dictionary["info_date_time"] = update_dictionary.get_python_date()
-            except as e:
+            except e:
                 print("Error converting dictionary!")
                 print(e)
         return returned_dictionary

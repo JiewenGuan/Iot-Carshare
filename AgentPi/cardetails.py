@@ -11,60 +11,81 @@ class CarDetails:
     # so it is is necessary when instantiating this object to call
     # the updateLocation method if you want to use the actual
     # location of the vehicle, but this will increase startup time.
-    def __init__(self, carID: str):
-        self.carID = carID
+    def __init__(self, car_id: str):
+        self.car_id = car_id
         # Potentially store the last location in a file.
-        self.carLocation = {
+        self.carlocation = {
             "Longitude" : 0.0,
             "Latitude" : 0.0,
             "Time" : datetime.now()
         }
-        self.carLocked = True
-        self.currentUser = None
+        self.carlocked = True
+        self.currentuser = None
     
      # Returns the ID for passing onto Master Pi to validate booking.
-    def getCarID(self) -> str:
-        return self.carID
+    def get_car_id(self) -> str:
+        return self.car_id
 
     # Returns the last location of the vehicle as a Dictionary for passing
     # onto Master Pi to terminate booking.
     # Call update location first if you want the most up to date location
-    def getCarLocation(self) -> dict:
-        return self.carLocation
+    def getcarlocation(self) -> dict:
+        return self.carlocation
 
     # Returns the current user of the vehicle, None if there is not a user.
-    def getCarUser(self) -> str:
-        return self.currentUser
+    def get_car_user(self) -> str:
+        return self.currentuser
 
 
-    def removeUser(self):
-        self.currentUser = None
-        self.carLocked = False
+    def remove_user(self):
+        self.currentuser = None
+        self.carlocked = False
 
     def unlock_car(self, newuser: str):
-        self.currentUser = newuser
-        self.carLocked = True
+        self.currentuser = newuser
+        self.carlocked = True
+        os.system("clear")
+        print("Car Unlocked!")
+
+        # GUI Loop.
+        in_booking = True
+        while in_booking:
+            print("Welcome {}".format(self.get_car_user()))
+            print("Please select from the following options:\n \
+            1. Return the Car.")
+            user_choice = input("Enter your choice: ")
+
+            if user_choice == "1":
+                in_booking = False
+            os.system("clear")
+
+        # TODO do the things to return the car
+        print("Car Returned.")
+        time.sleep(3)
+        
+
+
 
     # Updates the current location of the car. This instantiates the
     # CarLocationUpdater and attempts to update the location - there
     # are two levels of error handling here, in case the CarLocationUpdater
     # fails to return valid data, at which point it defaults to the previous
     # known location.
-    def updateCarLocation(self):
-        locationUpdater = CarLocationUpdater(self.carLocation)
-        newLocation = locationUpdater.returnCarLocation()
+    def update_car_location(self):
+        location_updater = CarLocationUpdater(self.carlocation)
+        new_location = location_updater.returncarlocation()
         # Attempt to update the location - if this fails due to key errors, 
         # return values to original, notify, else fail hard and fast.
-        if "Longitude" in newLocation and \
-            "Latitude" in newLocation and \
-            "Time" in newLocation:
-            oldLocation = self.carLocation
+        if "Longitude" in new_location and \
+            "Latitude" in new_location and \
+            "Time" in new_location:
+            oldLocation = self.carlocation
             try:
-                self.carLocation["Longitude"] = newLocation["Longitude"]
-                self.carLocation["Latitude"] = newLocation["Latitude"]
-                self.carLocation["Time"] = newLocation["Time"]
+                self.carlocation["Longitude"] = new_location["Longitude"]
+                self.carlocation["Latitude"] = new_location["Latitude"]
+                self.carlocation["Time"] = new_location["Time"]
             except KeyError:
-                self.carLocation = oldLocation
+                self.carlocation = oldLocation
                 print("Key assignment error - location data corrupt.")
         else:
             print("Required key in returned location data is missing.")
@@ -78,25 +99,25 @@ class CarDetails:
 # in Decimal Degrees, and the time that it was updated is also stored.
 class CarLocationUpdater:
 
-    def __init__(self, currentCarLocation: dict):
-        self.currentCarLocation = currentCarLocation
+    def __init__(self, currentcar_location: dict):
+        self.currentcar_location = currentcar_location
 
     # Format the return value if necessary. Return the original values
     # if the attempt to retrieve a locaiton fails.
-    def returnCarLocation(self):
-        retrievedLocation = self.updateCarLocation()
-        if retrievedLocation:
-            self.currentCarLocation["Longitude"] = retrievedLocation["Longitude"]
-            self.currentCarLocation["Latitude"] = retrievedLocation["Latitude"]
-            self.currentCarLocation["Time"] = datetime.now()
-        return self.currentCarLocation
+    def returncarlocation(self):
+        retrieved_location = self.update_car_location()
+        if retrieved_location:
+            self.currentcar_location["Longitude"] = retrieved_location["Longitude"]
+            self.currentcar_location["Latitude"] = retrieved_location["Latitude"]
+            self.currentcar_location["Time"] = datetime.now()
+        return self.currentcar_location
 
     # Internal method.
     # Attempts to update the location, with a catch for all exceptions
     # returning false. More detailed exception information should
     # be handled by the function that actually determines the location.
     # This should return a dictionary object that includes long/lat.
-    def updateCarLocation(self):
+    def update_car_location(self):
         try:
             # TODO For testing this will in future return a random location.
             pass

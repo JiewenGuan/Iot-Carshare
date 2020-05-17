@@ -51,7 +51,7 @@ class CarIDLoader:
     def loadCarID(self):
         self.thisCarID = "Car123"
 
-    def getCarID(self):
+    def get_car_id(self):
         return self.thisCarID
 
 
@@ -225,7 +225,7 @@ class CLIController:
 
             print("Welcome to Car Share System.\n")
             print("You are at Car ID: {car}\n\
-            ".format(car = self.currentCar.getCarID()))
+            ".format(car = self.currentCar.get_car_id()))
             print("Please choose from the following options:\n \
                 1. Unlock vehicle with username and password. \n \
                 2. Unlock vehicle with face recognition. \n")
@@ -262,18 +262,18 @@ class Main():
     def start(self):
         # Load the CarID and then create a Car Object for operating on,
         # update the ID, remove the CardIDLoader to save memory.
-        CurrentCarIDLoader = CarIDLoader()
-        currentCar = CarDetails(CurrentCarIDLoader.getCarID())
-        del CurrentCarIDLoader
+        car_id_loader = CarIDLoader()
+        currentCar = CarDetails(car_id_loader.get_car_id())
+        del car_id_loader
 
         # Update the location on loading...?
         # TODO this might not be necessary....
-        currentCar.updateCarLocation()
+        currentCar.update_car_location()
 
         # Pass the car details to the CLIGenerators and enable 
         # the user interaction via the CLI
-        userControl = CLIController(currentCar)
-        userControl.activated()
+        user_control = CLIController(currentCar)
+        user_control.activated()
 
 
 AgentPi = Main()
