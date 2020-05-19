@@ -15,11 +15,6 @@
 # The other entry point accepts nothing, and simply informs the master
 # pi that the vehicle has been returned.
 
-
-# might be appropriate to move these classes into one class and call the function.
-
-# Validate the text credentials 
-
 import socket
 import ssl
 import json
@@ -27,7 +22,7 @@ import time
 from agentdata import DictionaryConstructor as DictionaryConstructor
 from agentdata import DictionaryDateUpdater as DictionaryDateUpdater
 import datetime
-# from Crypto.Cipher import AES
+import utilities
 
 # This class is instantiated with just the car_id and then the appropriate method
 # must be called to achieve the desired result, passing in the appropriate
@@ -45,42 +40,76 @@ class SocketConnection:
     # This function will send the username, password, car_id and date to
     # the server for validation.
     def validate_text_credentials(self, username: str, password: str):
-        # Construct the dictionary
+        # Construct the dictionary using the DictionaryConstructor
+        # object and methods, updating the relevant parameters.
         socket_dictionary_creator = DictionaryConstructor(
-            1,
-            self.car_id, 
-            username, 
-            password, 
-            None, 
-            datetime.datetime.now().isoformat(),
-            None)
+            self.car_id,
+            datetime.datetime.now().isoformat()
+            )
+        socket_dictionary_creator.set_action(1)
+        socket_dictionary_creator.set_username(username)
+        socket_dictionary_creator.set_password(password)
+        
+        # Retrieve the dictionary.
         socket_dictionary = socket_dictionary_creator.get_socket_dictionary()
         print("socket dictionary returned")
         print(socket_dictionary)
 
-        # Accept the returned dictionary from the socket communication.
-        socket_return = self.establish_connection(socket_dictionary)
-
-        # Process the dictionary and return based on the outcome.
-        if socket_return is None:
-            return None
-        if socket_return["username"] == socket_dictionary["username"]:
-            return socket_dictionary
-        return False
-        # In reality the username is returned from the server as 
-        # confirmation that a booking is valid at the time.
-        # if username == password:
-        #     return True
-        # return False
+        # Return the response from the validation_returner.
+        return self.validation_returner(socket_dictionary)
 
     # Validate the face recognition.
     def validate_face_credentials(self, user_token: str):
+        # Construct the dictionary
         print("[TEST] validating {}".format(user_token))
+        socket_dictionary_creator = DictionaryConstructor(
+            self.car_id, 
+            datetime.datetime.now().isoformat()
+            )
+        socket_dictionary_creator.set_action(2)
+        socket_dictionary_creator.set_usertoken(user_token)
+
+        # Retrieve the dictionary and pass it to the socket sender
+        socket_dict_tosend = socket_dictionary_creator.get_socket_dictionary()
+
+        # Return the dictionary.
+        return self.validation_returner(socket_dict_tosend)
+
+    # Accepts a constructed dictionary from the two validation functions,
+    # sends it to the establish_connection for validation, and returns
+    # based on the response.
+    def validation_returner(self, dict_to_validate: dict):
+        # Send dictioary to master pi, accepting the return
+        socket_return = self.establish_connection(dict_to_validate)
+
+        # Process the dictionary and return based on the outcome.
+        if socket_return is None:
+            # No response.
+            return None
+        if socket_return["username"] is None:
+            # Invalid Credentials
+            return False
+        # All good - return the dictionary.
+        return socket_return
 
 
     # class for updating the Master Pi when the booking has been concluded
     def terminate_booking(self):
-        pass
+        # Create a dictionary object.
+        socket_dictionary_creator = DictionaryConstructor(
+            self.car_id, 
+            datetime.datetime.now().isoformat()
+            )
+            # Update with the details for the end of a booking
+        socket_dictionary_creator.set_action(4)
+        clearutil = utilities.helperUtilities()
+        location = clearutil.get_location()
+        socket_dictionary_creator.set_location(location)
+        print(socket_dictionary)
+
+        # Create a socket object and return the returned dictionary.
+        socket_dict_tosend = socket_dictionary_creator.get_socket_dictionary()
+        return self.validation_returner(socket_dict_tosend)
 
     # This method is called by the methods in this class for performing
     # an action with the master pi. It accepts a dictionary (from agentdata)

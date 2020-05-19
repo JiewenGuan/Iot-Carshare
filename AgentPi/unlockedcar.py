@@ -2,6 +2,7 @@
 # car is unlocked.
 
 import os
+from socketconnection import SocketConnection
 
 # The main class is constructed with the dictionary that was returned
 # by the socket connection from the master pi. It has a single entry point
@@ -25,7 +26,9 @@ class UnlockedCar():
             user_choice = input("Enter your choice: ")
 
             if user_choice == "1":
-                # TODO return the car via the MasterPi.
+                # TODO how do we update the master if the connection fails?
+                socket_connection = SocketConnection(self.unlocked_car["car_id"])
+                socket_connection.terminate_booking()
                 in_booking = False
             elif user_choice == "9":
                 # Update the uesr's face: prompt for a password, then 

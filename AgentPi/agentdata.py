@@ -27,24 +27,64 @@ class DictionaryConstructor:
     # Remember to only instantiate this class by setting the constructors
     # appropriately to the request. 
     # # 
+    # def __init__(
+    #     self, 
+    #     action: int,
+    #     car_id: str, 
+    #     username: str, 
+    #     password: str, 
+    #     usertoken: str, 
+    #     info_date_time: str,
+    #     current_location: tuple
+    #     ):
+
+    #     self.action = action
+    #     self.car_id = car_id
+    #     self.username = username
+    #     self.password = password
+    #     self.usertoken = usertoken
+    #     self.info_date_time = info_date_time
+    #     self.current_location = current_location
+
+    # Updated constructor only accepts the mandatory values and returns 
+    # the dictionary to updated as needed.
     def __init__(
         self, 
-        action: int,
         car_id: str, 
-        username: str, 
-        password: str, 
-        usertoken: str, 
-        info_date_time: str,
-        current_location: tuple):
+        info_date_time: str
+        ):
 
-        self.action = action
+        self.action = None
         self.car_id = car_id
-        self.username = username
-        self.password = password
-        self.usertoken = usertoken
+        self.username = None
+        self.password = None
+        self.usertoken = None
         self.info_date_time = info_date_time
+        self.current_location = None
+
+    # Setters for the dictionary beyond the construtor:
+    # This is implemented so that the dicionary can be expanded as necessary.
+    # Alternatively we could construct an empty dictionary and modify the
+    # values based on keys, but this would require significant code changes
+    # when accessing the values if the keys change. Also allows us to make
+    # changes to the data if needed.
+    def set_action(self, action: str):
+        self.action = action
+    
+    def set_username(self, username: str):
+        self.username = username
+    
+    def set_password(self, password: str):
+        self.password = password
+    
+    def set_usertoken(self, usertoken: str):
+        self.usertoken = usertoken
+
+    def set_current_location(self, current_location: tuple):
         self.current_location = current_location
 
+    
+    # Returns the dicationary - should be called once the dictionary is constructed.
     def get_socket_dictionary(self) -> dict:
         socket_dictionary = {
             "action": self.action,

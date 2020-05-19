@@ -40,27 +40,6 @@ import sys
 # more if time is permitting.
 import logging
 
-logging.basicConfig(level=logging.DEBUG)
-logging.basicConfig(
-    filename = "operation_log.log", 
-    filemode="w", 
-    format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
-    )
-
-# Guide to logging levels:
-# logging.debug('This is a debug message')
-# logging.info('This is an info message')
-# logging.warning('This is a warning message')
-# logging.error('This is an error message')
-# logging.critical('This is a critical message')
-# also:
-# logging.exception("An exception happened")
-
-# Can call the exception information withexc_info = True:
-# logging.error("blah exception", exc_info = True)
-# Alternatively call the exception function:
-# logging.exception() # which is a logging.error() level log
-
 
 # Car Identification for the car that this Agent Pi is lcoated in.
 # This allows the CarID to be set elsewhere (for example in a json
@@ -288,6 +267,29 @@ class CLIController:
 # Main class for starting the Agent Pi Software.
 class Main():
     def start(self):
+        # Begin the logging - change to rewrite if ongoing problems.
+        logging.basicConfig(
+            level = logging.DEBUG,
+            filename = "operation_log.log", 
+            filemode = "w", 
+            format = "%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+            datefmt = "%Y-%m-%d %H-%M-%S"
+            )
+
+        # Guide to logging levels:
+        # logging.debug('This is a debug message')
+        # logging.info('This is an info message')
+        # logging.warning('This is a warning message')
+        # logging.error('This is an error message')
+        # logging.critical('This is a critical message')
+        # also:
+        # logging.exception("An exception happened")
+
+        # Can call the exception information withexc_info = True:
+        # logging.error("blah exception", exc_info = True)
+        # Alternatively call the exception function:
+        # logging.exception() # which is a logging.error() level log
+
         # Load the CarID and then create a Car Object for operating on,
         # update the ID, remove the CardIDLoader to save memory.
         car_id_loader = CarIDLoader()

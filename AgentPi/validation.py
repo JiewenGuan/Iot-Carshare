@@ -8,8 +8,11 @@ import sys
 from socketconnection import SocketConnection
 import cardetails as CarDetails
 from facerecognition import FaceRecognition
-
 import time
+
+# To consolidate logs into one location.
+import logging
+log = logging.getLogger(__name__)
 
 # Validation entrypoint. This can only be operated on when instantiated.
 # This reduces unwarranted use of the validation function
@@ -23,7 +26,7 @@ class validateUser:
         self.current_car = current_car
         #self.validateCredentials()
         #print("is this executing?")
-        print(self.current_car)
+        log.info("Current Car in init: {}".format(self.current_car))
         self.socket_connection = SocketConnection(self.current_car.get_car_id())
 
     # Solely for directing the users choice to the appropriate function.
@@ -59,6 +62,7 @@ class validateUser:
             
             print("is_valid_user: {}".format(is_valid_user))
             # Check if the connection returned a result, if not inform.
+            # TODO This could be moved to its own function so that both validation functions can call it.
             if is_valid_user is None:
                 print("Unable to connect to Server - try again later.")
                 time.sleep(3)
@@ -88,16 +92,34 @@ class validateUser:
             Attempts remaining: {remains}".format(remains = attempts))
 
             
-    # Attempts to validate a face detection. Instantiates and calles the 
+    # Attempts to validate a face detection. Instantiates and calls the 
     # facerecognition.py which accepts one parameter, the location of the 
     # encodings file (pickle).
     def validate_face(self):
         face_validator = FaceRecognition("testpickle.pickle")
         user_token = face_validator.recognise_face()
 
+        # The previous call returns None if no match was found. Otherwise,
+        # the token is passed to the socket_connection call to validate
+        # the booking - see socketconnection for return details, and above code in 
+        # credentials validation for example.
         if user_token is not None:
             print("Validating Booking.... {}".format(user_token))
-            self.socket_connection.validate_face_credentials(user_token)
+            is_valid_user = self.socket_connection.validate_face_credentials(user_token)
+            if is_valid_user is None:
+                print("Unable to connect to Server - try again later.")
+                time.sleep(3)
+                return
+            if is_valid_user is not False:
+                # Action unlock. From here all actions during a booking should take
+                # place in and throughout this function call.
+                # Return to the main menu when done (cascades back through calling functions).
+                self.current_car.unlock_car(is_valid_user)
+            else:
+                print("Booking not found.")
+                time.sleep(3)
+        else:
+            print("Face not recognised!\nPlease login with credentials.")
         time.sleep(2)
 
 

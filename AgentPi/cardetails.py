@@ -5,6 +5,10 @@ import time
 import sys
 from unlockedcar import UnlockedCar as UnlockedCar
 
+# To consolidate logs into one location.
+import logging
+log = logging.getLogger(__name__)
+
 # Contains and operates on the details regarding a car.
 class CarDetails:
 
