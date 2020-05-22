@@ -47,10 +47,9 @@ class validateUser:
     # is exceeded or the user was true and the car has been returned..
     def validate_text(self):
         attempts = 3
-        is_valid_user = False
+        #is_valid_user = False
         while attempts > 0:
-            username = input("\nPlease enter your log in details: \n \
-    Username: ")
+            username = input("\nPlease enter your log in details: \nUsername: ")
             password = getpass()
 
             # Call validation function - validation function should return a boolean
@@ -58,12 +57,12 @@ class validateUser:
             # eventually the boolean is returned 
             print("Validating credentials....")
             #TODO test whether it is necessary to clear the keyboard input....
-            is_valid_user = self.socket_connection.validate_text_credentials(username, password)
+            returned_dict = self.socket_connection.validate_text_credentials(username, password)
             
-            print("is_valid_user: {}".format(is_valid_user))
+            log.info("returned_dict: {}".format(returned_dict))
             # Check if the connection returned a result, if not inform.
             # TODO This could be moved to its own function so that both validation functions can call it.
-            if is_valid_user is None:
+            if returned_dict is None:
                 print("Unable to connect to Server - try again later.")
                 time.sleep(3)
                 continue
@@ -72,7 +71,7 @@ class validateUser:
             # Unlock the car and break, so when the car is locked and
             # control is returned to this function, the program returns
             # to the main menu.
-            if is_valid_user is not False:
+            if returned_dict is not False:
                 # self.current_car.currenuser = username
                 # Action unlock. From here all actions during a booking should take
                 # place in and throughout this function call.
@@ -81,10 +80,8 @@ class validateUser:
                 # TODO Temporary - the unlock function called should be passed the 
                 # the username to unlock the car.
                 #self.current_car.unlock_car(username)
-                self.current_car.unlock_car(is_valid_user)
+                self.current_car.unlock_car(returned_dict)
                 break
-            
-
             
             # decrement attempts and inform the user.
             attempts = attempts - 1
@@ -96,7 +93,7 @@ class validateUser:
     # facerecognition.py which accepts one parameter, the location of the 
     # encodings file (pickle).
     def validate_face(self):
-        face_validator = FaceRecognition("testpickle.pickle")
+        face_validator = FaceRecognition("face_encodings.pickle")
         user_token = face_validator.recognise_face()
 
         # The previous call returns None if no match was found. Otherwise,
@@ -105,16 +102,17 @@ class validateUser:
         # credentials validation for example.
         if user_token is not None:
             print("Validating Booking.... {}".format(user_token))
-            is_valid_user = self.socket_connection.validate_face_credentials(user_token)
-            if is_valid_user is None:
+            returned_dict = self.socket_connection.validate_face_credentials(user_token)
+            log.info("returned_dict: {}".format(returned_dict))
+            if returned_dict is None:
                 print("Unable to connect to Server - try again later.")
                 time.sleep(3)
                 return
-            if is_valid_user is not False:
+            if returned_dict is not False:
                 # Action unlock. From here all actions during a booking should take
                 # place in and throughout this function call.
                 # Return to the main menu when done (cascades back through calling functions).
-                self.current_car.unlock_car(is_valid_user)
+                self.current_car.unlock_car(returned_dict)
             else:
                 print("Booking not found.")
                 time.sleep(3)
@@ -123,7 +121,7 @@ class validateUser:
         time.sleep(2)
 
 
+# For testing purposes.
 if __name__ == "__main__":
-
     pass
     #main(sys.argv)

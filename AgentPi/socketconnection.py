@@ -23,6 +23,9 @@ from agentdata import DictionaryConstructor as DictionaryConstructor
 from agentdata import DictionaryDateUpdater as DictionaryDateUpdater
 import datetime
 import utilities
+# To consolidate logs into one location.
+import logging
+log = logging.getLogger(__name__)
 
 # This class is instantiated with just the car_id and then the appropriate method
 # must be called to achieve the desired result, passing in the appropriate
@@ -52,8 +55,7 @@ class SocketConnection:
         
         # Retrieve the dictionary.
         socket_dictionary = socket_dictionary_creator.get_socket_dictionary()
-        print("socket dictionary returned")
-        print(socket_dictionary)
+        log.info("Socket dictionary compiled: {}".format(socket_dictionary))
 
         # Return the response from the validation_returner.
         return self.validation_returner(socket_dictionary)
@@ -61,7 +63,7 @@ class SocketConnection:
     # Validate the face recognition.
     def validate_face_credentials(self, user_token: str):
         # Construct the dictionary
-        print("[TEST] validating {}".format(user_token))
+        log.info("Validating {}".format(user_token))
         socket_dictionary_creator = DictionaryConstructor(
             self.car_id, 
             datetime.datetime.now().isoformat()
@@ -104,11 +106,12 @@ class SocketConnection:
         socket_dictionary_creator.set_action(4)
         clearutil = utilities.helperUtilities()
         location = clearutil.get_location()
-        socket_dictionary_creator.set_location(location)
-        print(socket_dictionary)
+        socket_dictionary_creator.set_current_location(location)
+        #log.info(socket_dictionary)
 
         # Create a socket object and return the returned dictionary.
         socket_dict_tosend = socket_dictionary_creator.get_socket_dictionary()
+        log.info(socket_dict_tosend)
         return self.validation_returner(socket_dict_tosend)
 
     # This method is called by the methods in this class for performing
@@ -133,7 +136,7 @@ class SocketConnection:
 
                 temporary_bytes = socket_connection.recv(1024)
                 returned_bytes += temporary_bytes
-                print("got something: {}".format(temporary_bytes))
+                log.info("Socket connection response: {}".format(temporary_bytes))
 
                 # while True:
                 #     temporary_bytes = s.recv(1024)
@@ -151,29 +154,29 @@ class SocketConnection:
                     #         print("Failed to contact server - try again later.")
                     #         break
         except ConnectionRefusedError as err:
-            print("Unable to connect - throwing error....")
-            print(err)
+            print("Unable to connect to server")
+            log.error("Server connection refused: {}".format(err))
             return None
         except e:
-            print(e)
+            log.error(e)
             return None
                 
         # Exit the context manager, closing the connection and convert
         # the bytes back to a dictionary.
         returned_dictionary = json.loads(returned_bytes.decode("utf-8"))
-        print(returned_dictionary)
+        log.info("Dictionary returned from server: {}".format(returned_dictionary))
 
         # Update the returned dictionary to conform with the communication
         # standard, in case a date has been communicated in an ISO
         # format, and return to the calling function.
         if returned_dictionary["info_date_time"] is not None:
-            print("Updating Socket Dictionary")
+            log.info("Updating Socket Dictionary")
             try: 
                 update_dictionary = DictionaryDateUpdater(returned_dictionary["info_date_time"])
                 returned_dictionary["info_date_time"] = update_dictionary.get_python_date()
             except e:
                 print("Error converting dictionary!")
-                print(e)
+                log.error("Error converting dictionary: ".format(e))
         return returned_dictionary
 
 if __name__ == "__main__":

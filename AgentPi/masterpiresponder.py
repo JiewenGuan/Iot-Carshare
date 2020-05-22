@@ -3,6 +3,7 @@
 # a modified dictionary when the apprpriate function is called, with 
 # the same keys. 
 
+import datetime
 
 class MasterResponder():
 
@@ -20,7 +21,7 @@ class MasterResponder():
             valid_credentials = True
         
         self.update_return_dict(valid_credentials, self.agent_dictionary["username"])
-        return agent_dictionary
+        return self.agent_dictionary
 
     # Called to validate a face recognition token - must return a dictionary
     # with a username.
@@ -34,7 +35,7 @@ class MasterResponder():
             validate_credentials = True
 
         self.update_return_dict(valid_credentials, username)
-        return agent_dictionary
+        return self.agent_dictionary
     
     # Called to update the user's face recognition token
     def update_fr_token(self) -> dict:
@@ -47,7 +48,7 @@ class MasterResponder():
             token_update_success = True
 
         self.update_return_dict(token_update_success, self.agent_dictionary["username"])
-        return agent_dictionary
+        return self.agent_dictionary
 
 
     # Called to return the vehicle - returns just the car ID
@@ -58,7 +59,7 @@ class MasterResponder():
         temp_car_id = self.agent_dictionary["car_id"]
         self.clear_dict()
         self.agent_dictionary["car_id"] = temp_car_id
-        return agent_dictionary
+        return self.agent_dictionary
 
     # Helper to clear the dictionary.
     def clear_dict(self):
@@ -81,6 +82,7 @@ class MasterResponder():
         else:
             # Reset the dictionary to return it as empty
             self.clear_dict()
+            self.agent_dictionary["info_date_time"] = datetime.datetime.now()
             print ("Cleared Dictionary: {}".format(self.agent_dictionary))
         # Convert the date and return
         self.agent_dictionary["info_date_time"] = self.agent_dictionary["info_date_time"].isoformat()

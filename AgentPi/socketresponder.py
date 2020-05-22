@@ -104,13 +104,15 @@ class DictionaryInterpreter():
             return responder.validate_credentials()
         elif self.received_dict["action"] == 2:
             # Validate a face recognition token and return dictionary
-            pass
+            print("Validating face and returning....")
+            return responder.validate_face()
         elif self.received_dict["action"] == 3:
             # Update a face recognition token and return dictionary
             pass
         elif self.received_dict["action"] == 4:
             # Return the vehicle and return dictionary
-            pass
+            print("Returning a vehicle....")
+            return responder.return_vehicle()
         else: 
             print("Invalid option!")
             # Do nothing and return an empty dicitonary.

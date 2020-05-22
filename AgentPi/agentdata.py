@@ -19,6 +19,7 @@ import dateutil.parser
 # TODO This code is adapted from https://pynative.com/python-serialize-datetime-into-json/
 # TODO This code requires the dateutil package - install by pip3 install python-dateutil
 
+
 # This class is used to construct a dictionary for passing over sockets.
 # It must be instantiated with all the parameters, though parameters 
 # can be None - this is used to interpret the intent of the socket connection.
@@ -49,10 +50,10 @@ class DictionaryConstructor:
     # Updated constructor only accepts the mandatory values and returns 
     # the dictionary to updated as needed.
     def __init__(
-        self, 
-        car_id: str, 
-        info_date_time: str
-        ):
+            self, 
+            car_id: str, 
+            info_date_time: str
+    ):
 
         self.action = None
         self.car_id = car_id
@@ -62,8 +63,8 @@ class DictionaryConstructor:
         self.info_date_time = info_date_time
         self.current_location = None
 
-    # Setters for the dictionary beyond the construtor:
-    # This is implemented so that the dicionary can be expanded as necessary.
+    # Setters for the dictionary beyond the constructor:
+    # This is implemented so that the dictionary can be expanded as necessary.
     # Alternatively we could construct an empty dictionary and modify the
     # values based on keys, but this would require significant code changes
     # when accessing the values if the keys change. Also allows us to make
@@ -83,8 +84,7 @@ class DictionaryConstructor:
     def set_current_location(self, current_location: tuple):
         self.current_location = current_location
 
-    
-    # Returns the dicationary - should be called once the dictionary is constructed.
+    # Returns the dictionary - should be called once the dictionary is constructed.
     def get_socket_dictionary(self) -> dict:
         socket_dictionary = {
             "action": self.action,
@@ -97,26 +97,32 @@ class DictionaryConstructor:
         }
         return socket_dictionary
 
+
 # Accepts an ISO format date and returns a python date object.
 class DictionaryDateUpdater:
-    def __init__(self, isodate: str):
-        self.isodate = isodate
+    def __init__(self, iso_date: str):
+        self.iso_date = iso_date
 
     def get_python_date(self):
-        return dateutil.parser.parse(self.isodate)
+        return dateutil.parser.parse(self.iso_date)
+
 
 if __name__ == "__main__":
-    date_time_tosend = datetime.datetime.now()
-    print(date_time_tosend)
-    date_time_tosend = date_time_tosend.isoformat()
+    date_time_to_send = datetime.datetime.now()
+    print(date_time_to_send)
+    date_time_to_send = date_time_to_send.isoformat()
+    # test_dict = DictionaryConstructor(
+    #     1,
+    #     "IDofCar", 
+    #     "users_name", 
+    #     None,
+    #     "users_token",
+    #     date_time_to_send,
+    #     (123.123, 234.234)
+    #     )
     test_dict = DictionaryConstructor(
-        1,
         "IDofCar", 
-        "users_name", 
-        None,
-        "users_token",
-        date_time_tosend,
-        (123.123, 234.234)
+        date_time_to_send,
         )
     test_send = test_dict.get_socket_dictionary()
     print(test_send)

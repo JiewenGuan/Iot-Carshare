@@ -4,16 +4,19 @@
 
 ## Acknowledgement
 ## This code is adapted from:
+## The tutorials and lectures in RMIT's Programming Internet of Things which further acknowledges
 ## https://www.pyimagesearch.com/2018/06/18/face-recognition-with-opencv-python-and-deep-learning/
 
 
-# import the necessary packages
 from imutils import paths
 import face_recognition
 import argparse
 import pickle
 import cv2
 import os
+# To consolidate logs into one location.
+import logging
+log = logging.getLogger(__name__)
 
 class FaceEncoder:
     # Accepts the dataset file location, and the name of the output file.
@@ -22,7 +25,7 @@ class FaceEncoder:
         self.encoding_file = encoding_file
 
 
-    def encode_faces(self):
+    def encode_faces(self) -> bool:
         # hog - less accurate but fast on CPU
         # cnn - more accurate but slower, but GPU/CUDA accelerated if available.
         detection_method = str("hog")
@@ -44,16 +47,16 @@ class FaceEncoder:
         # args = vars(ap.parse_args())
 
         # grab the paths to the input images in our dataset
-        print("[INFO] quantifying faces...")
+        log.info("Quantifying faces...")
         # imagePaths = list(paths.list_images(args["dataset"]))
         # Returns the paths of all images (including subdirectories) as a list, 
         # based on the root directory provided.
         image_paths = list(paths.list_images(self.dataset))
 
         # TODO TESTING TO DELETE.
-        print(image_paths)
-        print(image_paths[0].split(os.path.sep)[-2])
-        print("TEST {}/{}".format(1, len(image_paths)))
+        log.info(image_paths)
+        log.info(image_paths[0].split(os.path.sep)[-2])
+        log.info("TEST {}/{}".format(1, len(image_paths)))
         #sys.exit()
 
         # initialize the lists to contain the encodings and names
@@ -64,7 +67,7 @@ class FaceEncoder:
         # TODO Do we need the counter?
         for (i, image_path) in enumerate(image_paths):
             # extract the person name from the image path
-            print("[INFO] processing image {}/{}".format(i + 1, len(image_paths)))
+            log.info("Processing image {}/{}".format(i + 1, len(image_paths)))
             # Extract the username by extracting the folder name (second element from end)
             name = image_path.split(os.path.sep)[-2]
 
@@ -94,7 +97,7 @@ class FaceEncoder:
             # TODO there should only be one of these, so is it necessary to loop?
             # TODO Although we are using different algorithms, so it is possible that 
             # more than once face will be detected here vs previously found. 
-            print(len(encodings))
+            log.info("Length of encodings: {}".format(len(encodings)))
             for encoding in encodings:
                 # Each encoding from the image is appended to the list, with the 
                 # relevant name also appended to its relevant list.
@@ -102,8 +105,8 @@ class FaceEncoder:
                 image_names.append(name)
 
         # Construct a dictionary with two keys, and each list as the values.
-        print("[INFO] serializing encodings...")
-        encoding_data = { "encodings": image_encodings, "names": image_names }
+        log.info("Serializing encodings...")
+        encoding_data = {"encodings": image_encodings, "names": image_names}
 
         # Convert this to a pickled object.
         encoding_pickle = pickle.dumps(encoding_data)
@@ -116,8 +119,10 @@ class FaceEncoder:
         with open(self.encoding_file, "wb") as f:
             f.write(encoding_pickle)
 
+        return True
 
-# For testing
+
+# For testing when calling this module directly.
 if __name__ == "__main__":
-    face_encoder = FaceEncoder("dataset", "testpickle.pickle")
+    face_encoder = FaceEncoder("face_profile", "face_encodings.pickle")
     face_encoder.encode_faces()

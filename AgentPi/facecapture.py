@@ -4,15 +4,22 @@
 
 ## Acknowledgement
 ## This code is adapted from:
+## The tutorials and lectures in RMIT's Programming Internet of Things which further acknowledges
 ## https://www.hackster.io/mjrobot/real-time-face-recognition-an-end-to-end-project-a10826
 
-# import the necessary packages
 import cv2
 import os
-#import argparse
+# To consolidate logs into one location.
+import logging
+log = logging.getLogger(__name__)
+
+import time
+import shutil
+
 # TODO If possible, update this to use the VideoStream class from imutils so
 # that a usb or picamera can be used - it abstracts cv2.VideoCapture and picamera 
 # in a threaded way which can improve performance.
+
 
 # This class is responsible for capturing the faces for entry into the fac detection
 # validation system. 
@@ -28,10 +35,9 @@ class FaceCapture:
     # TODO this should be changed to a more appropriat name.
     # and it accepts the path for the files to be saved - this is the folder
     # structure passed in, so you can use 1 to many folders. Just use a single string. 
-    def __init__ (self, name: str, dataset: str):
-        
+    def __init__ (self, name: str, data_folder: str):
         self.name = name
-        self.dataset = dataset
+        self.data_folder = data_folder
 
     # The only entry point for this class - attempts to record video and store
     # the resulting images in a folder based on the name variable.
@@ -49,11 +55,11 @@ class FaceCapture:
         # # use name as folder name
         # name = args["name"]
         # TODO combine name and dataset to create the path...?
-        folder = "./dataset/{}".format(self.name)
+        user_folder = "./{}/{}".format(self.data_folder, self.name)
 
         # Create a new folder for the new name if one does not exist.
-        if not os.path.exists(folder):
-            os.makedirs(folder)
+        if not os.path.exists(user_folder):
+            os.makedirs(user_folder)
 
         # Create a VideoCapture object. Opens a camera for video capture - the parameter is 
         # the index of the camera to use. 
@@ -63,24 +69,27 @@ class FaceCapture:
 
         # Sets with width (3, 640) and the height (4, 480) of the video feed.
         # The higher the resolution, the more demanding this function will be on the CPU
-        # Also, while these can return a boolean if the , there is no guarantee that the
-        # change was accepted to the viedo device - may be a problem with certain cameras.
-        # The first value is the PropID (it would seem that these properties are a dict)
+        # Also, while these can return a boolean if the function was executed, there is no guarantee that the
+        # change was accepted to the vidoo device - may be a problem with certain cameras.
+        # The first value is the PropID (properties are a dict)
         cam.set(3, 640)
         cam.set(4, 480)
         # Get the pre-built classifier
         face_detector = cv2.CascadeClassifier("haarcascade_frontalface_default.xml")
 
+        # A counter for the images, ensuring we don't spend too long collecting, but the function still exits after a period of time.
         image_counter = 0
         total_images = 10
+        # Timeout in 10 seconds.
+        timeout_time = time.time() + 10
         # Stop when 10 images are collected.
         # TODO Make a variable so that it can be more easily changed.
-        while image_counter < 10:
+        while image_counter < total_images:
             # TODO break out of this in a different manner.
             # Allows the input to break the capturing if loop after each image is captured
-            key = input("Press q to quit or ENTER to continue: ")
-            if key == "q":
-                break
+            # key = input("Press q to quit or ENTER to continue: ")
+            # if key == "q":
+            #     break
             
             # Capture frame by frame, returns a bool (true if frame is read correctly)
             # and an image array vector captured based on the fps that was defined/default
@@ -120,8 +129,15 @@ class FaceCapture:
             # the user can't be too indistinct.
 
             if(len(faces) == 0):
-                print("No face detected, please try again")
+                log.info("No face detected, retrying....")
                 continue
+             
+            # Break if taking too long.
+            if (time.time() > timeout_time):
+                print("Face profiling unsuccessful (timeout).")
+                print("Try again under different conditions.")
+                time.sleep(3)
+                break
             
             # for each rectangle tuple in the faces list, extracting the dimensions and 
             # coordinates using Numpy slicing
@@ -134,16 +150,30 @@ class FaceCapture:
                 cv2.rectangle(frame, (x, y), (x + w, y + h), (255, 0, 0), 2)
                 # Set the folder and filename, ensureing that there are leading zeros for
                 # image_counter i.e., 0001
-                img_name = "{}/{:04}.jpg".format(folder, image_counter)
+                img_name = "{}/{:04}.jpg".format(user_folder, image_counter)
                 # imwrite(filename, image) saves the frame with just the face element
                 # based on the coordiantes via a numpy index: img[left:right, top:bottom]
                 # TODO Separate the cropping code into its own line?
                 cv2.imwrite(img_name, frame[y : y + h, x : x + w])
-                print("{} written!".format(img_name))
+                log.info("{} written!".format(img_name))
                 image_counter += 1
 
-        # release the VideoCapture object - important for files.
+        # Release the VideoCapture object. 
+        # Return to calling function appropriately, deleting the files
+        # if it was not successful so that they are not included in future
+        # encodings.
         cam.release()
+        if image_counter == total_images:
+            # Update the pickle file.
+            return True
+        else:
+            # Delete the folder.
+            try: 
+                shutil.rmtree(user_folder)
+            except OSError as e:
+                log.error("Error deleting {} folder: {}".format(user_folder, e))
+            return False
+
 
 # For Testing
 if __name__ == "__main__":

@@ -17,6 +17,9 @@ import pickle
 import time
 import cv2
 import os
+# To consolidate logs into one location.
+import logging
+log = logging.getLogger(__name__)
 
 # This class is instantiated and the recognise_face() method called to recognise a face
 # if it is stored in the pickle encoding. It accepts a path to the pickle file the 
@@ -34,6 +37,8 @@ class FaceRecognition:
     def recognise_face(self) -> str:
         # The detection method is set as hog due to device limitations. See faceencoder.py
         # for further details.
+
+        print("\nPlease look at the camera....")
         detection_method = "hog"
         detection_resolution = 240
 
@@ -48,7 +53,7 @@ class FaceRecognition:
         # args = vars(ap.parse_args())
 
         # load the known faces and embeddings
-        print("[INFO] loading encodings...")
+        log.info("Loading encodings...")
         # data = pickle.loads(open(args["encodings"], "rb").read())
 
         # Load the pickly file and deserialise it. Also handles the event of 
@@ -60,20 +65,23 @@ class FaceRecognition:
                 file = f.read()
                 data = pickle.loads(file)
         except IOError as err:
-            print(err)
+            log.error(err)
             print("Error opening or decoding pickle file!")
             return None
         except Exception as e: 
             print("Some other error when operating with pickle file!")
-            print(e)
+            log.error(e)
             return None
 
         # initialize the video stream and then allow the camera sensor to warm up
-        print("[INFO] starting video stream...")
+        log.info("Starting video stream...")
         # Initialise VideoStream from imutila (in capture we used cv2.videocapture)
         # where the src parameter is the camera as before. Sleep for camera warmup.
         vs = VideoStream(src = 0).start()
         time.sleep(2.0)
+
+        # Set a timeout time in case no faces are ever found.
+        timeout_time = time.time() + 10
 
         # loop over frames from the video file stream
         # TODO The loop should have a timeout if it can't return a match.
@@ -82,10 +90,16 @@ class FaceRecognition:
         # recent frame - it may take some time for a frame to have a readable
         # face in it, and many frames may be dropped during the face recognition.
         while True:
+            # Check the time elapsed
+            if time.time() > timeout_time: 
+                print("No valid faces found.")
+                time.sleep(2)
+                break
+
             # Extract a frame from the video stream. Remember this is 
             # threaded so it is the most recent frame.
             frame = vs.read()
-            print("frame read")
+            log.info("Frame read")
 
             # Convert the frame from BRG to RGB and resize it to the
             # specified width while maintaining aspect ratio.
@@ -171,9 +185,10 @@ class FaceRecognition:
             for name in names:
                 if name is not None:
                     # print to console, identified person
-                    print("Person found: {}".format(name))
+                    log.info("Person found: {}".format(name))
                     # Set a flag to sleep the cam for fixed time
-                    time.sleep(3.0)
+                    # time.sleep(3.0)
+                    vs.stop()
                     return name
 
         # Stop the thread that the VideoStream is operating on.
