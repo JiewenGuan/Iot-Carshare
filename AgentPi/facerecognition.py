@@ -21,6 +21,7 @@ import os
 import logging
 log = logging.getLogger(__name__)
 
+
 # This class is instantiated and the recognise_face() method called to recognise a face
 # if it is stored in the pickle encoding. It accepts a path to the pickle file the 
 # resolution of the video feed.
@@ -65,19 +66,19 @@ class FaceRecognition:
                 file = f.read()
                 data = pickle.loads(file)
         except IOError as err:
-            log.error(err)
+            log.exception(err)
             print("Error opening or decoding pickle file!")
             return None
         except Exception as e: 
-            print("Some other error when operating with pickle file!")
-            log.error(e)
+            print("Error loading face database!")
+            log.exception(e)
             return None
 
         # initialize the video stream and then allow the camera sensor to warm up
         log.info("Starting video stream...")
         # Initialise VideoStream from imutila (in capture we used cv2.videocapture)
         # where the src parameter is the camera as before. Sleep for camera warmup.
-        vs = VideoStream(src = 0).start()
+        vs = VideoStream(src=0).start()
         time.sleep(2.0)
 
         # Set a timeout time in case no faces are ever found.
@@ -106,12 +107,12 @@ class FaceRecognition:
             rgb_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
             # TODO FIXED This seems problematic - above we are setting rgb to the
             # colour adjusted version of frame, but in the line below we are
-            # overwritting the rgb object from before with a new one, which 
+            # overwriting the rgb object from before with a new one, which 
             # is not colour corrected, but the original frame. Should frame
             # be rgb in the line below?
             # rgb = imutils.resize(frame, width = args["resolution"])
             # rgb = imutils.resize(frame, width = detection_resolution)
-            resized_rgb_frame = imutils.resize(rgb_frame, width = detection_resolution)
+            resized_rgb_frame = imutils.resize(rgb_frame, width=detection_resolution)
 
             # detect the (x, y)-coordinates of the bounding boxes
             # corresponding to each face in the input frame, then compute
@@ -136,14 +137,14 @@ class FaceRecognition:
                 # Compares the list of face encodings to the encoding captured.
                 # Returns a bool list (ordered) of True/False values (since there may be more
                 # than one face in an image.) based on the data list.
-                # Also accepts a tolerance paramter (default 0.6), lower is more strict.
+                # Also accepts a tolerance parameter (default 0.6), lower is more strict.
                 matches = face_recognition.compare_faces(data["encodings"], encoding)
                 name = None
 
                 # check to see if we have found a match
                 # This takes O(n) memory which if the list is large would take 
                 # up considerable memory, so use if any instead.
-                #if True in matches:
+                # if True in matches:
                 if any(matches):
                     # find the indexes of all matched faces then initialize a
                     # dictionary to count the total number of times each face
@@ -175,7 +176,7 @@ class FaceRecognition:
                     # will select first entry in the dictionary)
                     # Returns the name with the highest count, the statistically most
                     # correct match.
-                    name = max(counts, key = counts.get)
+                    name = max(counts, key=counts.get)
 
                 # Adds the most popular name to the list.
                 names.append(name)

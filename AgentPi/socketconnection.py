@@ -27,6 +27,7 @@ import utilities
 import logging
 log = logging.getLogger(__name__)
 
+
 # This class is instantiated with just the car_id and then the appropriate method
 # must be called to achieve the desired result, passing in the appropriate
 # objects. A dictionary is then constructed and returned using the agentdata.py
@@ -104,7 +105,7 @@ class SocketConnection:
             )
             # Update with the details for the end of a booking
         socket_dictionary_creator.set_action(4)
-        clearutil = utilities.helperUtilities()
+        clearutil = utilities.HelperUtilities()
         location = clearutil.get_location()
         socket_dictionary_creator.set_current_location(location)
         #log.info(socket_dictionary)
@@ -127,12 +128,12 @@ class SocketConnection:
         try:
             with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as (socket_connection):
                 socket_connection.connect(self.ADDRESS)
-                print("Connected to Master")
+                print("Connected to Server.")
                 socket_connection.sendall(encoded_dictionary)
                 
-                # Recieve the data
+                # Receive the data
                 # TODO How do we exit this in a timely manner?
-                print("Awaiting Response")
+                print("Awaiting Response.")
 
                 temporary_bytes = socket_connection.recv(1024)
                 returned_bytes += temporary_bytes
@@ -155,29 +156,33 @@ class SocketConnection:
                     #         break
         except ConnectionRefusedError as err:
             print("Unable to connect to server")
-            log.error("Server connection refused: {}".format(err))
+            log.exception("Server connection refused: {}".format(err))
             return None
         except e:
-            log.error(e)
+            log.exception(e)
             return None
                 
         # Exit the context manager, closing the connection and convert
         # the bytes back to a dictionary.
-        returned_dictionary = json.loads(returned_bytes.decode("utf-8"))
-        log.info("Dictionary returned from server: {}".format(returned_dictionary))
+        try: 
+            returned_dictionary = json.loads(returned_bytes.decode("utf-8"))
+            
+            log.info("Dictionary returned from server: {}".format(returned_dictionary))
 
-        # Update the returned dictionary to conform with the communication
-        # standard, in case a date has been communicated in an ISO
-        # format, and return to the calling function.
-        if returned_dictionary["info_date_time"] is not None:
-            log.info("Updating Socket Dictionary")
-            try: 
-                update_dictionary = DictionaryDateUpdater(returned_dictionary["info_date_time"])
-                returned_dictionary["info_date_time"] = update_dictionary.get_python_date()
-            except e:
-                print("Error converting dictionary!")
-                log.error("Error converting dictionary: ".format(e))
-        return returned_dictionary
+            # Update the returned dictionary to conform with the communication
+            # standard, in case a date has been communicated in an ISO
+            # format, and return to the calling function.
+            if returned_dictionary["info_date_time"] is not None:
+                log.info("Updating Socket Dictionary")
+                try: 
+                    update_dictionary = DictionaryDateUpdater(returned_dictionary["info_date_time"])
+                    returned_dictionary["info_date_time"] = update_dictionary.get_python_date()
+                except e:
+                    print("Error converting dictionary!")
+                    log.exception("Error converting dictionary: ".format(e))
+            return returned_dictionary
+        except TypeError as e:
+            log.exception("Error reading dictionary: {}".format(e))
 
 if __name__ == "__main__":
     pass

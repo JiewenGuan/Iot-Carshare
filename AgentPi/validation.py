@@ -5,18 +5,19 @@
 
 from getpass import getpass
 import sys
+import time
+
 from socketconnection import SocketConnection
 import cardetails as CarDetails
 from facerecognition import FaceRecognition
-import time
-
 # To consolidate logs into one location.
 import logging
 log = logging.getLogger(__name__)
 
+
 # Validation entrypoint. This can only be operated on when instantiated.
 # This reduces unwarranted use of the validation function
-class validateUser:
+class ValidateUser:
     
     # The init does the usual, but the userselection is the key as it 
     # assists the validatecredentials function in determining which
@@ -24,8 +25,8 @@ class validateUser:
     def __init__(self, userselection: int, current_car: CarDetails):
         self.userselection = userselection
         self.current_car = current_car
-        #self.validateCredentials()
-        #print("is this executing?")
+        # self.validateCredentials()
+        # print("is this executing?")
         log.info("Current Car in init: {}".format(self.current_car))
         self.socket_connection = SocketConnection(self.current_car.get_car_id())
 
@@ -33,7 +34,7 @@ class validateUser:
     # Returns false if an invalid choice is made, otherwise returns
     # true to indicate a return to the base state.
     def validateCredentials(self) -> bool:
-        #print("User Choice: {choice}".format(choice = self.userselection))
+        # print("User Choice: {choice}".format(choice = self.userselection))
         if self.userselection == "1":
             self.validate_text()
             return True
@@ -56,10 +57,10 @@ class validateUser:
             # if invalid credentials, None if there was an error, and the car if successful.
             # eventually the boolean is returned 
             print("Validating credentials....")
-            #TODO test whether it is necessary to clear the keyboard input....
+            # TODO test whether it is necessary to clear the keyboard input....
             returned_dict = self.socket_connection.validate_text_credentials(username, password)
             
-            log.info("returned_dict: {}".format(returned_dict))
+            log.info("Returned_dict: {}".format(returned_dict))
             # Check if the connection returned a result, if not inform.
             # TODO This could be moved to its own function so that both validation functions can call it.
             if returned_dict is None:

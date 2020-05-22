@@ -26,15 +26,15 @@ else:
   print(value)
 """
 
-from datetime import datetime
+# from datetime import datetime
 import validation
-#from validation import validateUser
+# from validation import validateUser
 from cardetails import CarDetails as CarDetails
 from cardetails import CarLocationUpdater as CarLocationUpdater
 import utilities
 import os
 import time
-import sys
+# import sys
 
 # Could potentially move this to a module and then customise it a bit
 # more if time is permitting.
@@ -47,16 +47,16 @@ import logging
 class CarIDLoader:
 
     def __init__(self):
-        thisCarID = str("")
-        self.loadCarID()
+        this_car_id = str("")
+        self.load_car_id()
 
     # Internal method for loading a card ID. Hides the method for determining 
     # the carID.
-    def loadCarID(self):
-        self.thisCarID = "Car123"
+    def load_car_id(self):
+        self.this_car_id = "Car123"
 
     def get_car_id(self):
-        return self.thisCarID
+        return self.this_car_id
 
 
 # # This class stores and can be used to update the location of the
@@ -163,8 +163,8 @@ class CarIDLoader:
 # Essentially control stays here until the program exits.
 class CLIController:
 
-    def __init__(self, loadedCar: CarDetails):
-        self.currentCar = loadedCar
+    def __init__(self, loaded_car: CarDetails):
+        self.currentCar = loaded_car
         self.running = True
         # might be better to encrypt this info...?
         # the encryption could probably be used to login, so
@@ -173,7 +173,7 @@ class CLIController:
     # This is the primary mechanim for user interactions to be responded to.
     # If a user successfully logs in, the appropriate details are stored ...
     # TODO only for a faceID datum to be added to their profile.
-    # As such, the userdetails dictionary only stores the minimum data required,
+    # As such, the user_details dictionary only stores the minimum data required,
     # and removes this information if no longer needed.
     def activated(self):
         # These variable are stored inside the function to reduce visibility.
@@ -182,25 +182,25 @@ class CLIController:
 
         # TODO Deprecate this dictionary, as it should be contained in 
         # the validation module
-        userdetails = {
+        user_details = {
             "username": str(""),
             "password": str(""),
             "faceID": None}
         while self.running:
-            # if self.loadedCar.carLocked:
+            # if self.loaded_car.carLocked:
             #     print("Welcome to Car Share System.\n")
             #     print("You are at Car ID: {car}\n\
-            #     ".format(car = self.loadedCar.getCarID()))
+            #     ".format(car = self.loaded_car.getCarID()))
             #     print("Please choose from the following options:\n \
             #           1. Unlock vehicle with username and password. \n \
             #           2. Unlock vehicle with face recognition. \n")
-            #     userchoice = input("Please enter your selection as an integer: ")
+            #     user_choice = input("Please enter your selection as an integer: ")
             #     # pass the result to the Validation module that validates the credentials.
             #     # the username is returned, or False if invalid.
             #     # username = False
-            #     # if userchoice == "1" or userchoice == "2":
-            #     #     validateattempt = validation.validateUser(userchoice)
-            #     validateattempt = validation.validateUser(userchoice)
+            #     # if user_choice == "1" or user_choice == "2":
+            #     #     validateattempt = validation.validateUser(user_choice)
+            #     validateattempt = validation.validateUser(user_choice)
             #     #else:
             #     if !validateattempt:
             #         # Invalid choice - pause, clear screen, flush keyboard input.
@@ -217,39 +217,38 @@ class CLIController:
             #         continue
             #     # IF the credentials are validated, the car is unlocked.
             #     if username:
-            #         self.loadedCar.carLocked = False
+            #         self.loaded_car.carLocked = False
             #     else:
             #         print("Invalid Credentials!")
             #         time.sleep(3)
             # else:
             #     print("Welcome {user} - have a safe journey.\n\
-            #     ".format(user = self.userdetails["username"]))
+            #     ".format(user = self.user_details["username"]))
 
             os.system("clear")
 
             print("Welcome to Car Share System.\n")
             print("You are at Car ID: {car}\n\
-            ".format(car = self.currentCar.get_car_id()))
+            ".format(car=self.currentCar.get_car_id()))
             print("Please choose from the following options:\n \
                 1. Unlock vehicle with username and password. \n \
                 2. Unlock vehicle with face recognition. \n")
-            userchoice = input("Please enter your selection as an integer: ")
+            user_choice = input("Please enter your selection as an integer: ")
             # pass the result to the Validation module that validates the credentials.
             # True is returned if the user was successful, and only after the
             # booking has been completed. False is immediately returned if invalid.
             # username = False
-            # if userchoice == "1" or userchoice == "2":
-            #     validateattempt = validation.validateUser(userchoice)
-            uservalidation = validation.validateUser(userchoice, self.currentCar)
-            isvalid = uservalidation.validateCredentials()
-            #print(type(isvalid))
-            #else:
+            # if user_choice == "1" or user_choice == "2":
+            #     validateattempt = validation.ValidateUser(user_choice)
+            user_validation = validation.ValidateUser(user_choice, self.currentCar)
+            isvalid = user_validation.validateCredentials()
+
             if not isvalid:
                 # Invalid choice - pause, clear screen, flush keyboard input.
                 print("Invalid Choice!")
                 time.sleep(3)
-                clearutil = utilities.helperUtilities()
-                clearutil.clear_keyboard()
+                clear_util = utilities.HelperUtilities()
+                clear_util.clear_keyboard()
 
                 # try:
                 #     clearutil = utilities.helperUtilities()
@@ -272,7 +271,7 @@ class Main():
             level = logging.DEBUG,
             filename = "operation_log.log", 
             filemode = "w", 
-            format = "%(asctime)s - %(name)s - %(levelname)s - %(message)s",
+            format = "%(asctime)s - %(name)s - %(levelname)s - %(message)s %(stack_info)s",
             datefmt = "%Y-%m-%d %H-%M-%S"
             )
 
@@ -289,20 +288,21 @@ class Main():
         # logging.error("blah exception", exc_info = True)
         # Alternatively call the exception function:
         # logging.exception() # which is a logging.error() level log
+        # exception errors include the traceback information.
 
         # Load the CarID and then create a Car Object for operating on,
         # update the ID, remove the CardIDLoader to save memory.
         car_id_loader = CarIDLoader()
-        currentCar = CarDetails(car_id_loader.get_car_id())
+        current_car = CarDetails(car_id_loader.get_car_id())
         del car_id_loader
 
         # Update the location on loading...?
         # TODO this might not be necessary....
-        currentCar.update_car_location()
+        current_car.update_car_location()
 
         # Pass the car details to the CLIGenerators and enable 
         # the user interaction via the CLI
-        user_control = CLIController(currentCar)
+        user_control = CLIController(current_car)
         user_control.activated()
 
 

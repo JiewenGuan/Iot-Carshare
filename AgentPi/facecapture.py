@@ -135,7 +135,7 @@ class FaceCapture:
             # Break if taking too long.
             if (time.time() > timeout_time):
                 print("Face profiling unsuccessful (timeout).")
-                print("Try again under different conditions.")
+                print("Try again under later.")
                 time.sleep(3)
                 break
             

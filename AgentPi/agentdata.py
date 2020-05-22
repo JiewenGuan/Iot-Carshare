@@ -25,27 +25,6 @@ import dateutil.parser
 # can be None - this is used to interpret the intent of the socket connection.
 # Its primary method returns a dictionary constructed in a consistent way.
 class DictionaryConstructor:
-    # Remember to only instantiate this class by setting the constructors
-    # appropriately to the request. 
-    # # 
-    # def __init__(
-    #     self, 
-    #     action: int,
-    #     car_id: str, 
-    #     username: str, 
-    #     password: str, 
-    #     usertoken: str, 
-    #     info_date_time: str,
-    #     current_location: tuple
-    #     ):
-
-    #     self.action = action
-    #     self.car_id = car_id
-    #     self.username = username
-    #     self.password = password
-    #     self.usertoken = usertoken
-    #     self.info_date_time = info_date_time
-    #     self.current_location = current_location
 
     # Updated constructor only accepts the mandatory values and returns 
     # the dictionary to updated as needed.

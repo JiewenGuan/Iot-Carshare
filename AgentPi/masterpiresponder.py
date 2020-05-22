@@ -17,8 +17,10 @@ class MasterResponder():
         valid_credentials = False
 
         # TODO Testing - update with actual validation call.
-        if self.agent_dictionary["username"] == self.agent_dictionary["password"]:
-            valid_credentials = True
+        if self.agent_dictionary["username"] == "uname":
+            if self.agent_dictionary["password"] == "pword":
+                if self.agent_dictionary["car_id"] == "car123":
+                    valid_credentials = True
         
         self.update_return_dict(valid_credentials, self.agent_dictionary["username"])
         return self.agent_dictionary
@@ -30,9 +32,10 @@ class MasterResponder():
         valid_credentials = False
 
         # TODO Testing - update with actual validation call.
-        if self.agent_dictionary["username"] == self.agent_dictionary["password"]:
-            username = self.agent_dictionary["username"]
-            validate_credentials = True
+        if self.agent_dictionary["usertoken"] == "abc123":
+                if self.agent_dictionary["car_id"] == "car123":
+                    username = "uname"
+                    validate_credentials = True
 
         self.update_return_dict(valid_credentials, username)
         return self.agent_dictionary

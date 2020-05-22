@@ -1,28 +1,10 @@
-2020-05-22 16-01-22 - validation - INFO - Current Car in init: <cardetails.CarDetails object at 0x7652b9b0>
-2020-05-22 16-01-22 - facerecognition - INFO - Loading encodings...
-2020-05-22 16-01-22 - facerecognition - INFO - Starting video stream...
-2020-05-22 16-01-24 - facerecognition - INFO - Frame read
-2020-05-22 16-01-24 - facerecognition - INFO - Frame read
-2020-05-22 16-01-25 - facerecognition - INFO - Frame read
-2020-05-22 16-01-25 - facerecognition - INFO - Frame read
-2020-05-22 16-01-25 - facerecognition - INFO - Frame read
-2020-05-22 16-01-26 - facerecognition - INFO - Frame read
-2020-05-22 16-01-26 - facerecognition - INFO - Frame read
-2020-05-22 16-01-27 - facerecognition - INFO - Frame read
-2020-05-22 16-01-27 - facerecognition - INFO - Frame read
-2020-05-22 16-01-27 - facerecognition - INFO - Frame read
-2020-05-22 16-01-28 - facerecognition - INFO - Frame read
-2020-05-22 16-01-28 - facerecognition - INFO - Frame read
-2020-05-22 16-01-29 - facerecognition - INFO - Frame read
-2020-05-22 16-01-29 - facerecognition - INFO - Frame read
-2020-05-22 16-01-30 - facerecognition - INFO - Frame read
-2020-05-22 16-01-30 - facerecognition - INFO - Frame read
-2020-05-22 16-01-30 - facerecognition - INFO - Frame read
-2020-05-22 16-01-31 - facerecognition - INFO - Frame read
-2020-05-22 16-01-31 - facerecognition - INFO - Frame read
-2020-05-22 16-01-32 - facerecognition - INFO - Frame read
-2020-05-22 16-01-32 - facerecognition - INFO - Frame read
-2020-05-22 16-01-33 - facerecognition - INFO - Frame read
-2020-05-22 16-01-33 - facerecognition - INFO - Frame read
-2020-05-22 16-01-33 - facerecognition - INFO - Frame read
-2020-05-22 16-01-34 - facerecognition - INFO - Frame read
+2020-05-22 18-38-51 - validation - INFO - Current Car in init: <cardetails.CarDetails object at 0x76470350> None
+2020-05-22 18-38-52 - socketconnection - INFO - Socket dictionary compiled: {'car_id': 'Car123', 'info_date_time': '2020-05-22T18:38:52.378050', 'action': 1, 'username': '123', 'usertoken': None, 'current_location': None, 'password': '123'} None
+2020-05-22 18-38-52 - socketconnection - INFO - Socket connection response: b'null' None
+2020-05-22 18-38-52 - socketconnection - INFO - Dictionary returned from server: None None
+2020-05-22 18-38-52 - socketconnection - ERROR - Error reading dictionary: 'NoneType' object is not subscriptable None
+Traceback (most recent call last):
+  File "/home/pi/Desktop/Assignment2/Iot-Carshare/AgentPi/socketconnection.py", line 175, in establish_connection
+    if returned_dictionary["info_date_time"] is not None:
+TypeError: 'NoneType' object is not subscriptable
+2020-05-22 18-38-52 - validation - INFO - Returned_dict: None None

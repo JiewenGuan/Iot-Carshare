@@ -47,6 +47,9 @@ class UnlockedCar():
                     os.system("clear")
                     continue
 
+                os.system("clear")
+                print("Look directly at the camera for 15 seconds")
+
                 # Update the user's face: 
                 # In future if the MasterPi has the resources, it may be better to
                 # 1. Prompt for a password. If this password is valid, the 
@@ -75,7 +78,7 @@ class UnlockedCar():
                         print ("Faces Encoded!")
                     else: 
                         print("Encoding Error - this error has been logged.")
-                        log.error("Encoding error with current dataset.")
+                        log.exception("Encoding error with current dataset.")
                 else:
                     print("Unable to capture adequate face images.")
 
