@@ -1,27 +1,32 @@
-2020-05-23 12-34-02 - validation - INFO - Current Car in init: <cardetails.CarDetails object at 0x7658a9d0> None
-2020-05-23 12-34-04 - socketconnection - INFO - Socket dictionary compiled: {'info_date_time': '2020-05-23T12:34:04.386013', 'action': 1, 'usertoken': None, 'current_location': None, 'car_id': 'Car123', 'username': '123', 'password': '234'} None
-2020-05-23 12-34-04 - socketconnection - INFO - Socket connection response: b'{"car_id": null, "info_date_time": "2020-05-23T12:34:04.393259", "username": null, "current_location": null, "usertoken": null, "action": null, "password": null}' None
-2020-05-23 12-34-04 - socketconnection - INFO - Dictionary returned from server: {'info_date_time': '2020-05-23T12:34:04.393259', 'action': None, 'usertoken': None, 'current_location': None, 'car_id': None, 'username': None, 'password': None} None
-2020-05-23 12-34-04 - socketconnection - INFO - Updating Socket Dictionary None
-2020-05-23 12-34-04 - validation - INFO - Returned_dict: False None
-2020-05-23 12-34-31 - socketconnection - INFO - Socket dictionary compiled: {'info_date_time': '2020-05-23T12:34:31.826777', 'action': 1, 'usertoken': None, 'current_location': None, 'car_id': 'Car123', 'username': '', 'password': ''} None
-2020-05-23 12-34-31 - socketconnection - INFO - Socket connection response: b'{"car_id": null, "info_date_time": "2020-05-23T12:34:31.834166", "username": null, "current_location": null, "usertoken": null, "action": null, "password": null}' None
-2020-05-23 12-34-31 - socketconnection - INFO - Dictionary returned from server: {'info_date_time': '2020-05-23T12:34:31.834166', 'action': None, 'usertoken': None, 'current_location': None, 'car_id': None, 'username': None, 'password': None} None
-2020-05-23 12-34-31 - socketconnection - INFO - Updating Socket Dictionary None
-2020-05-23 12-34-31 - validation - INFO - Returned_dict: False None
-2020-05-23 12-34-47 - socketconnection - INFO - Socket dictionary compiled: {'info_date_time': '2020-05-23T12:34:47.134403', 'action': 1, 'usertoken': None, 'current_location': None, 'car_id': 'Car123', 'username': '123', 'password': ''} None
-2020-05-23 12-34-47 - socketconnection - INFO - Socket connection response: b'{"car_id": null, "info_date_time": "2020-05-23T12:34:47.141431", "username": null, "current_location": null, "usertoken": null, "action": null, "password": null}' None
-2020-05-23 12-34-47 - socketconnection - INFO - Dictionary returned from server: {'info_date_time': '2020-05-23T12:34:47.141431', 'action': None, 'usertoken': None, 'current_location': None, 'car_id': None, 'username': None, 'password': None} None
-2020-05-23 12-34-47 - socketconnection - INFO - Updating Socket Dictionary None
-2020-05-23 12-34-47 - validation - INFO - Returned_dict: False None
-2020-05-23 12-34-48 - validation - INFO - Current Car in init: <cardetails.CarDetails object at 0x7658a9d0> None
-2020-05-23 12-34-49 - socketconnection - INFO - Socket dictionary compiled: {'info_date_time': '2020-05-23T12:34:49.836138', 'action': 1, 'usertoken': None, 'current_location': None, 'car_id': 'Car123', 'username': '123', 'password': '123'} None
-2020-05-23 12-34-49 - socketconnection - INFO - Socket connection response: b'{"car_id": null, "info_date_time": "2020-05-23T12:34:49.842706", "username": null, "current_location": null, "usertoken": null, "action": null, "password": null}' None
-2020-05-23 12-34-49 - socketconnection - INFO - Dictionary returned from server: {'info_date_time': '2020-05-23T12:34:49.842706', 'action': None, 'usertoken': None, 'current_location': None, 'car_id': None, 'username': None, 'password': None} None
-2020-05-23 12-34-49 - socketconnection - INFO - Updating Socket Dictionary None
-2020-05-23 12-34-49 - validation - INFO - Returned_dict: False None
-2020-05-23 12-34-52 - socketconnection - INFO - Socket dictionary compiled: {'info_date_time': '2020-05-23T12:34:52.865639', 'action': 1, 'usertoken': None, 'current_location': None, 'car_id': 'Car123', 'username': '123', 'password': '123'} None
-2020-05-23 12-34-52 - socketconnection - INFO - Socket connection response: b'{"car_id": null, "info_date_time": "2020-05-23T12:34:52.872124", "username": null, "current_location": null, "usertoken": null, "action": null, "password": null}' None
-2020-05-23 12-34-52 - socketconnection - INFO - Dictionary returned from server: {'info_date_time': '2020-05-23T12:34:52.872124', 'action': None, 'usertoken': None, 'current_location': None, 'car_id': None, 'username': None, 'password': None} None
-2020-05-23 12-34-52 - socketconnection - INFO - Updating Socket Dictionary None
-2020-05-23 12-34-52 - validation - INFO - Returned_dict: False None
+2020-05-23 21-49-02 - validation - INFO - Current Car in init: <cardetails.CarDetails object at 0x76570970> None
+2020-05-23 21-49-02 - facerecognition - INFO - Loading encodings... None
+2020-05-23 21-49-02 - facerecognition - INFO - Starting video stream... None
+2020-05-23 21-49-04 - facerecognition - INFO - Frame read None
+2020-05-23 21-49-05 - facerecognition - INFO - Frame read None
+2020-05-23 21-49-05 - facerecognition - INFO - Frame read None
+2020-05-23 21-49-05 - facerecognition - INFO - Frame read None
+2020-05-23 21-49-06 - facerecognition - INFO - Frame read None
+2020-05-23 21-49-06 - facerecognition - INFO - Frame read None
+2020-05-23 21-49-06 - facerecognition - INFO - Frame read None
+2020-05-23 21-49-07 - facerecognition - INFO - Frame read None
+2020-05-23 21-49-07 - facerecognition - INFO - Frame read None
+2020-05-23 21-49-07 - facerecognition - INFO - Frame read None
+2020-05-23 21-49-08 - facerecognition - INFO - Frame read None
+2020-05-23 21-49-08 - facerecognition - INFO - Frame read None
+2020-05-23 21-49-09 - facerecognition - INFO - Frame read None
+2020-05-23 21-49-09 - facerecognition - INFO - Frame read None
+2020-05-23 21-49-09 - facerecognition - INFO - Frame read None
+2020-05-23 21-49-10 - facerecognition - INFO - Frame read None
+2020-05-23 21-49-10 - facerecognition - INFO - Frame read None
+2020-05-23 21-49-10 - facerecognition - INFO - Frame read None
+2020-05-23 21-49-11 - facerecognition - INFO - Frame read None
+2020-05-23 21-49-11 - facerecognition - INFO - Frame read None
+2020-05-23 21-49-11 - facerecognition - INFO - Frame read None
+2020-05-23 21-49-12 - facerecognition - INFO - Frame read None
+2020-05-23 21-49-12 - facerecognition - INFO - Frame read None
+2020-05-23 21-49-12 - facerecognition - INFO - Frame read None
+2020-05-23 21-49-13 - facerecognition - INFO - Frame read None
+2020-05-23 21-49-13 - facerecognition - INFO - Frame read None
+2020-05-23 21-49-13 - facerecognition - INFO - Frame read None
+2020-05-23 21-49-14 - facerecognition - INFO - Frame read None
+2020-05-23 21-49-14 - facerecognition - INFO - Frame read None

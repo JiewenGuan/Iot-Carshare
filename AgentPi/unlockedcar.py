@@ -41,7 +41,7 @@ class UnlockedCar():
                 in_booking = False
             elif user_choice == "9":
                 # Confirm the user's intent after warnings.
-                print("Warning: Continuing will remove your existing face profile for this vehicle")
+                print("Warning: Continuing will remove your existing face profile for this vehicle!")
                 confirmation = input("Enter \"f\" to continue or any other choice to cancel: ")
                 if confirmation != "f":
                     os.system("clear")
@@ -65,6 +65,7 @@ class UnlockedCar():
                 user_token = hashing.hexdigest()
                 log.info("Hashed username({}): {}".format(current_username, user_token))
                 faces_folder = "data_folder"
+                face_pickle = "face_encodings.pickle"
 
                 # Instantiate the FaceCapture object and attempt to capture
                 # a face. If this is successful, re_encode the pickle file.
@@ -72,7 +73,7 @@ class UnlockedCar():
                 capture_success = face_capture.capture_face()
                 if capture_success:
                     print("Encoding Faces - please wait....")
-                    face_encoder = FaceEncoder(faces_folder, "face_encodings.pickle")
+                    face_encoder = FaceEncoder(faces_folder, face_pickle)
                     encoding_success = face_encoder.encode_faces()
                     if encoding_success:
                         print ("Faces Encoded!")

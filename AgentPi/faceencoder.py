@@ -124,5 +124,5 @@ class FaceEncoder:
 
 # For testing when calling this module directly.
 if __name__ == "__main__":
-    face_encoder = FaceEncoder("face_profile", "face_encodings.pickle")
+    face_encoder = FaceEncoder("dataset", "test_pickle.pickle")
     face_encoder.encode_faces()

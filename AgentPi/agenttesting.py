@@ -1,7 +1,7 @@
 # This module performs an array of unit tests across the platform.
 # In general, all modules involving human interaction immediately pass the
 # user input to a new module or class or function. This affords our testing
-# suite to simulate human interaction by mimicking the inputs by passing
+# suite the flexibility to simulate human interaction by mimicking the inputs by passing
 # them in directly. It is not considered necessary to test the input() method
 # itself, and user inputs lack complexity that warrants testing beyond
 # user testing.
@@ -17,8 +17,11 @@
 
 import datetime
 import unittest
+import random
 
 # Modules containing classes for unit testing of the agentpi.
+# Note that not all classes are imported, as these classes import
+# all the classes to be tested by consequence.
 import agentdata
 import utilities
 import socketconnection
@@ -206,7 +209,7 @@ class TestSocketResponseAction2(unittest.TestCase):
         test_dict = self.valid_dict
         test_dict["username"] = self.invalid_dict["username"]
         returned_dict = self.sock_conn.validation_returner(test_dict)
-        print("Username that should be valid: {}".format(self.valid_dict["username"]))
+        # print("Username that should be valid: {}".format(self.valid_dict["username"]))
         self.assertEqual(returned_dict["username"], self.test_data_true.username)
 
     # Incorrect password - should return valid dictionary.
@@ -214,8 +217,8 @@ class TestSocketResponseAction2(unittest.TestCase):
         test_dict = self.valid_dict
         test_dict["password"] = self.invalid_dict["password"]
         returned_dict = self.sock_conn.validation_returner(test_dict)
-        print("\nTest send: {}".format(test_dict))
-        print("Test return: {}\n".format(returned_dict))
+        # print("\nTest send: {}".format(test_dict))
+        # print("Test return: {}\n".format(returned_dict))
         self.assertEqual(returned_dict["username"], self.valid_dict["username"])
 
     # Incorrect usertoken
@@ -258,7 +261,7 @@ class TestSocketResponseAction4(unittest.TestCase):
         test_dict["car_id"] = self.test_data_true.car_id
         test_dict["username"] = self.invalid_dict["username"]
         returned_dict = self.sock_conn.validation_returner(test_dict)
-        print("Username that should be valid: {}".format(self.valid_dict["username"]))
+        # print("Username that should be valid: {}".format(self.valid_dict["username"]))
         self.assertEqual(returned_dict, True)
 
     # Incorrect password.
@@ -268,8 +271,8 @@ class TestSocketResponseAction4(unittest.TestCase):
         test_dict["car_id"] = self.test_data_true.car_id
         test_dict["password"] = self.invalid_dict["password"]
         returned_dict = self.sock_conn.validation_returner(test_dict)
-        print("\nTest send: {}".format(test_dict))
-        print("Test return: {}\n".format(returned_dict))
+        # print("\nTest send: {}".format(test_dict))
+        # print("Test return: {}\n".format(returned_dict))
         self.assertEqual(returned_dict, True)
 
     # Incorrect usertoken.
@@ -310,24 +313,49 @@ class TestSocketValidation(unittest.TestCase):
     # Test valid credential response
     def test_valid_cred(self):
         returned_dict = self.sock_conn_valid.validate_text_credentials(
-            valid_dict["username"], 
-            valid_dict["password"]
+            self.valid_dict["username"], 
+            self.valid_dict["password"]
             )
-        self.assertEqual(valid_dict["username"], returned_dict["username"])
-        #valid_dict["password"]
+        self.assertEqual(self.valid_dict["username"], returned_dict["username"])
+        
     # Test invalid credential response
+    def test_invalid_cred(self):
+        returned_dict = self.sock_conn_valid.validate_text_credentials(
+            self.invalid_dict["username"], 
+            self.invalid_dict["password"]
+            )
+        self.assertEqual(returned_dict, False)
 
     
     # Test valid token response
-
+    def test_valid_token(self):
+        returned_dict = self.sock_conn_valid.validate_face_credentials(
+            self.valid_dict["usertoken"] 
+            )
+        self.assertEqual(returned_dict["username"], self.valid_dict["username"])
 
     # Test invalid token response
+    def test_invalid_token(self):
+        returned_dict = self.sock_conn_valid.validate_face_credentials(
+            self.invalid_dict["usertoken"] 
+            )
+        self.assertEqual(returned_dict, False)
 
 
     # Test invalid car but valid credentials
-
+    def test_invalid_car_cred(self):
+        returned_dict = self.sock_conn_invalid.validate_text_credentials(
+            self.valid_dict["username"], 
+            self.valid_dict["password"]
+            )
+        self.assertEqual(returned_dict, False)
 
     # Test invalid car but valid token
+    def test_invalid_car_token(self):
+        returned_dict = self.sock_conn_invalid.validate_face_credentials(
+            self.valid_dict["usertoken"] 
+            )
+        self.assertEqual(returned_dict, False)
 
 
             # "action": self.action,
@@ -338,24 +366,28 @@ class TestSocketValidation(unittest.TestCase):
             # "info_date_time": self.info_date_time,
             # "current_location": self.current_location
 
+# This class tests edge cases resulting in an invalid action
+# Basically send a random integer as the action that is not one of the
+# accepted actions and do this say 10 times....
+class TestInvalidAction(unittest.TestCase):
 
+    def setUp(self):
+        self.test_data_true = dictionary_class_helper_true()
+        self.test_data_false = dictionary_class_helper_false()
+        self.sock_conn_valid = socketconnection.SocketConnection(self.test_data_true.car_id)
+        self.valid_dict = self.test_data_true.get_socket_dictionary()
+        print("Test suite: {}".format(type(self).__name__))
 
-
-
-    # Invalid action
-
-
-# test socketconnection.py
-# As above by implication, but this tests the entry points rather than the 
-# raw socket.
-class TestSocketValidation(unittest.TestCase):
-    # Test each valid loan
-    # Test return a car.
-    # Unit test user face with the token.
-
-    pass
-
-
+    # x = 0
+    # while x < 10:
+    def test_invalid_action(self):
+        action = random.randint(-10000,10000)
+        if action < 1 or action > 4:
+            test_dict = self.valid_dict
+            test_dict["action"] = action
+            returned_dict = self.sock_conn_valid.validation_returner(test_dict)
+            self.assertEqual(returned_dict, False)
+            # x += 1
 
 # These two helper functions return dictionary class objects for testing purposes.
 # The only elements that do not change is the action.

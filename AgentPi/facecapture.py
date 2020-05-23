@@ -9,12 +9,12 @@
 
 import cv2
 import os
+import time
+import shutil
+
 # To consolidate logs into one location.
 import logging
 log = logging.getLogger(__name__)
-
-import time
-import shutil
 
 # TODO If possible, update this to use the VideoStream class from imutils so
 # that a usb or picamera can be used - it abstracts cv2.VideoCapture and picamera 
@@ -164,7 +164,7 @@ class FaceCapture:
         # encodings.
         cam.release()
         if image_counter == total_images:
-            # Update the pickle file.
+            # Update the pickle file upon returning.
             return True
         else:
             # Delete the folder.

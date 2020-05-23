@@ -194,6 +194,7 @@ class FaceRecognition:
 
         # Stop the thread that the VideoStream is operating on.
         vs.stop()
+        return None
 
 
 # Testing

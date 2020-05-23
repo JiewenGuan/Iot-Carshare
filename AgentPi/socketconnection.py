@@ -86,7 +86,7 @@ class SocketConnection:
         socket_return = self.establish_connection(dict_to_validate)
 
         # Process the dictionary and return based on the outcome.
-        print("Socket returned action: {}".format(socket_return["action"]))
+        log.info("Socket returned action: {}".format(socket_return["action"]))
         if socket_return is None:
             # No response.
             return None
