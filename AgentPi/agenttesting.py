@@ -1,4 +1,20 @@
 # This module performs an array of unit tests across the platform.
+# In general, all modules involving human interaction immediately pass the
+# user input to a new module or class or function. This affords our testing
+# suite to simulate human interaction by mimicking the inputs by passing
+# them in directly. It is not considered necessary to test the input() method
+# itself, and user inputs lack complexity that warrants testing beyond
+# user testing.
+# It also includes integration tests - essentially this is a cascade of tests
+# that begin by testing the data structures, then testing endpoints for data
+# and migrating further from these end points. For example, first the dicionary
+# creator class is tested (input validation, dictionary return validity, internal
+# data modification methods), then a socket connection is validated, then a
+# dictionary is sent via sockets with the return unvalidated, then the return
+# is validated, and finally the simulations of user input which itself generated
+# a dictionary which is then passed to the socket and validated by the server and 
+# returned is validated.
+
 import datetime
 import unittest
 
@@ -6,6 +22,7 @@ import unittest
 import agentdata
 import utilities
 import socketconnection
+
 
 # Test utilities.py
 class TestUtilities(unittest.TestCase):
@@ -56,7 +73,6 @@ class TestAgentData(unittest.TestCase):
         self.test_data.set_current_location(self.location)
         print("Test suite: {}".format(type(self).__name__))
 
-
     def test_data_integrity(self):
         # Call the data to be returned.
         returned_data = self.test_data.get_socket_dictionary()
@@ -77,6 +93,7 @@ class TestAgentData(unittest.TestCase):
         returned_date = custom_modifier.get_python_date()
         self.assertEqual(returned_date, returned_iso_date)
 
+
 # test socketconnection.py
 # by implication tests socketresponder.py
 # by implication tests masterpiresponder.pi
@@ -91,7 +108,6 @@ class TestSocketConnection(unittest.TestCase):
         self.test_data_false = dictionary_class_helper_false()
         self.sock_conn = socketconnection.SocketConnection(self.test_data_true.car_id)
         print("Test suite: {}".format(type(self).__name__))
-
 
     # Test the connection
     def test_socket_conn_true(self):
@@ -114,6 +130,7 @@ class TestSocketConnection(unittest.TestCase):
 # Essentially this ensures that only fully valid dictionaries will yield
 # a positive response.
 class TestSocketResponseAction1(unittest.TestCase):
+
     def setUp(self):
         self.test_data_true = dictionary_class_helper_true()
         self.test_data_false = dictionary_class_helper_false()
@@ -125,8 +142,6 @@ class TestSocketResponseAction1(unittest.TestCase):
     # Test a dictionary that has all but one parameter correct.
     # These should return a dictionary with None, which is returned to the
     # test as False. i.e., invalid booking details.
-
-    # Test action 1
 
     # Incorrect car_id
     def test_a1_invalid_car_id(self):
@@ -163,8 +178,13 @@ class TestSocketResponseAction1(unittest.TestCase):
         returned_dict = self.sock_conn.validation_returner(test_dict)
         self.assertEqual(returned_dict, False)
 
+
 # As above, but for action 2 (validating a face recognition)
 class TestSocketResponseAction2(unittest.TestCase):
+
+    # Test a dictionary that has all but one parameter correct.
+    # These should return a dictionary with None, which is returned to the
+    # test as False. i.e., invalid booking details.
     def setUp(self):
         self.test_data_true = dictionary_class_helper_true()
         self.test_data_true.set_action(2)
@@ -173,10 +193,6 @@ class TestSocketResponseAction2(unittest.TestCase):
         self.valid_dict = self.test_data_true.get_socket_dictionary()
         self.invalid_dict = self.test_data_false.get_socket_dictionary()
         print("Test suite: {}".format(type(self).__name__))
-
-    # Test a dictionary that has all but one parameter correct.
-    # These should return a dictionary with None, which is returned to the
-    # test as False. i.e., invalid booking details.
 
     # Incorrect car_id
     def test_a2_invalid_car_id(self):
@@ -275,6 +291,43 @@ class TestSocketResponseAction4(unittest.TestCase):
         self.assertEqual(returned_dict, True)
 
 
+# socketconnection.py
+# This tests the entry points of the validation methods.
+# Essentially it interfaces directly with the functions
+# that the user input is passed to. This checks for the 
+# appropriate responses with the minimal data required.
+class TestSocketValidation(unittest.TestCase):
+
+    def setUp(self):
+        self.test_data_true = dictionary_class_helper_true()
+        self.test_data_false = dictionary_class_helper_false()
+        self.sock_conn_valid = socketconnection.SocketConnection(self.test_data_true.car_id)
+        self.sock_conn_invalid = socketconnection.SocketConnection(self.test_data_false.car_id)
+        self.valid_dict = self.test_data_true.get_socket_dictionary()
+        self.invalid_dict = self.test_data_false.get_socket_dictionary()
+        print("Test suite: {}".format(type(self).__name__))
+
+    # Test valid credential response
+    def test_valid_cred(self):
+        returned_dict = self.sock_conn_valid.validate_text_credentials(
+            valid_dict["username"], 
+            valid_dict["password"]
+            )
+        self.assertEqual(valid_dict["username"], returned_dict["username"])
+        #valid_dict["password"]
+    # Test invalid credential response
+
+    
+    # Test valid token response
+
+
+    # Test invalid token response
+
+
+    # Test invalid car but valid credentials
+
+
+    # Test invalid car but valid token
 
 
             # "action": self.action,
