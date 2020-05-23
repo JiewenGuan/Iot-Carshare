@@ -128,16 +128,16 @@ class FaceCapture:
             # TODO it also may be worth exploring the use of a minimum size so that 
             # the user can't be too indistinct.
 
-            if(len(faces) == 0):
-                log.info("No face detected, retrying....")
-                continue
-             
             # Break if taking too long.
-            if (time.time() > timeout_time):
+            if time.time() > timeout_time:
                 print("Face profiling unsuccessful (timeout).")
                 print("Try again under later.")
                 time.sleep(3)
                 break
+
+            if(len(faces) == 0):
+                log.info("No face detected, retrying....")
+                continue
             
             # for each rectangle tuple in the faces list, extracting the dimensions and 
             # coordinates using Numpy slicing

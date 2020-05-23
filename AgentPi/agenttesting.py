@@ -238,6 +238,7 @@ class TestSocketResponseAction2(unittest.TestCase):
 
 # As above, but for action 4 (return a vehicle)
 class TestSocketResponseAction4(unittest.TestCase):
+    
     def setUp(self):
         self.test_data_true = dictionary_class_helper_true()
         self.test_data_true.set_action(4)

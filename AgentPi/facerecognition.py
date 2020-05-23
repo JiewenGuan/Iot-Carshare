@@ -189,10 +189,12 @@ class FaceRecognition:
                     log.info("Person found: {}".format(name))
                     # Set a flag to sleep the cam for fixed time
                     # time.sleep(3.0)
+                    cv2.destroyAllWindows()
                     vs.stop()
                     return name
 
         # Stop the thread that the VideoStream is operating on.
+        cv2.destroyAllWindows()
         vs.stop()
         return None
 

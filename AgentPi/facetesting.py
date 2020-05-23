@@ -63,34 +63,34 @@ class TestFaceRecognition(unittest.TestCase):
         print("NO FACES IN VIEW OF CAMERA FOR 15 SECONDS!")
         capture_invalid = face_capture_random.capture_face()
         print("Done - Keep paying attention though....")
-        self.assertEquals(capture_invalid, False)
+        self.assertEqual(capture_invalid, False)
         time.sleep(1)
 
     # Encode the test faces just captured.
     def test_03_encode_valid(self):
         encoder_valid = faceencoder.FaceEncoder(self.dataset_valid, self.pickle_file_valid)
         encoding_valid = encoder_valid.encode_faces()
-        self.assertEquals(encoding_valid, True)
+        self.assertEqual(encoding_valid, True)
 
     # Encode the database of pre-existing faces
     # We reencode this each time incase the encoding library changes.
     def test_04_encode_invalid(self):
         encoder_invalid = faceencoder.FaceEncoder(self.dataset_invalid, self.pickle_file_invalid)
         encoding_invalid = encoder_invalid.encode_faces()
-        self.assertEquals(encoding_invalid, True)
+        self.assertEqual(encoding_invalid, True)
 
     # Test face against database it does exist in.
     def test_05_recog_valid(self):
         print("LOOK AT CAMERA for 30 seconds!")
         recogniser_valid = facerecognition.FaceRecognition(self.pickle_file_valid)
         recognition_valid = recogniser_valid.recognise_face()
-        self.assertEquals(recognition_valid, self.face_valid)
+        self.assertEqual(recognition_valid, self.face_valid)
 
     # Test face against a database that it does not exist in, and the graveful return.
     def test_06_unrecog_valid(self):
         recogniser_invalid = facerecognition.FaceRecognition(self.pickle_file_invalid)
         recognition_invalid = recogniser_invalid.recognise_face()
-        self.assertEquals(recognition_valid, None)
+        self.assertEqual(recognition_invalid, None)
     
 
 """
