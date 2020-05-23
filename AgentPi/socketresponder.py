@@ -69,7 +69,9 @@ class SocketResponder():
                     # TODO This could probably be moved to a module so both ends can 
                     # perform the same function...?
                     encoded_dictionary = json.dumps(dictionary_to_return).encode("utf-8")
+                    print("Dictionary to return: {}".format(encoded_dictionary))
                     client_conn.sendall(encoded_dictionary)
+                    print("Response complete! \n")
 
 
 # Instantiated with a dictionary, this class acts based on the contents of a
@@ -82,8 +84,6 @@ class DictionaryInterpreter():
     # in itself has been returned to this function. It determines what
     # function to call based on the contents of the transmitted dictionary.
     def interpret_dictionary(self) -> dict:
-        print("Got this far!")
-
         # if self.received_dict["username"] is None:
         #     # Validate a face recognition token and return dictionary
         # else: 
@@ -96,7 +96,6 @@ class DictionaryInterpreter():
         #             if self.received_dict["info_date_time"] is None:
         #                 # Update a face recognition token and return dictionary
 
-        # TODO Could potentially move this into a with call....
         responder = MasterResponder(self.received_dict)
         if self.received_dict["action"] == 1:
             # Validate a text credential and return dictionary
@@ -114,8 +113,9 @@ class DictionaryInterpreter():
             print("Returning a vehicle....")
             return responder.return_vehicle()
         else: 
-            print("Invalid option!")
             # Do nothing and return an empty dicitonary.
+            print("Invalid option!")
+            return responder.invalid_action()
 
 
 

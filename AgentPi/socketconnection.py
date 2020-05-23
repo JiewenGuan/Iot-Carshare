@@ -86,9 +86,14 @@ class SocketConnection:
         socket_return = self.establish_connection(dict_to_validate)
 
         # Process the dictionary and return based on the outcome.
+        print("Socket returned action: {}".format(socket_return["action"]))
         if socket_return is None:
             # No response.
             return None
+        if socket_return["action"] == 4:
+            # Vehicle returned successfully, otherwise will
+            # return false as there will be no username either.
+            return True
         if socket_return["username"] is None:
             # Invalid Credentials
             return False

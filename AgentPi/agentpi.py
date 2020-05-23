@@ -53,7 +53,7 @@ class CarIDLoader:
     # Internal method for loading a card ID. Hides the method for determining 
     # the carID.
     def load_car_id(self):
-        self.this_car_id = "Car123"
+        self.this_car_id = "car123"
 
     def get_car_id(self):
         return self.this_car_id

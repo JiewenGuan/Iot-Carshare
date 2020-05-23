@@ -17,9 +17,9 @@ class MasterResponder():
         valid_credentials = False
 
         # TODO Testing - update with actual validation call.
-        if self.agent_dictionary["username"] == "uname":
-            if self.agent_dictionary["password"] == "pword":
-                if self.agent_dictionary["car_id"] == "car123":
+        if self.agent_dictionary["car_id"] == "car123":
+            if self.agent_dictionary["username"] == "uname":
+                if self.agent_dictionary["password"] == "pword":
                     valid_credentials = True
         
         self.update_return_dict(valid_credentials, self.agent_dictionary["username"])
@@ -30,12 +30,14 @@ class MasterResponder():
     def validate_face(self) -> dict:
         # TODO Perform face token validation here - this needs to return a username
         valid_credentials = False
+        username = None
 
         # TODO Testing - update with actual validation call.
         if self.agent_dictionary["usertoken"] == "abc123":
-                if self.agent_dictionary["car_id"] == "car123":
-                    username = "uname"
-                    validate_credentials = True
+            if self.agent_dictionary["car_id"] == "car123":
+                print("got here...?")
+                username = "uname"
+                valid_credentials = True
 
         self.update_return_dict(valid_credentials, username)
         return self.agent_dictionary
@@ -58,10 +60,22 @@ class MasterResponder():
     def return_vehicle(self) -> dict:
         # TODO Perform return functions HERE
 
-        # clear dict and return it with the car_id
-        temp_car_id = self.agent_dictionary["car_id"]
+        # TODO Testing code
+        temp_car_id = None
+        temp_action = None
+        if self.agent_dictionary["car_id"] == "car123":
+            temp_car_id = self.agent_dictionary["car_id"]
+            temp_action = self.agent_dictionary["action"]
+
+        # clear dict and return it with the car_id and the action
+        # which are considered a confirmation of return.
         self.clear_dict()
         self.agent_dictionary["car_id"] = temp_car_id
+        self.agent_dictionary["action"] = temp_action
+        return self.agent_dictionary
+    
+    def invalid_action(self) -> dict:
+        self.clear_dict()
         return self.agent_dictionary
 
     # Helper to clear the dictionary.
