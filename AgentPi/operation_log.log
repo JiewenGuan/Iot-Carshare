@@ -1,17 +1,38 @@
-2020-05-23 23-14-56 - validation - INFO - Current Car in init: <cardetails.CarDetails object at 0x765649b0> None
-2020-05-23 23-14-59 - socketconnection - INFO - Socket dictionary compiled: {'current_location': None, 'username': '123', 'info_date_time': '2020-05-23T23:14:59.183556', 'password': '123', 'usertoken': None, 'car_id': 'car123', 'action': 1} None
-2020-05-23 23-14-59 - socketconnection - INFO - Socket connection response: b'{"info_date_time": "2020-05-23T23:14:59.190817", "usertoken": null, "action": null, "current_location": null, "password": null, "car_id": null, "username": null}' None
-2020-05-23 23-14-59 - socketconnection - INFO - Dictionary returned from server: {'username': None, 'usertoken': None, 'info_date_time': '2020-05-23T23:14:59.190817', 'password': None, 'current_location': None, 'car_id': None, 'action': None} None
-2020-05-23 23-14-59 - socketconnection - INFO - Updating Socket Dictionary None
-2020-05-23 23-14-59 - socketconnection - INFO - Socket returned action: None None
-2020-05-23 23-14-59 - validation - INFO - Returned_dict: False None
-2020-05-23 23-16-41 - socketconnection - INFO - Socket dictionary compiled: {'current_location': None, 'username': 'uname', 'info_date_time': '2020-05-23T23:16:41.138260', 'password': 'pword', 'usertoken': None, 'car_id': 'car123', 'action': 1} None
-2020-05-23 23-16-41 - socketconnection - INFO - Socket connection response: b'{"info_date_time": "2020-05-23T23:16:41.138260", "usertoken": null, "action": null, "current_location": null, "password": null, "car_id": "car123", "username": "uname"}' None
-2020-05-23 23-16-41 - socketconnection - INFO - Dictionary returned from server: {'username': 'uname', 'usertoken': None, 'info_date_time': '2020-05-23T23:16:41.138260', 'password': None, 'current_location': None, 'car_id': 'car123', 'action': None} None
-2020-05-23 23-16-41 - socketconnection - INFO - Updating Socket Dictionary None
-2020-05-23 23-16-41 - socketconnection - INFO - Socket returned action: None None
-2020-05-23 23-16-41 - validation - INFO - Returned_dict: {'username': 'uname', 'usertoken': None, 'info_date_time': datetime.datetime(2020, 5, 23, 23, 16, 41, 138260), 'password': None, 'current_location': None, 'car_id': 'car123', 'action': None} None
-2020-05-23 23-16-43 - socketconnection - INFO - {'current_location': [-37.831744, 144.892994], 'username': None, 'info_date_time': '2020-05-23T23:16:43.702418', 'password': None, 'usertoken': None, 'car_id': 'car123', 'action': 4} None
-2020-05-23 23-16-43 - socketconnection - INFO - Socket connection response: b'{"info_date_time": null, "usertoken": null, "action": 4, "current_location": null, "password": null, "car_id": "car123", "username": null}' None
-2020-05-23 23-16-43 - socketconnection - INFO - Dictionary returned from server: {'username': None, 'usertoken': None, 'info_date_time': None, 'password': None, 'current_location': None, 'car_id': 'car123', 'action': 4} None
-2020-05-23 23-16-43 - socketconnection - INFO - Socket returned action: 4 None
+2020-05-24 23-21-13 - validation - INFO - Current Car object in init: <cardetails.CarDetails object at 0x764d8eb0> None
+2020-05-24 23-21-13 - validation - INFO - User Choice: 1 None
+2020-05-24 23-21-18 - socketconnection - INFO - Socket dictionary compiled: {'current_location': None, 'info_date_time': '2020-05-24T23:21:18.137532', 'password': 'pword', 'car_id': 'car123', 'username': 'uname', 'action': 1, 'usertoken': None} None
+2020-05-24 23-21-18 - socketconnection - INFO - Socket connection response: b'' None
+2020-05-24 23-21-18 - socketconnection - ERROR - Extreme error: Expecting value: line 1 column 1 (char 0) None
+Traceback (most recent call last):
+  File "/home/pi/Desktop/Assignment2/Iot-Carshare/AgentPi/socketconnection.py", line 190, in establish_connection
+    returned_dictionary = json.loads(returned_bytes.decode("utf-8"))
+  File "/usr/lib/python3.5/json/__init__.py", line 319, in loads
+    return _default_decoder.decode(s)
+  File "/usr/lib/python3.5/json/decoder.py", line 339, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+  File "/usr/lib/python3.5/json/decoder.py", line 357, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+2020-05-24 23-21-18 - validation - INFO - Returned_dict: None None
+2020-05-24 23-21-34 - validation - INFO - Current Car object in init: <cardetails.CarDetails object at 0x764d8eb0> None
+2020-05-24 23-21-34 - validation - INFO - User Choice: 2 None
+2020-05-24 23-21-34 - facerecognition - INFO - Loading encodings... None
+2020-05-24 23-21-34 - facerecognition - INFO - Starting video stream... None
+2020-05-24 23-21-36 - facerecognition - INFO - Frame read None
+2020-05-24 23-21-38 - facerecognition - INFO - Person found: 5c0be87ed7434d69005f8bbd84cad8ae6abfd49121b4aaeeb4c1f4a2e2987711 None
+2020-05-24 23-21-38 - socketconnection - INFO - Validating 5c0be87ed7434d69005f8bbd84cad8ae6abfd49121b4aaeeb4c1f4a2e2987711 None
+2020-05-24 23-21-38 - socketconnection - ERROR - Server connection refused: [Errno 111] Connection refused None
+Traceback (most recent call last):
+  File "/home/pi/Desktop/Assignment2/Iot-Carshare/AgentPi/socketconnection.py", line 152, in establish_connection
+    socket_connection.connect(self.ADDRESS)
+ConnectionRefusedError: [Errno 111] Connection refused
+2020-05-24 23-21-38 - validation - INFO - returned_dict: None None
+2020-05-24 23-21-42 - validation - INFO - Current Car object in init: <cardetails.CarDetails object at 0x764d8eb0> None
+2020-05-24 23-21-42 - validation - INFO - User Choice: 1 None
+2020-05-24 23-21-44 - socketconnection - INFO - Socket dictionary compiled: {'current_location': None, 'info_date_time': '2020-05-24T23:21:44.533778', 'password': '123', 'car_id': 'car123', 'username': '123', 'action': 1, 'usertoken': None} None
+2020-05-24 23-21-44 - socketconnection - ERROR - Server connection refused: [Errno 111] Connection refused None
+Traceback (most recent call last):
+  File "/home/pi/Desktop/Assignment2/Iot-Carshare/AgentPi/socketconnection.py", line 152, in establish_connection
+    socket_connection.connect(self.ADDRESS)
+ConnectionRefusedError: [Errno 111] Connection refused
+2020-05-24 23-21-44 - validation - INFO - Returned_dict: None None

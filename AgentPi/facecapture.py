@@ -1,6 +1,6 @@
-# This module is responsible for capturing a face for a users facerecognition.
-# In theory, it should contact the MP with the users' credentials and 
-# use the returned user token as a user id for the 
+"""
+This module is responsible for capturing a face for a users facerecognition.
+"""
 
 ## Acknowledgement
 ## This code is adapted from:
@@ -24,14 +24,13 @@ log = logging.getLogger(__name__)
 # This class is responsible for capturing the faces for entry into the fac detection
 # validation system. 
 class FaceCapture:
-    # USAGE
-    # With default parameter of user/id
-    #       python3 01_capture.py -n default_user
-    # OR specifying the dataset and user/id
-    #       python3 02_capture.py -i dataset -n default_user
+    """
+    If successful, it stores the set of faces in the passed in location. 
+    The instantiation is passed in the following parameters
+    name = (string) the name of the person intended to be added
+    data_folder = (string) the folder to store face sets in.
+    """
 
-    # The initialisations is passed in the following parameters
-    # name = (string) the name  of the person intended to be added
     # TODO this should be changed to a more appropriat name.
     # and it accepts the path for the files to be saved - this is the folder
     # structure passed in, so you can use 1 to many folders. Just use a single string. 
@@ -39,21 +38,13 @@ class FaceCapture:
         self.name = name
         self.data_folder = data_folder
 
-    # The only entry point for this class - attempts to record video and store
-    # the resulting images in a folder based on the name variable.
     def capture_face(self) -> bool:
-        # # Construct the argument parser. 
-        # ap = argparse.ArgumentParser()
-        # # Parse the arguments.
-        # ap.add_argument("-n", "--name", required = True,
-        #     help="The name/id of this person you are recording")
-        # ap.add_argument("-i", "--dataset", default = "dataset",
-        #     help="path to input directory of faces + images")
-        # # Insert the arguments into a dictionary.
-        # args = vars(ap.parse_args())
+        """
+        The only entry point for this class - attempts to record video and store
+        the resulting images in a folder based on the name variable.
+        """
 
         # # use name as folder name
-        # name = args["name"]
         # TODO combine name and dataset to create the path...?
         user_folder = "./{}/{}".format(self.data_folder, self.name)
 
@@ -103,25 +94,23 @@ class FaceCapture:
             # This is necessary for the classifier.
             gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
             
-            """
-            This calls the classifier function and returns a list of 
-            Rect(x, y, w, h) objects, the positions of the detections as 
-            a rectangle object where x and y are the top left corner coordinates 
-            and w and h the width and height respectively.
-            It is passed the following parameters:
-            gray - the inputted grayscale image.
-            scaleFactor - this parameter specifies how much the image size is 
-                reduced at each image scale. It is used to create a scale pyramid
-                where if the scale factor is 1.2, it reduces the image size by 20%.
-                the smaller the scale factor (must be > 1), the more likely a match
-                will be made, but it increases the computational cost.
-            minNeighbors - specifies how many neigbours each candidate rectangle
-                should have to be retained. Higher values result in less detections
-                but those that occur are of a higher quality.
-            minSize - unused the minimum possible object size. 
-                Objects of a smaller size will be ignored. 
-            maxSize - unused in this test, but similar to minSize in nature.
-            """
+            # This calls the classifier function and returns a list of 
+            # Rect(x, y, w, h) objects, the positions of the detections as 
+            # a rectangle object where x and y are the top left corner coordinates 
+            # and w and h the width and height respectively.
+            # It is passed the following parameters:
+            # gray - the inputted grayscale image.
+            # scaleFactor - this parameter specifies how much the image size is 
+            #     reduced at each image scale. It is used to create a scale pyramid
+            #     where if the scale factor is 1.2, it reduces the image size by 20%.
+            #     the smaller the scale factor (must be > 1), the more likely a match
+            #     will be made, but it increases the computational cost.
+            # minNeighbors - specifies how many neigbours each candidate rectangle
+            #     should have to be retained. Higher values result in less detections
+            #     but those that occur are of a higher quality.
+            # minSize - unused the minimum possible object size. 
+            #     Objects of a smaller size will be ignored. 
+            # maxSize - unused in this test, but similar to minSize in nature.
             faces = face_detector.detectMultiScale(gray, 1.3, 5)
             # TODO it may be worth testing the faces list that is returned is 
             # only of length one, as we don't want more than one face to be analysed.

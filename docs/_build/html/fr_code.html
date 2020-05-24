@@ -1,0 +1,179 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Face Recognition Code Documentation &#8212; IOT_car_share_assignment 1.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Testing Code Documentation" href="testing_code.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="face-recognition-code-documentation">
+<h1>Face Recognition Code Documentation<a class="headerlink" href="#face-recognition-code-documentation" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="facecapture-py">
+<h2>facecapture.py<a class="headerlink" href="#facecapture-py" title="Permalink to this headline">¶</a></h2>
+<p>Captures a set of faces to be encoded.</p>
+<span class="target" id="module-facecapture"></span><p>This module is responsible for capturing a face for a users facerecognition.</p>
+<dl class="py class">
+<dt id="facecapture.FaceCapture">
+<em class="property">class </em><code class="sig-prename descclassname">facecapture.</code><code class="sig-name descname">FaceCapture</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">name</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">data_folder</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="headerlink" href="#facecapture.FaceCapture" title="Permalink to this definition">¶</a></dt>
+<dd><p>If successful, it stores the set of faces in the passed in location. 
+The instantiation is passed in the following parameters
+name = (string) the name of the person intended to be added
+data_folder = (string) the folder to store face sets in.</p>
+<dl class="py method">
+<dt id="facecapture.FaceCapture.capture_face">
+<code class="sig-name descname">capture_face</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; bool<a class="headerlink" href="#facecapture.FaceCapture.capture_face" title="Permalink to this definition">¶</a></dt>
+<dd><p>The only entry point for this class - attempts to record video and store
+the resulting images in a folder based on the name variable.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="faceencoder-py">
+<h2>faceencoder.py<a class="headerlink" href="#faceencoder-py" title="Permalink to this headline">¶</a></h2>
+<p>Encodes the face sets, or re-encodes them if previously encoded.</p>
+<span class="target" id="module-faceencoder"></span><p>This module is responsible for encoding the dataset of face captures.
+It should be called either after a user has been added to the face collection,
+or if the database becomes large, periodically whenever processing time is available.</p>
+<dl class="py class">
+<dt id="faceencoder.FaceEncoder">
+<em class="property">class </em><code class="sig-prename descclassname">faceencoder.</code><code class="sig-name descname">FaceEncoder</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dataset</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">encoding_file</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="headerlink" href="#faceencoder.FaceEncoder" title="Permalink to this definition">¶</a></dt>
+<dd><p>Accepts the dataset file location, and the name of the output file.</p>
+<dl class="py method">
+<dt id="faceencoder.FaceEncoder.encode_faces">
+<code class="sig-name descname">encode_faces</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; bool<a class="headerlink" href="#faceencoder.FaceEncoder.encode_faces" title="Permalink to this definition">¶</a></dt>
+<dd><p>Instantiating method - accepts nothing and returns a bool based on the outcome of encoding.
+This method has a significant time cost factor.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="facerecognition-py">
+<h2>facerecognition.py<a class="headerlink" href="#facerecognition-py" title="Permalink to this headline">¶</a></h2>
+<p>Captures the user’s face and attempts to determine if there is a profile for the user in the database on the agent.</p>
+<span class="target" id="module-facerecognition"></span><p>This class is responsible for recognising the face captured by the device. It does
+so by checking the presented face against the locally stored encodings, returning
+the encoded name which should be the user token to be sent to the MasterPi for 
+validation.</p>
+<dl class="py class">
+<dt id="facerecognition.FaceRecognition">
+<em class="property">class </em><code class="sig-prename descclassname">facerecognition.</code><code class="sig-name descname">FaceRecognition</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">pickle_file</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="headerlink" href="#facerecognition.FaceRecognition" title="Permalink to this definition">¶</a></dt>
+<dd><p>This class is instantiated and the recognise_face() method called to recognise a face
+if it is stored in the pickle encoding. It accepts a path to the pickle file the 
+resolution of the video feed.</p>
+<dl class="py method">
+<dt id="facerecognition.FaceRecognition.recognise_face">
+<code class="sig-name descname">recognise_face</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; str<a class="headerlink" href="#facerecognition.FaceRecognition.recognise_face" title="Permalink to this definition">¶</a></dt>
+<dd><p>The detection method is set as hog due to device limitations. See module
+comments for further details.
+It returns a string with the token for a valid recogition, or None for 
+any other result including errors.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">IOT_car_share_assignment</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="agent_code.html">Agent Code Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="testing_code.html">Testing Code Documentation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Face Recognition Code Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#facecapture-py">facecapture.py</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#faceencoder-py">faceencoder.py</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#facerecognition-py">facerecognition.py</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="testing_code.html" title="previous chapter">Testing Code Documentation</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Cameron Bolton & Jiewen Guan.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.0.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/fr_code.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

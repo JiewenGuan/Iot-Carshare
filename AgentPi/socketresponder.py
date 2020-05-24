@@ -124,6 +124,6 @@ class Main():
         master_responder = SocketResponder()
         master_responder.accept_connections()
 
-
-socket_responder = Main()
-socket_responder.start()
+if __name__ == "__main__":
+    socket_responder = Main()
+    socket_responder.start()

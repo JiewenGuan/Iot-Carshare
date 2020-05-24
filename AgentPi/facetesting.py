@@ -21,21 +21,25 @@ import facecapture
 import facerecognition
 
 
-# This class tests a face capture event - it requires tester interaction, active 
-# hardware, and takes approximately two minutes.
-
-# This testing class is structured in such a way as to test a non-working face database
-# actively without compromising the existing face profiles. If it does however, it
-# avoids collisions with the existing user base to maintain integrity by 
-# using different file structures that the primary software ignores. Modification of
-# this is NOT RECOMMENDED.
-# It is necessary for a face to be present to test. Also note that tests are
-# order dependant and names as such. As such note that this test is monolithic 
-# in nature - Fail early, fail fast.
 class TestFaceRecognition(unittest.TestCase):
+    """
+    This class tests a face capture event - it requires tester interaction, active 
+    hardware, and takes approximately two minutes.
 
-    # Define all the variables for consistent testing across all functions.
+    This testing class is structured in such a way as to test a non-working face database
+    actively without compromising the existing face profiles. If it does however, it
+    avoids collisions with the existing user base to maintain integrity by 
+    using different file structures that the primary software ignores. Modification of
+    this is NOT RECOMMENDED.
+    It is necessary for a face to be present to test. Also note that tests are
+    order dependant and names as such. As such note that this test is monolithic 
+    in nature - Fail early, fail fast.
+    """
+
     def setUp(self):
+        """
+        Define all the variables for consistent testing across all functions.
+        """
         # Random named objects are for faces that are unintentionally captured.
         self.dataset_valid = "testing/dataset"
         self.dataset_invalid = "testing/dataset_inv"
@@ -47,9 +51,11 @@ class TestFaceRecognition(unittest.TestCase):
         self.pickle_file_valid = "testing/testpickle.pickle"
         self.pickle_file_invalid = "testing/testpickle_inv.pickle"
 
-    # This will add the face to the test database.
-    # Test that a face is present and that adequate files are captured.
     def test_01_face_is_present(self):
+        """
+        This will add the face to the test database.
+        Test that a face is present and that adequate files are captured.
+        """
         face_capture_valid = facecapture.FaceCapture(self.face_valid, self.dataset_valid)
         print("LOOK AT CAMERA FOR 15 SECONDS!")
         capture_valid = face_capture_valid.capture_face()
@@ -57,8 +63,11 @@ class TestFaceRecognition(unittest.TestCase):
         print("Done - Keep paying attention though...")
         time.sleep(1)
 
-    # Test the timeout and graceful return of a missing face.
     def test_02_face_is_not_present(self):
+        """
+        Test the timeout and graceful return of a missing face.
+        """
+
         face_capture_random = facecapture.FaceCapture(self.face_random, self.dataset_random)
         print("NO FACES IN VIEW OF CAMERA FOR 15 SECONDS!")
         capture_invalid = face_capture_random.capture_face()
@@ -66,34 +75,45 @@ class TestFaceRecognition(unittest.TestCase):
         self.assertEqual(capture_invalid, False)
         time.sleep(1)
 
-    # Encode the test faces just captured.
     def test_03_encode_valid(self):
+        """
+        Encode the test faces just captured.
+        """
+
         encoder_valid = faceencoder.FaceEncoder(self.dataset_valid, self.pickle_file_valid)
         encoding_valid = encoder_valid.encode_faces()
         self.assertEqual(encoding_valid, True)
 
-    # Encode the database of pre-existing faces
-    # We reencode this each time incase the encoding library changes.
     def test_04_encode_invalid(self):
+        """
+        Encode the database of pre-existing faces.
+        We reencode this each time incase the encoding library changes.
+        """
+
         encoder_invalid = faceencoder.FaceEncoder(self.dataset_invalid, self.pickle_file_invalid)
         encoding_invalid = encoder_invalid.encode_faces()
         self.assertEqual(encoding_invalid, True)
 
-    # Test face against database it does exist in.
     def test_05_recog_valid(self):
+        """
+        Test face against database it does exist in.
+        """
         print("LOOK AT CAMERA for 30 seconds!")
         recogniser_valid = facerecognition.FaceRecognition(self.pickle_file_valid)
         recognition_valid = recogniser_valid.recognise_face()
         self.assertEqual(recognition_valid, self.face_valid)
 
-    # Test face against a database that it does not exist in, and the graveful return.
     def test_06_unrecog_valid(self):
+        """\
+        Test face against a database that it does not exist in, and the graveful return.
+        """
         recogniser_invalid = facerecognition.FaceRecognition(self.pickle_file_invalid)
         recognition_invalid = recogniser_invalid.recognise_face()
         self.assertEqual(recognition_invalid, None)
     
 
 """
+Additional Comments:
 Okay so what are we doing here - In this test, we first capture a face
 to test against the pickle file. There exists files for creating a 
 false database to test the tester's face against. So we capture faces,

@@ -1,5 +1,7 @@
-# This module contains the functionality that a user is offered when a
-# car is unlocked.
+"""
+This module contains the functionality that a user is offered when a
+car is unlocked.
+"""
 
 import os
 from socketconnection import SocketConnection
@@ -14,16 +16,20 @@ import logging
 log = logging.getLogger(__name__)
 
 
-# The main class is constructed with the dictionary that was returned
-# by the socket connection from the master pi. It has a single entry point
-# of unlock_car that acts based on the dictionary that the class was 
-# instantiated with.
 class UnlockedCar():
+    """
+    The main class is constructed with the dictionary that was returned
+    by the socket connection from the master pi. It has a single entry point
+    of unlock_car that acts based on the dictionary that the class was 
+    instantiated with.
+    """
     def __init__(self, unlocked_car: dict):
         self.unlocked_car = unlocked_car
 
-    # Perform functions for unlocking the car.
     def unlock_car(self):
+        """
+        Perform functions for unlocking the car.
+        """
         # GUI Loop.
         in_booking = True
         while in_booking:
@@ -86,4 +92,6 @@ class UnlockedCar():
             time.sleep(3)
             os.system("clear")
         return
-    
+
+if __name__ == "__main__":
+    pass
