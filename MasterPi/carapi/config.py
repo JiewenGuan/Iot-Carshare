@@ -4,7 +4,7 @@ basedir = os.path.abspath(os.path.dirname(__file__))
 class Config(object):
     HOST = "35.197.181.169"
     USER = "root"
-    PASSWORD = "asd123"
+    PASSWORD = "asdqwe123"
     DATABASE = "People"
     
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'you-will-never-guess'

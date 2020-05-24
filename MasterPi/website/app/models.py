@@ -1,6 +1,7 @@
 from flask_login import UserMixin
 import requests
 from app import login
+from flask import session
 
 class User(UserMixin):
 
@@ -10,7 +11,7 @@ class User(UserMixin):
 
 @login.user_loader
 def load_user(id):
-    r = requests.get('https://192.168.1.109:10100/users/{}'.format(id), verify=False)
+    r = requests.get('http://192.168.1.109:10100/users/{}'.format(id), verify=False)
     retdata = r.json() or {}
     return User(username=retdata['username'],id=retdata['id'])  
 

@@ -4,7 +4,7 @@ from flask import jsonify, request, url_for
 from sqlalchemy import and_, desc
 from werkzeug.http import HTTP_STATUS_CODES
 from datetime import datetime
-
+import hashlib
 @app.route('/')
 @app.route('/index')
 def index():
@@ -17,6 +17,13 @@ def uniq_name(name):
         return bad_request('use a different name')
     return jsonify(User(username=name).to_dict())
 
+@app.route('/uemail/<string:email>', methods=['GET'])
+def uniq_email(email):
+    user = User.query.filter_by(email=email).first()
+    if user is not None:
+        return bad_request('use a different Email')
+    return jsonify(User(email=email).to_dict())
+
 @app.route('/auth', methods=['POST'])
 def auth():
     data = request.get_json() or {}
@@ -26,6 +33,16 @@ def auth():
     if user:
         if user.check_password(data['password']):
             return jsonify(user.to_dict())
+    return bad_request('wrong username or password!')
+
+@app.route('/facetoken', methods=['POST'])
+def facetoken():
+    data = request.get_json() or {}
+    if 'facetoken' not in data:
+        return bad_request('500 must include username and password fields')
+    user = User.query.filter_by(face_token=data['facetoken']).first()
+    if user:
+        return jsonify(user.to_dict())
     return bad_request('wrong username or password!')
 
 @app.route('/users/<int:id>', methods=['GET'])
@@ -39,12 +56,14 @@ def get_users():
 @app.route('/users', methods=['POST'])
 def create_user():
     data = request.get_json() or {}
-    if 'username' not in data or 'password' not in data:
-        return bad_request('must include username and password fields')
+    if 'username' not in data or 'password' not in data or 'email' not in data:
+        return bad_request('must include username, email and password fields')
     if User.query.filter_by(username=data['username']).first():
         return bad_request('please use a different username')
     user = User()
     user.from_dict(data, new_user=True)
+    hashing = hashlib.sha256(user.username.encode("utf-8"))
+    user.face_token = hashing.hexdigest()
     db.session.add(user)
     db.session.commit()
     response = jsonify(user.to_dict())
@@ -66,6 +85,10 @@ def update_user(id):
 @app.route('/cars/<int:id>', methods=['GET'])
 def get_car(id):
     return jsonify(Car.query.get_or_404(id).to_dict())
+
+@app.route('/cars/<string:id>', methods=['GET'])
+def get_car_name(id):
+    return jsonify(Car.query.filter_by(name=id).first().to_dict())
 
 @app.route('/cars', methods=['GET'])
 def get_cars():
@@ -112,6 +135,11 @@ def get_bookings():
 @app.route('/user_bookings/<int:id>')
 def user_bookings(id):
     query = db.session.query(Booking).filter(Booking.user_id == id)
+    return jsonify(list_to_dict(query.order_by(desc(Booking.timestart)).all()))
+
+@app.route('/car_bookings/<int:id>')
+def car_bookings(id):
+    query = db.session.query(Booking).filter(Booking.car_id == id)
     return jsonify(list_to_dict(query.order_by(desc(Booking.timestart)).all()))
 
 @app.route('/cancel_booking/<int:id>')

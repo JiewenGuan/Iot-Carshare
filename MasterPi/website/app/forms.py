@@ -12,15 +12,21 @@ class LoginForm(FlaskForm):
 
 class RegistrationForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
+    email = StringField('Email', validators=[DataRequired(), Email()])
     password = PasswordField('Password', validators=[DataRequired()])
     password2 = PasswordField(
         'Repeat Password', validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Register')
 
     def validate_username(self, username):
-        r = requests.get('https://192.168.1.109:10100/uniq/{}'.format(username.data), verify=False)
+        r = requests.get('http://192.168.1.109:10100/uniq/{}'.format(username.data), verify=False)
         if 'error' in r.json():
             raise ValidationError('Please use a different username.')
+
+    def validate_email(self, email):
+        r = requests.get('http://192.168.1.109:10100/uemail/{}'.format(email.data), verify=False)
+        if 'error' in r.json():
+            raise ValidationError('Please use a different email.')
 
 class CarSearchForm(FlaskForm):
     body_type = SelectField('Car Type',coerce=int,validate_choice=False)
@@ -38,8 +44,6 @@ class BookingForm(FlaskForm):
     duration = IntegerField(validators=[DataRequired()],render_kw={"placeholder": "Hours"})
     submit = SubmitField('Book')
     def validate_date(self, date):
-        print(date.data)
-        print(da.today())
         if date.data != da.today():
             raise ValidationError('We can only book cars for today at this version')
     def validate_time(self, time):

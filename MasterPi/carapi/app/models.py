@@ -5,14 +5,21 @@ from werkzeug.security import generate_password_hash, check_password_hash
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(64), index=True, unique=True)
+    email = db.Column(db.String(128), index = True, unique = True)
+    callendarToken = db.Column(db.String(128), index = True, unique = True)
+    carapiToken = db.Column(db.String(128), index = True, unique = True)
+    token_expiration = db.Column(db.DateTime)
     password_hash = db.Column(db.String(128))
     bookings = db.relationship('Booking', backref='user', lazy='dynamic')
+    face_token =  db.Column(db.String(128), index = True, unique = True)
 
     def __repr__(self):
         return '<User {}>'.format(self.username)
     
     def set_password(self, password):
         self.password_hash = generate_password_hash(password)
+    def set_callendarToken(self, callendarToken):
+        self.callendarToken = callendarToken
 
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
@@ -21,13 +28,15 @@ class User(db.Model):
         data = {
             'id': self.id,
             'username': self.username,
+            'email': self.email, 
+            'callendarToken': self.callendarToken
             #'password_hash': self.password_hash
             #'bookings': url_for('get_user_bookings', id=self.id),
         }
         return data
 
     def from_dict(self, data, new_user=False):
-        for field in ['username']:
+        for field in ['username','email']:
             if field in data:
                 setattr(self, field, data[field])
         if new_user and 'password' in data:
@@ -36,7 +45,7 @@ class User(db.Model):
 
 class Car(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(64))
+    name = db.Column(db.String(64), index=True, unique=True)
     make = db.Column(db.String(64))
     body_type = db.Column(db.Integer)
     colour = db.Column(db.Integer)
