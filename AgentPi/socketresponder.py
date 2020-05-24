@@ -14,7 +14,7 @@ from masterpiresponder import MasterResponder as MasterResponder
 # undertaken.
 class SocketResponder():
     def __init__(self):
-        self.IP_ADDRESS = "127.0.0.1"
+        self.IP_ADDRESS = "192.168.1.109"
         self.M_PI_PORT = 33333
         self.ADDRESS = (self.IP_ADDRESS, self.M_PI_PORT)
         self.socket_queue = 15
