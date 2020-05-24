@@ -1,9 +1,8 @@
-# For the consistant usage of Agent Data.
-# Might not be neccessary
+# For the consistant usage of Agent Data and responses.
 
 """
-At this stage, I am trying to pass in the car object to the validation module
-so that the main module no longer has control over it. DONE
+Used to separate the data that contains user information from the
+data the car retains in a locked state. 
 There is no reason for the main module to know who just used the 
 vehicle, so this reduces the need for the main module to know more
 than the car that it is operating in. DONE
@@ -19,15 +18,17 @@ import dateutil.parser
 # TODO This code is adapted from https://pynative.com/python-serialize-datetime-into-json/
 # TODO This code requires the dateutil package - install by pip3 install python-dateutil
 
-
-# This class is used to construct a dictionary for passing over sockets.
-# It must be instantiated with all the parameters, though parameters 
-# can be None - this is used to interpret the intent of the socket connection.
-# Its primary method returns a dictionary constructed in a consistent way.
 class DictionaryConstructor:
+    """
+    This class is used to construct a dictionary for passing over sockets.
+    It must be instantiated with all the parameters, though parameters 
+    can be None - this is used to interpret the intent of the socket connection.
+    Its primary method returns a dictionary constructed in a consistent way.
+    However it offers numerous methods to set data in the class. This affords the
+    software the ability to transport complex data from the Agents without affecting
+    other functions, as well as ensuring data meets standards before socket communication.
+    """
 
-    # Updated constructor only accepts the mandatory values and returns 
-    # the dictionary to updated as needed.
     def __init__(
             self, 
             car_id: str, 
@@ -63,8 +64,10 @@ class DictionaryConstructor:
     def set_current_location(self, current_location: tuple):
         self.current_location = current_location
 
-    # Returns the dictionary - should be called once the dictionary is constructed.
     def get_socket_dictionary(self) -> dict:
+        """
+        Returns the dictionary - should be called once the dictionary is constructed.
+        """
         socket_dictionary = {
             "action": self.action,
             "car_id": self.car_id,
@@ -77,12 +80,19 @@ class DictionaryConstructor:
         return socket_dictionary
 
 
-# Accepts an ISO format date and returns a python date object.
 class DictionaryDateUpdater:
+    """
+    Helper class - instantiation accepts an ISO format date and returns a python date object.
+    This is not generalised - it is specific to the data employed by the DictionaryConstructor.
+    """
+
     def __init__(self, iso_date: str):
         self.iso_date = iso_date
 
     def get_python_date(self):
+        """
+        Returns the date reformated into python datetime format.
+        """
         return dateutil.parser.parse(self.iso_date)
 
 
@@ -90,15 +100,6 @@ if __name__ == "__main__":
     date_time_to_send = datetime.datetime.now()
     print(date_time_to_send)
     date_time_to_send = date_time_to_send.isoformat()
-    # test_dict = DictionaryConstructor(
-    #     1,
-    #     "IDofCar", 
-    #     "users_name", 
-    #     None,
-    #     "users_token",
-    #     date_time_to_send,
-    #     (123.123, 234.234)
-    #     )
     test_dict = DictionaryConstructor(
         "IDofCar", 
         date_time_to_send,

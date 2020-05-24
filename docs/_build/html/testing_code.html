@@ -1,0 +1,539 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Testing Code Documentation &#8212; IOT_car_share_assignment 1.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Face Recognition Code Documentation" href="fr_code.html" />
+    <link rel="prev" title="Agent Code Documentation" href="agent_code.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="testing-code-documentation">
+<h1>Testing Code Documentation<a class="headerlink" href="#testing-code-documentation" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-agenttesting">
+<span id="agenttesting-py-test-agent-and-master-api"></span><h2>agenttesting.py – Test Agent and Master API<a class="headerlink" href="#module-agenttesting" title="Permalink to this headline">¶</a></h2>
+<p>This module performs an array of unit tests across the platform.
+In general, all modules involving human interaction immediately pass the
+user input to a new module or class or function. This affords our testing
+suite the flexibility to simulate human interaction by mimicking the inputs by passing
+them in directly. It is not considered necessary to test the input() method
+itself, and user inputs lack complexity that warrants testing beyond
+user testing.
+It also includes integration tests - essentially this is a cascade of tests
+that begin by testing the data structures, then testing endpoints for data
+and migrating further from these end points. For example, first the dicionary
+creator class is tested (input validation, dictionary return validity, internal
+data modification methods), then a socket connection is validated, then a
+dictionary is sent via sockets with the return unvalidated, then the return
+is validated, and finally the simulations of user input which itself generated
+a dictionary which is then passed to the socket and validated by the server and 
+returned is validated.</p>
+<dl class="py class">
+<dt id="agenttesting.TestAgentData">
+<em class="property">class </em><code class="sig-prename descclassname">agenttesting.</code><code class="sig-name descname">TestAgentData</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">methodName</span><span class="o">=</span><span class="default_value">'runTest'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#agenttesting.TestAgentData" title="Permalink to this definition">¶</a></dt>
+<dd><p>This class tests the <a class="reference internal" href="agent_code.html#module-agentdata" title="agentdata"><code class="xref py py-mod docutils literal notranslate"><span class="pre">agentdata</span></code></a> module.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Do not use helper functions to create a dictionary.</p>
+</div>
+<dl class="py method">
+<dt id="agenttesting.TestAgentData.setUp">
+<code class="sig-name descname">setUp</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#agenttesting.TestAgentData.setUp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set Data to be converted and validated.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="agenttesting.TestAgentData.test_data_integrity">
+<code class="sig-name descname">test_data_integrity</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#agenttesting.TestAgentData.test_data_integrity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tests the data returned.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="agenttesting.TestAgentData.test_date_converter">
+<code class="sig-name descname">test_date_converter</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#agenttesting.TestAgentData.test_date_converter" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tests the conversion of dates for JSON transport through sockets.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="agenttesting.TestInvalidAction">
+<em class="property">class </em><code class="sig-prename descclassname">agenttesting.</code><code class="sig-name descname">TestInvalidAction</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">methodName</span><span class="o">=</span><span class="default_value">'runTest'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#agenttesting.TestInvalidAction" title="Permalink to this definition">¶</a></dt>
+<dd><p>This class tests edge cases resulting in an invalid action
+Basically send a random integer as the action that is not one of the
+accepted actions.</p>
+<dl class="py method">
+<dt id="agenttesting.TestInvalidAction.setUp">
+<code class="sig-name descname">setUp</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#agenttesting.TestInvalidAction.setUp" title="Permalink to this definition">¶</a></dt>
+<dd><p>It is necessary to instantiate the data classes and extract the
+relevant dictionaries.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="agenttesting.TestInvalidAction.test_invalid_action">
+<code class="sig-name descname">test_invalid_action</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#agenttesting.TestInvalidAction.test_invalid_action" title="Permalink to this definition">¶</a></dt>
+<dd><p>Vary loops through this to vary the extensiveness of the test.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="agenttesting.TestSocketConnection">
+<em class="property">class </em><code class="sig-prename descclassname">agenttesting.</code><code class="sig-name descname">TestSocketConnection</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">methodName</span><span class="o">=</span><span class="default_value">'runTest'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#agenttesting.TestSocketConnection" title="Permalink to this definition">¶</a></dt>
+<dd><p>This class tests <a class="reference internal" href="agent_code.html#module-socketconnection" title="socketconnection"><code class="xref py py-mod docutils literal notranslate"><span class="pre">socketconnection</span></code></a> and by implication,
+also tests <code class="xref py py-mod docutils literal notranslate"><span class="pre">socketresponder</span></code> and <code class="xref py py-mod docutils literal notranslate"><span class="pre">masterpiresponder</span></code>.
+As such, it tests the raw socket, and requires database interaction to pass.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Some of these tests will FAIL if testing on the actual database
+unless the database is updated with the requisite bookings.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>These tests will also fail, as will tests that refer to this class
+in the comments if <a class="reference internal" href="#agenttesting.TestAgentData" title="agenttesting.TestAgentData"><code class="xref py py-class docutils literal notranslate"><span class="pre">TestAgentData</span></code></a> fails.</p>
+</div>
+<dl class="py method">
+<dt id="agenttesting.TestSocketConnection.setUp">
+<code class="sig-name descname">setUp</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#agenttesting.TestSocketConnection.setUp" title="Permalink to this definition">¶</a></dt>
+<dd><p>It is necessary to instantiate the true data class and extract the
+relevant dictionary.
+A valid socket connection is also required.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="agenttesting.TestSocketConnection.test_socket_conn_false">
+<code class="sig-name descname">test_socket_conn_false</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#agenttesting.TestSocketConnection.test_socket_conn_false" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test the connection responds to invalid but correctly formatted data.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="agenttesting.TestSocketConnection.test_socket_conn_true">
+<code class="sig-name descname">test_socket_conn_true</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#agenttesting.TestSocketConnection.test_socket_conn_true" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test the connection</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="agenttesting.TestSocketResponseAction1">
+<em class="property">class </em><code class="sig-prename descclassname">agenttesting.</code><code class="sig-name descname">TestSocketResponseAction1</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">methodName</span><span class="o">=</span><span class="default_value">'runTest'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#agenttesting.TestSocketResponseAction1" title="Permalink to this definition">¶</a></dt>
+<dd><p>As in <a class="reference internal" href="#agenttesting.TestSocketConnection" title="agenttesting.TestSocketConnection"><code class="xref py py-class docutils literal notranslate"><span class="pre">TestSocketConnection</span></code></a> by implication, but this tests the conditional 
+return of the socketindependent of validation on the AgentPi. 
+The purpose is to edge cases where a single value in the dictionary should
+determine the result of processing the entire dictionary.
+Essentially this ensures that only fully valid dictionaries will yield
+a positive response.
+Test a dictionary that has all but one parameter correct.
+These should return a dictionary with None, which is returned to the
+test as False. i.e., invalid booking details.</p>
+<dl class="py method">
+<dt id="agenttesting.TestSocketResponseAction1.setUp">
+<code class="sig-name descname">setUp</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#agenttesting.TestSocketResponseAction1.setUp" title="Permalink to this definition">¶</a></dt>
+<dd><p>It is necessary to instantiate the data classes and extract the
+relevant dictionaries.
+It additionally requires a socket connection.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="agenttesting.TestSocketResponseAction1.test_a1_invalid_car_id">
+<code class="sig-name descname">test_a1_invalid_car_id</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#agenttesting.TestSocketResponseAction1.test_a1_invalid_car_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test an incorrect car_id</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="agenttesting.TestSocketResponseAction1.test_a1_invalid_info_date_time">
+<code class="sig-name descname">test_a1_invalid_info_date_time</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#agenttesting.TestSocketResponseAction1.test_a1_invalid_info_date_time" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test an incorrect date - will fail unless Master is connected to database.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="agenttesting.TestSocketResponseAction1.test_a1_invalid_password">
+<code class="sig-name descname">test_a1_invalid_password</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#agenttesting.TestSocketResponseAction1.test_a1_invalid_password" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test an incorrect password</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="agenttesting.TestSocketResponseAction1.test_a1_invalid_username">
+<code class="sig-name descname">test_a1_invalid_username</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#agenttesting.TestSocketResponseAction1.test_a1_invalid_username" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test an incorrect username</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="agenttesting.TestSocketResponseAction1.test_a1_invalid_usertoken">
+<code class="sig-name descname">test_a1_invalid_usertoken</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#agenttesting.TestSocketResponseAction1.test_a1_invalid_usertoken" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test an incorrect usertoken - this should return a valid dictionary.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="agenttesting.TestSocketResponseAction2">
+<em class="property">class </em><code class="sig-prename descclassname">agenttesting.</code><code class="sig-name descname">TestSocketResponseAction2</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">methodName</span><span class="o">=</span><span class="default_value">'runTest'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#agenttesting.TestSocketResponseAction2" title="Permalink to this definition">¶</a></dt>
+<dd><p>As :class:TestSocketResponseAction1`, but for action 2 (validating a face recognition)
+Test a dictionary that has all but one parameter correct.
+These should return a dictionary with None, which is returned to the
+test as False. i.e., invalid booking details.</p>
+<dl class="py method">
+<dt id="agenttesting.TestSocketResponseAction2.setUp">
+<code class="sig-name descname">setUp</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#agenttesting.TestSocketResponseAction2.setUp" title="Permalink to this definition">¶</a></dt>
+<dd><p>It is necessary to instantiate the data classes and extract the
+relevant dictionaries.
+This test suite also requires a socket connection.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="agenttesting.TestSocketResponseAction2.test_a2_invalid_car_id">
+<code class="sig-name descname">test_a2_invalid_car_id</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#agenttesting.TestSocketResponseAction2.test_a2_invalid_car_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test an incorrect car_id</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="agenttesting.TestSocketResponseAction2.test_a2_invalid_info_date_time">
+<code class="sig-name descname">test_a2_invalid_info_date_time</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#agenttesting.TestSocketResponseAction2.test_a2_invalid_info_date_time" title="Permalink to this definition">¶</a></dt>
+<dd><p>Incorrect date - will fail unless Master is connected to database.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="agenttesting.TestSocketResponseAction2.test_a2_invalid_password">
+<code class="sig-name descname">test_a2_invalid_password</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#agenttesting.TestSocketResponseAction2.test_a2_invalid_password" title="Permalink to this definition">¶</a></dt>
+<dd><p>Incorrect password - should return a valid dictionary.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="agenttesting.TestSocketResponseAction2.test_a2_invalid_username">
+<code class="sig-name descname">test_a2_invalid_username</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#agenttesting.TestSocketResponseAction2.test_a2_invalid_username" title="Permalink to this definition">¶</a></dt>
+<dd><p>Incorrect username - should return a valid dictionary.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="agenttesting.TestSocketResponseAction2.test_a2_invalid_usertoken">
+<code class="sig-name descname">test_a2_invalid_usertoken</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#agenttesting.TestSocketResponseAction2.test_a2_invalid_usertoken" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tests an incorrect usertoken.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="agenttesting.TestSocketResponseAction4">
+<em class="property">class </em><code class="sig-prename descclassname">agenttesting.</code><code class="sig-name descname">TestSocketResponseAction4</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">methodName</span><span class="o">=</span><span class="default_value">'runTest'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#agenttesting.TestSocketResponseAction4" title="Permalink to this definition">¶</a></dt>
+<dd><p>As in <a class="reference internal" href="#agenttesting.TestSocketResponseAction1" title="agenttesting.TestSocketResponseAction1"><code class="xref py py-class docutils literal notranslate"><span class="pre">TestSocketResponseAction1</span></code></a>, but for action 4 (return a vehicle).</p>
+<dl class="py method">
+<dt id="agenttesting.TestSocketResponseAction4.setUp">
+<code class="sig-name descname">setUp</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#agenttesting.TestSocketResponseAction4.setUp" title="Permalink to this definition">¶</a></dt>
+<dd><p>It is necessary to instantiate the data classes and extract the
+relevant dictionaries.
+This testing suite also requires a socket connection.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="agenttesting.TestSocketResponseAction4.test_a4_invalid_car_id">
+<code class="sig-name descname">test_a4_invalid_car_id</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#agenttesting.TestSocketResponseAction4.test_a4_invalid_car_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tests an incorrect car_id</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="agenttesting.TestSocketResponseAction4.test_a4_invalid_info_date_time">
+<code class="sig-name descname">test_a4_invalid_info_date_time</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#agenttesting.TestSocketResponseAction4.test_a4_invalid_info_date_time" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tests an incorrect date.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="agenttesting.TestSocketResponseAction4.test_a4_invalid_password">
+<code class="sig-name descname">test_a4_invalid_password</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#agenttesting.TestSocketResponseAction4.test_a4_invalid_password" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tests an incorrect password</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="agenttesting.TestSocketResponseAction4.test_a4_invalid_username">
+<code class="sig-name descname">test_a4_invalid_username</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#agenttesting.TestSocketResponseAction4.test_a4_invalid_username" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tests an incorrect username</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="agenttesting.TestSocketResponseAction4.test_a4_invalid_usertoken">
+<code class="sig-name descname">test_a4_invalid_usertoken</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#agenttesting.TestSocketResponseAction4.test_a4_invalid_usertoken" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tests an incorrect usertoken.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="agenttesting.TestSocketValidation">
+<em class="property">class </em><code class="sig-prename descclassname">agenttesting.</code><code class="sig-name descname">TestSocketValidation</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">methodName</span><span class="o">=</span><span class="default_value">'runTest'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#agenttesting.TestSocketValidation" title="Permalink to this definition">¶</a></dt>
+<dd><p>This tests the entry points of the validation methods of <a class="reference internal" href="agent_code.html#module-socketconnection" title="socketconnection"><code class="xref py py-mod docutils literal notranslate"><span class="pre">socketconnection</span></code></a>.
+Essentially it interfaces directly with the functions
+that the user input is passed to. This checks for the 
+appropriate responses with the minimal data required.</p>
+<dl class="py method">
+<dt id="agenttesting.TestSocketValidation.setUp">
+<code class="sig-name descname">setUp</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#agenttesting.TestSocketValidation.setUp" title="Permalink to this definition">¶</a></dt>
+<dd><p>It is necessary to instantiate the data classes and extract the
+relevant dictionaries.
+This testing suite requires two socket connections.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="agenttesting.TestSocketValidation.test_invalid_car_cred">
+<code class="sig-name descname">test_invalid_car_cred</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#agenttesting.TestSocketValidation.test_invalid_car_cred" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test invalid car but valid credentials.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="agenttesting.TestSocketValidation.test_invalid_car_token">
+<code class="sig-name descname">test_invalid_car_token</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#agenttesting.TestSocketValidation.test_invalid_car_token" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test invalid car but valid token.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="agenttesting.TestSocketValidation.test_invalid_cred">
+<code class="sig-name descname">test_invalid_cred</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#agenttesting.TestSocketValidation.test_invalid_cred" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test invalid credential response.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="agenttesting.TestSocketValidation.test_invalid_token">
+<code class="sig-name descname">test_invalid_token</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#agenttesting.TestSocketValidation.test_invalid_token" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test invalid token response.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="agenttesting.TestSocketValidation.test_valid_cred">
+<code class="sig-name descname">test_valid_cred</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#agenttesting.TestSocketValidation.test_valid_cred" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test valid credential response.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="agenttesting.TestSocketValidation.test_valid_token">
+<code class="sig-name descname">test_valid_token</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#agenttesting.TestSocketValidation.test_valid_token" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test valid token response.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="agenttesting.TestUtilities">
+<em class="property">class </em><code class="sig-prename descclassname">agenttesting.</code><code class="sig-name descname">TestUtilities</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">methodName</span><span class="o">=</span><span class="default_value">'runTest'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#agenttesting.TestUtilities" title="Permalink to this definition">¶</a></dt>
+<dd><p>Primary testing class for <a class="reference internal" href="agent_code.html#module-utilities" title="utilities"><code class="xref py py-mod docutils literal notranslate"><span class="pre">utilities</span></code></a></p>
+<dl class="py method">
+<dt id="agenttesting.TestUtilities.setUp">
+<code class="sig-name descname">setUp</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#agenttesting.TestUtilities.setUp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a location to test on.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="agenttesting.TestUtilities.test_utility_location_edges">
+<code class="sig-name descname">test_utility_location_edges</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#agenttesting.TestUtilities.test_utility_location_edges" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test edge cases.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="agenttesting.TestUtilities.test_utility_return_types">
+<code class="sig-name descname">test_utility_return_types</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#agenttesting.TestUtilities.test_utility_return_types" title="Permalink to this definition">¶</a></dt>
+<dd><p>Validates the return types.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="agenttesting.TestUtilities.test_utility_size">
+<code class="sig-name descname">test_utility_size</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#agenttesting.TestUtilities.test_utility_size" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test the location return types.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt id="agenttesting.dictionary_class_helper_false">
+<code class="sig-prename descclassname">agenttesting.</code><code class="sig-name descname">dictionary_class_helper_false</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="agent_code.html#agentdata.DictionaryConstructor" title="agentdata.DictionaryConstructor">agentdata.DictionaryConstructor</a><a class="headerlink" href="#agenttesting.dictionary_class_helper_false" title="Permalink to this definition">¶</a></dt>
+<dd><p>This helper functions return dictionary class objects for testing purposes
+populated by incorrect values.
+The only elements that does not change from a valid dictionary is the action.
+To build tests that look at each element of the object,
+set the value directly, changing the object by one keyvalue at time via class level
+function calls.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This function returns an instantiation of a custom class - you must call the dictionary
+return function before passing to any socket calls.</p>
+</div>
+</dd></dl>
+
+<dl class="py function">
+<dt id="agenttesting.dictionary_class_helper_true">
+<code class="sig-prename descclassname">agenttesting.</code><code class="sig-name descname">dictionary_class_helper_true</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="agent_code.html#agentdata.DictionaryConstructor" title="agentdata.DictionaryConstructor">agentdata.DictionaryConstructor</a><a class="headerlink" href="#agenttesting.dictionary_class_helper_true" title="Permalink to this definition">¶</a></dt>
+<dd><p>This helper functions return dictionary class objects for testing purposes
+populated by correct values.
+To build tests that look at each element of the object,
+set the value directly, changing the object by one keyvalue at time via class level
+function calls.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This function returns an instantiation of a custom class - you must call the dictionary
+return function before passing to any socket calls.</p>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="module-facetesting">
+<span id="facetesting-py-validates-user-selection"></span><h2>facetesting.py - Validates User Selection<a class="headerlink" href="#module-facetesting" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="facetesting.TestFaceRecognition">
+<em class="property">class </em><code class="sig-prename descclassname">facetesting.</code><code class="sig-name descname">TestFaceRecognition</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">methodName</span><span class="o">=</span><span class="default_value">'runTest'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#facetesting.TestFaceRecognition" title="Permalink to this definition">¶</a></dt>
+<dd><p>This class tests a face capture event - it requires tester interaction, active 
+hardware, and takes approximately two minutes.</p>
+<p>This testing class is structured in such a way as to test a non-working face database
+actively without compromising the existing face profiles. If it does however, it
+avoids collisions with the existing user base to maintain integrity by 
+using different file structures that the primary software ignores. Modification of
+this is NOT RECOMMENDED.
+It is necessary for a face to be present to test. Also note that tests are
+order dependant and names as such. As such note that this test is monolithic 
+in nature - Fail early, fail fast.</p>
+<dl class="py method">
+<dt id="facetesting.TestFaceRecognition.setUp">
+<code class="sig-name descname">setUp</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#facetesting.TestFaceRecognition.setUp" title="Permalink to this definition">¶</a></dt>
+<dd><p>Define all the variables for consistent testing across all functions.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="facetesting.TestFaceRecognition.test_01_face_is_present">
+<code class="sig-name descname">test_01_face_is_present</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#facetesting.TestFaceRecognition.test_01_face_is_present" title="Permalink to this definition">¶</a></dt>
+<dd><p>This will add the face to the test database.
+Test that a face is present and that adequate files are captured.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="facetesting.TestFaceRecognition.test_02_face_is_not_present">
+<code class="sig-name descname">test_02_face_is_not_present</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#facetesting.TestFaceRecognition.test_02_face_is_not_present" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test the timeout and graceful return of a missing face.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="facetesting.TestFaceRecognition.test_03_encode_valid">
+<code class="sig-name descname">test_03_encode_valid</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#facetesting.TestFaceRecognition.test_03_encode_valid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Encode the test faces just captured.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="facetesting.TestFaceRecognition.test_04_encode_invalid">
+<code class="sig-name descname">test_04_encode_invalid</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#facetesting.TestFaceRecognition.test_04_encode_invalid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Encode the database of pre-existing faces.
+We reencode this each time incase the encoding library changes.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="facetesting.TestFaceRecognition.test_05_recog_valid">
+<code class="sig-name descname">test_05_recog_valid</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#facetesting.TestFaceRecognition.test_05_recog_valid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test face against database it does exist in.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="facetesting.TestFaceRecognition.test_06_unrecog_valid">
+<code class="sig-name descname">test_06_unrecog_valid</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#facetesting.TestFaceRecognition.test_06_unrecog_valid" title="Permalink to this definition">¶</a></dt>
+<dd><p>Test face against a database that it does not exist in, and the graveful return.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">IOT_car_share_assignment</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="agent_code.html">Agent Code Documentation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Testing Code Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-agenttesting">agenttesting.py – Test Agent and Master API</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-facetesting">facetesting.py - Validates User Selection</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="fr_code.html">Face Recognition Code Documentation</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="agent_code.html" title="previous chapter">Agent Code Documentation</a></li>
+      <li>Next: <a href="fr_code.html" title="next chapter">Face Recognition Code Documentation</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Cameron Bolton & Jiewen Guan.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.0.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/testing_code.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

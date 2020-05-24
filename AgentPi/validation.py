@@ -1,8 +1,9 @@
-# This class is responsible for accepting a user verification/validation
-# choice, and then validating the user. If the user is validated, control
-# is passed to a class that controls the vehicle (should this be the 
-# intended action), else control is passed back to main.
-
+"""
+This class is responsible for accepting a user verification/validation
+choice, and then validating the user. If the selection is valid, the 
+appropriate user input is sought via a call to the designated function, 
+else control is returned to the calling function.
+"""
 from getpass import getpass
 import sys
 import time
@@ -15,26 +16,28 @@ import logging
 log = logging.getLogger(__name__)
 
 
-# Validation entrypoint. This can only be operated on when instantiated.
-# This reduces unwarranted use of the validation function
 class ValidateUser:
+    """
+    Validation entrypoint from the CLI. This can only be operated on when instantiated.
+    This reduces unwarranted use of the validation function, and must be instantiated
+    with the user's selection, and the class that contains the relevant data structurs.
+    Without a valid selection, this will return False.
+    """
     
-    # The init does the usual, but the userselection is the key as it 
-    # assists the validatecredentials function in determining which
-    # validate technique to use.
     def __init__(self, userselection: int, current_car: CarDetails):
         self.userselection = userselection
         self.current_car = current_car
-        # self.validateCredentials()
-        # print("is this executing?")
-        log.info("Current Car in init: {}".format(self.current_car))
+        log.info("Current Car object in init: {}".format(self.current_car))
         self.socket_connection = SocketConnection(self.current_car.get_car_id())
 
-    # Solely for directing the users choice to the appropriate function.
-    # Returns false if an invalid choice is made, otherwise returns
-    # true to indicate a return to the base state.
     def validateCredentials(self) -> bool:
-        # print("User Choice: {choice}".format(choice = self.userselection))
+        """
+        This function is the entrypoint for any instantiation of this class.
+        Solely for directing the user's choice to the appropriate function.
+        Returns false if an invalid choice is made, otherwise returns
+        true to indicate a return to the base state.
+        """
+        log.info("User Choice: {choice}".format(choice = self.userselection))
         if self.userselection == "1":
             self.validate_text()
             return True
@@ -44,9 +47,12 @@ class ValidateUser:
         else:
             return False
 
-    # Validates user's text credentials. Returns after the number of attempts
-    # is exceeded or the user was true and the car has been returned..
     def validate_text(self):
+        """
+        Validates user's text credentials. Internally called. Returns after the number of attempts
+        is exceeded or the user was true and the car has been returned..
+        """
+
         attempts = 3
         #is_valid_user = False
         while attempts > 0:
@@ -64,9 +70,9 @@ class ValidateUser:
             # Check if the connection returned a result, if not inform.
             # TODO This could be moved to its own function so that both validation functions can call it.
             if returned_dict is None:
-                print("Unable to connect to Server - try again later.")
+                print("Try again later.")
                 time.sleep(3)
-                continue
+                return
 
             # Progressing this far means the result was a dictionary or False.
             # Unlock the car and break, so when the car is locked and
@@ -89,11 +95,13 @@ class ValidateUser:
             print ("Credentials invalid for this car at this time!\n\
             Attempts remaining: {remains}".format(remains = attempts))
 
-            
-    # Attempts to validate a face detection. Instantiates and calls the 
-    # facerecognition.py which accepts one parameter, the location of the 
-    # encodings file (pickle).
     def validate_face(self):
+        """
+        Attempts to validate a face detection. Instantiates and calls the 
+        facerecognition.py which accepts one parameter, the location of the 
+        encodings file (pickle) and returns the token if the face is in the database
+        for validation with the server.
+        """
         face_validator = FaceRecognition("face_encodings.pickle")
         user_token = face_validator.recognise_face()
 

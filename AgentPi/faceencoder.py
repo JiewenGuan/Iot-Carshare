@@ -1,11 +1,12 @@
-# This module is responsible for encoding the dataset of face captures.
-# It should be called either after a user has been added to the face collection,
-# or if the database becomes large, periodically whenever processing time is available.
-
-## Acknowledgement
-## This code is adapted from:
-## The tutorials and lectures in RMIT's Programming Internet of Things which further acknowledges
-## https://www.pyimagesearch.com/2018/06/18/face-recognition-with-opencv-python-and-deep-learning/
+"""
+This module is responsible for encoding the dataset of face captures.
+It should be called either after a user has been added to the face collection,
+or if the database becomes large, periodically whenever processing time is available.
+"""
+# Acknowledgement
+# This code is adapted from:
+# The tutorials and lectures in RMIT's Programming Internet of Things which further acknowledges
+# https://www.pyimagesearch.com/2018/06/18/face-recognition-with-opencv-python-and-deep-learning/
 
 
 from imutils import paths
@@ -18,34 +19,24 @@ import os
 import logging
 log = logging.getLogger(__name__)
 
+
 class FaceEncoder:
-    # Accepts the dataset file location, and the name of the output file.
+    """
+    Accepts the dataset file location, and the name of the output file.
+    """
+
     def __init__(self, dataset: str, encoding_file: str):
         self.dataset = dataset
         self.encoding_file = encoding_file
 
-
     def encode_faces(self) -> bool:
+        """
+        Instantiating method - accepts nothing and returns a bool based on the outcome of encoding.
+        This method has a significant time cost factor.
+        """
         # hog - less accurate but fast on CPU
         # cnn - more accurate but slower, but GPU/CUDA accelerated if available.
         detection_method = str("hog")
-
-        # USAGE
-        # With default parameters
-        #         python3 02_encode.py
-        # OR specifying the dataset, encodings and detection method
-        #         python3 02_encode.py -i dataset -e encodings.pickle -d hog
-
-        # # construct the argument parser and parse the arguments
-        # ap = argparse.ArgumentParser()
-        # ap.add_argument("-i", "--dataset", default = "dataset",
-        #     help="path to input directory of faces + images")
-        # ap.add_argument("-e", "--encodings", default = "encodings.pickle",
-        #     help="path to serialized db of facial encodings")
-        # ap.add_argument("-d", "--detection-method", type = str, default = "hog",
-        #     help="face detection model to use: either `hog` or `cnn`")
-        # args = vars(ap.parse_args())
-
         # grab the paths to the input images in our dataset
         log.info("Quantifying faces...")
         # imagePaths = list(paths.list_images(args["dataset"]))

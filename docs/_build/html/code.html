@@ -1,0 +1,178 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Code Documentation &#8212; IOT_car_share_assignment 1.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Welcome to IOT_car_share_assignment’s documentation!" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="code-documentation">
+<h1>Code Documentation<a class="headerlink" href="#code-documentation" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-agentpi">
+<span id="agentpi-py-main-entry-point"></span><h2>agentpi.py – Main Entry Point<a class="headerlink" href="#module-agentpi" title="Permalink to this headline">¶</a></h2>
+<p>Main module for the agent. This and the dependencies are called on to
+manage the access to a vehicle. The program can be operated by executing 
+this module.</p>
+<dl class="py class">
+<dt id="agentpi.CLIController">
+<em class="property">class </em><code class="sig-prename descclassname">agentpi.</code><code class="sig-name descname">CLIController</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">loaded_car</span><span class="p">:</span> <span class="n">cardetails.CarDetails</span></em><span class="sig-paren">)</span><a class="headerlink" href="#agentpi.CLIController" title="Permalink to this definition">¶</a></dt>
+<dd><p>The main controller - control is passed from the Main to this class
+when it is instantiated, and this class is where most user interactions occur.
+Essentially control stays here until the program exits.
+It is responsible for displaying a CLI for the user. 
+It accepts a CarDetails object which should have details
+relative to the version loaded (at least the car_id) and 
+returns nothing.
+The sole method activated is called with no parameters.</p>
+<dl class="py method">
+<dt id="agentpi.CLIController.activated">
+<code class="sig-name descname">activated</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#agentpi.CLIController.activated" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function that presents the user interface. It is the 
+primary mechanim for user interactions to be responded to.
+If a user is validated, the appropriate class is instantiated
+and control passed to it.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="agentpi.CarIDLoader">
+<em class="property">class </em><code class="sig-prename descclassname">agentpi.</code><code class="sig-name descname">CarIDLoader</code><a class="headerlink" href="#agentpi.CarIDLoader" title="Permalink to this definition">¶</a></dt>
+<dd><p>This class is responsible for handling any details about the car
+while it is in an locked state, basically for performing any car
+related functions when the software is loaded.
+It is instantiated with nothing, and has one a primary function that
+returns a car_id.</p>
+<dl class="py method">
+<dt id="agentpi.CarIDLoader.get_car_id">
+<code class="sig-name descname">get_car_id</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#agentpi.CarIDLoader.get_car_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function for returning the car_id. This is typically called on when
+a booking is validated.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="agentpi.CarIDLoader.load_car_id">
+<code class="sig-name descname">load_car_id</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#agentpi.CarIDLoader.load_car_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function for loading a car_id. Hides the process for 
+determining the car_id, and is called when instantiated.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="agentpi.Main">
+<em class="property">class </em><code class="sig-prename descclassname">agentpi.</code><code class="sig-name descname">Main</code><a class="headerlink" href="#agentpi.Main" title="Permalink to this definition">¶</a></dt>
+<dd><p>Main class that contains a single function that 
+when instantiated and called respectively, works 
+to load any neccessary details regarding the vehicle before 
+instantiateing the user interface with a calll to</p>
+<dl class="py method">
+<dt id="agentpi.Main.start">
+<code class="sig-name descname">start</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#agentpi.Main.start" title="Permalink to this definition">¶</a></dt>
+<dd><p>Primarily modification of this function will be regarding
+the level of logging to record, and whether this should 
+be a new file each time.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">IOT_car_share_assignment</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Code Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-agentpi">agentpi.py – Main Entry Point</a></li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Welcome to IOT_car_share_assignment’s documentation!</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Cameron Bolton & Jiewen Guan.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.0.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/code.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

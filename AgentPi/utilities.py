@@ -1,3 +1,6 @@
+"""
+Module containing class(se) of helper utility functions.
+"""
 import select
 import sys
 import random
@@ -7,19 +10,27 @@ import time
 import logging
 log = logging.getLogger(__name__)
 
-# Class containing helper utilities.
 class HelperUtilities:
-    # Helper function to clear the keyboard after a sleep event. 
-    # it consumes each line until none remain, and then returns control to
-    # the calling function
+    """
+    Contains:
+    - Function for clearing the input on unix systems.
+    - Function for returning a GPS location.
+    """
+
     def clear_keyboard(self):
-        # This may not function on windows, - see https://docs.python.org/3/library/select.html
-        # Fourth paramter is timeout - set to zero to remove delay.
+        """
+        Helper function to clear the keyboard after a sleep event. 
+        it consumes each line until none remain, and then returns control to
+        the calling function
+        This may not function on windows - see https://docs.python.org/3/library/select.html
+        and will throw an exception and exit as this is designed to run on raspbian raspberry pi.
+        """
         try: 
             input_text = sys.stdin
             while input_text in select.select([input_text], [], [], 0)[0]:
                 input_text.readline()
         except e:
+            # Fourth paramter is timeout - set to zero to remove delay.
             print("Clear keyboard operation not supported in debugger or this OS.")
             log.exception(e)
             print("Exiting Program")
@@ -27,6 +38,9 @@ class HelperUtilities:
             sys.exit(0)
 
     def get_location(self):
+        """
+        A utility function to help clear the screen.
+        """
         location = [
             [-37.806995, 144.967241], 
             [-37.808955, 144.961880], 
@@ -41,10 +55,7 @@ class HelperUtilities:
             ]
         return random.choice(location)
 
-    # A utility to clear the screen
-    # TODO move this to a more appropriate place.
-    # If this is implemented to deal with the cls command vs clear command in different OS.
-
+# For testing.
 if __name__ == "__main__":
     hu = HelperUtilities()
     print(hu.get_location())

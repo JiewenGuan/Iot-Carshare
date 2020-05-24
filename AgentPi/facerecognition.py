@@ -1,12 +1,14 @@
-# This class is responsible for recognising the face captured by the device. It does
-# so by checking the presented face against the locally stored encodings, returning
-# the encoded name which should be the user token to be sent to the MasterPi for 
-# validation.
+"""
+This class is responsible for recognising the face captured by the device. It does
+so by checking the presented face against the locally stored encodings, returning
+the encoded name which should be the user token to be sent to the MasterPi for 
+validation.
+"""
 
-
-## Acknowledgement
-## This code is adapted from:
-## https://www.pyimagesearch.com/2018/06/18/face-recognition-with-opencv-python-and-deep-learning/
+# Acknowledgement
+# This code is adapted from the contents of the 2020 RMIT course Programming Internet of Things
+# which further acknowledges the following:
+# https://www.pyimagesearch.com/2018/06/18/face-recognition-with-opencv-python-and-deep-learning/
 
 # import the necessary packages
 from imutils.video import VideoStream
@@ -22,38 +24,29 @@ import logging
 log = logging.getLogger(__name__)
 
 
-# This class is instantiated and the recognise_face() method called to recognise a face
-# if it is stored in the pickle encoding. It accepts a path to the pickle file the 
-# resolution of the video feed.
 class FaceRecognition:
+    """
+    This class is instantiated and the recognise_face() method called to recognise a face
+    if it is stored in the pickle encoding. It accepts a path to the pickle file the 
+    resolution of the video feed.
+    """
+
     def __init__(self, pickle_file: str):
         self.pickle_file = pickle_file
 
-        # USAGE
-        # With default parameters
-        #     python3 03_recognise.py
-        # OR specifying the encodings, screen resolution
-        #     python3 03_recognise.py -e encodings.pickle -r 240
-
     def recognise_face(self) -> str:
-        # The detection method is set as hog due to device limitations. See faceencoder.py
-        # for further details.
+        """
+        The detection method is set as hog due to device limitations. See module
+        comments for further details.
+        It returns a string with the token for a valid recogition, or None for 
+        any other result including errors.
+        """
 
         print("\nPlease look at the camera....")
         detection_method = "hog"
         detection_resolution = 240
 
-        # # construct the argument parser and parse the arguments
-        # ap = argparse.ArgumentParser()
-        # ap.add_argument("-e", "--encodings", default="encodings.pickle",
-        # help="path to serialized db of facial encodings")
-        # ap.add_argument("-r", "--resolution", type=int, default=240,
-        #     help="Resolution of the video feed")
-        # ap.add_argument("-d", "--detection-method", type=str, default="hog",
-        #     help="face detection model to use: either `hog` or `cnn`")
-        # args = vars(ap.parse_args())
-
-        # load the known faces and embeddings
+        # Load any and all faces in the embedding file.
         log.info("Loading encodings...")
         # data = pickle.loads(open(args["encodings"], "rb").read())
 

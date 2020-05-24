@@ -1,17 +1,105 @@
-2020-05-23 23-14-56 - validation - INFO - Current Car in init: <cardetails.CarDetails object at 0x765649b0> None
-2020-05-23 23-14-59 - socketconnection - INFO - Socket dictionary compiled: {'current_location': None, 'username': '123', 'info_date_time': '2020-05-23T23:14:59.183556', 'password': '123', 'usertoken': None, 'car_id': 'car123', 'action': 1} None
-2020-05-23 23-14-59 - socketconnection - INFO - Socket connection response: b'{"info_date_time": "2020-05-23T23:14:59.190817", "usertoken": null, "action": null, "current_location": null, "password": null, "car_id": null, "username": null}' None
-2020-05-23 23-14-59 - socketconnection - INFO - Dictionary returned from server: {'username': None, 'usertoken': None, 'info_date_time': '2020-05-23T23:14:59.190817', 'password': None, 'current_location': None, 'car_id': None, 'action': None} None
-2020-05-23 23-14-59 - socketconnection - INFO - Updating Socket Dictionary None
-2020-05-23 23-14-59 - socketconnection - INFO - Socket returned action: None None
-2020-05-23 23-14-59 - validation - INFO - Returned_dict: False None
-2020-05-23 23-16-41 - socketconnection - INFO - Socket dictionary compiled: {'current_location': None, 'username': 'uname', 'info_date_time': '2020-05-23T23:16:41.138260', 'password': 'pword', 'usertoken': None, 'car_id': 'car123', 'action': 1} None
-2020-05-23 23-16-41 - socketconnection - INFO - Socket connection response: b'{"info_date_time": "2020-05-23T23:16:41.138260", "usertoken": null, "action": null, "current_location": null, "password": null, "car_id": "car123", "username": "uname"}' None
-2020-05-23 23-16-41 - socketconnection - INFO - Dictionary returned from server: {'username': 'uname', 'usertoken': None, 'info_date_time': '2020-05-23T23:16:41.138260', 'password': None, 'current_location': None, 'car_id': 'car123', 'action': None} None
-2020-05-23 23-16-41 - socketconnection - INFO - Updating Socket Dictionary None
-2020-05-23 23-16-41 - socketconnection - INFO - Socket returned action: None None
-2020-05-23 23-16-41 - validation - INFO - Returned_dict: {'username': 'uname', 'usertoken': None, 'info_date_time': datetime.datetime(2020, 5, 23, 23, 16, 41, 138260), 'password': None, 'current_location': None, 'car_id': 'car123', 'action': None} None
-2020-05-23 23-16-43 - socketconnection - INFO - {'current_location': [-37.831744, 144.892994], 'username': None, 'info_date_time': '2020-05-23T23:16:43.702418', 'password': None, 'usertoken': None, 'car_id': 'car123', 'action': 4} None
-2020-05-23 23-16-43 - socketconnection - INFO - Socket connection response: b'{"info_date_time": null, "usertoken": null, "action": 4, "current_location": null, "password": null, "car_id": "car123", "username": null}' None
-2020-05-23 23-16-43 - socketconnection - INFO - Dictionary returned from server: {'username': None, 'usertoken': None, 'info_date_time': None, 'password': None, 'current_location': None, 'car_id': 'car123', 'action': 4} None
-2020-05-23 23-16-43 - socketconnection - INFO - Socket returned action: 4 None
+2020-05-24 18-42-13 - validation - INFO - Current Car in init: <cardetails.CarDetails object at 0x76546ed0> None
+2020-05-24 18-42-18 - socketconnection - INFO - Socket dictionary compiled: {'username': 'uname', 'car_id': 'car123', 'info_date_time': '2020-05-24T18:42:18.047393', 'action': 1, 'current_location': None, 'password': 'pword', 'usertoken': None} None
+2020-05-24 18-42-18 - socketconnection - INFO - Socket connection response: b'{"username": "uname", "car_id": "car123", "info_date_time": "2020-05-24T18:42:18.047393", "action": null, "current_location": null, "password": null, "usertoken": null}' None
+2020-05-24 18-42-18 - socketconnection - INFO - Dictionary returned from server: {'username': 'uname', 'current_location': None, 'info_date_time': '2020-05-24T18:42:18.047393', 'action': None, 'car_id': 'car123', 'usertoken': None, 'password': None} None
+2020-05-24 18-42-18 - socketconnection - INFO - Updating Socket Dictionary None
+2020-05-24 18-42-18 - socketconnection - INFO - Socket returned action: None None
+2020-05-24 18-42-18 - validation - INFO - Returned_dict: {'username': 'uname', 'current_location': None, 'info_date_time': datetime.datetime(2020, 5, 24, 18, 42, 18, 47393), 'action': None, 'car_id': 'car123', 'usertoken': None, 'password': None} None
+2020-05-24 18-42-24 - unlockedcar - INFO - Hashed username(uname): 5c0be87ed7434d69005f8bbd84cad8ae6abfd49121b4aaeeb4c1f4a2e2987711 None
+2020-05-24 18-42-24 - facecapture - INFO - ./data_folder/5c0be87ed7434d69005f8bbd84cad8ae6abfd49121b4aaeeb4c1f4a2e2987711/0000.jpg written! None
+2020-05-24 18-42-25 - facecapture - INFO - ./data_folder/5c0be87ed7434d69005f8bbd84cad8ae6abfd49121b4aaeeb4c1f4a2e2987711/0001.jpg written! None
+2020-05-24 18-42-25 - facecapture - INFO - ./data_folder/5c0be87ed7434d69005f8bbd84cad8ae6abfd49121b4aaeeb4c1f4a2e2987711/0002.jpg written! None
+2020-05-24 18-42-25 - facecapture - INFO - ./data_folder/5c0be87ed7434d69005f8bbd84cad8ae6abfd49121b4aaeeb4c1f4a2e2987711/0003.jpg written! None
+2020-05-24 18-42-25 - facecapture - INFO - ./data_folder/5c0be87ed7434d69005f8bbd84cad8ae6abfd49121b4aaeeb4c1f4a2e2987711/0004.jpg written! None
+2020-05-24 18-42-25 - facecapture - INFO - ./data_folder/5c0be87ed7434d69005f8bbd84cad8ae6abfd49121b4aaeeb4c1f4a2e2987711/0005.jpg written! None
+2020-05-24 18-42-25 - facecapture - INFO - ./data_folder/5c0be87ed7434d69005f8bbd84cad8ae6abfd49121b4aaeeb4c1f4a2e2987711/0006.jpg written! None
+2020-05-24 18-42-25 - facecapture - INFO - ./data_folder/5c0be87ed7434d69005f8bbd84cad8ae6abfd49121b4aaeeb4c1f4a2e2987711/0007.jpg written! None
+2020-05-24 18-42-25 - facecapture - INFO - ./data_folder/5c0be87ed7434d69005f8bbd84cad8ae6abfd49121b4aaeeb4c1f4a2e2987711/0008.jpg written! None
+2020-05-24 18-42-25 - facecapture - INFO - ./data_folder/5c0be87ed7434d69005f8bbd84cad8ae6abfd49121b4aaeeb4c1f4a2e2987711/0009.jpg written! None
+2020-05-24 18-42-25 - faceencoder - INFO - Quantifying faces... None
+2020-05-24 18-42-25 - faceencoder - INFO - ['data_folder/5c0be87ed7434d69005f8bbd84cad8ae6abfd49121b4aaeeb4c1f4a2e2987711/0005.jpg', 'data_folder/5c0be87ed7434d69005f8bbd84cad8ae6abfd49121b4aaeeb4c1f4a2e2987711/0006.jpg', 'data_folder/5c0be87ed7434d69005f8bbd84cad8ae6abfd49121b4aaeeb4c1f4a2e2987711/0008.jpg', 'data_folder/5c0be87ed7434d69005f8bbd84cad8ae6abfd49121b4aaeeb4c1f4a2e2987711/0004.jpg', 'data_folder/5c0be87ed7434d69005f8bbd84cad8ae6abfd49121b4aaeeb4c1f4a2e2987711/0000.jpg', 'data_folder/5c0be87ed7434d69005f8bbd84cad8ae6abfd49121b4aaeeb4c1f4a2e2987711/0007.jpg', 'data_folder/5c0be87ed7434d69005f8bbd84cad8ae6abfd49121b4aaeeb4c1f4a2e2987711/0002.jpg', 'data_folder/5c0be87ed7434d69005f8bbd84cad8ae6abfd49121b4aaeeb4c1f4a2e2987711/0001.jpg', 'data_folder/5c0be87ed7434d69005f8bbd84cad8ae6abfd49121b4aaeeb4c1f4a2e2987711/0009.jpg', 'data_folder/5c0be87ed7434d69005f8bbd84cad8ae6abfd49121b4aaeeb4c1f4a2e2987711/0003.jpg'] None
+2020-05-24 18-42-25 - faceencoder - INFO - 5c0be87ed7434d69005f8bbd84cad8ae6abfd49121b4aaeeb4c1f4a2e2987711 None
+2020-05-24 18-42-25 - faceencoder - INFO - TEST 1/10 None
+2020-05-24 18-42-25 - faceencoder - INFO - Processing image 1/10 None
+2020-05-24 18-42-26 - faceencoder - INFO - Length of encodings: 1 None
+2020-05-24 18-42-26 - faceencoder - INFO - Processing image 2/10 None
+2020-05-24 18-42-27 - faceencoder - INFO - Length of encodings: 1 None
+2020-05-24 18-42-27 - faceencoder - INFO - Processing image 3/10 None
+2020-05-24 18-42-28 - faceencoder - INFO - Length of encodings: 1 None
+2020-05-24 18-42-28 - faceencoder - INFO - Processing image 4/10 None
+2020-05-24 18-42-29 - faceencoder - INFO - Length of encodings: 1 None
+2020-05-24 18-42-29 - faceencoder - INFO - Processing image 5/10 None
+2020-05-24 18-42-29 - faceencoder - INFO - Length of encodings: 1 None
+2020-05-24 18-42-29 - faceencoder - INFO - Processing image 6/10 None
+2020-05-24 18-42-30 - faceencoder - INFO - Length of encodings: 1 None
+2020-05-24 18-42-30 - faceencoder - INFO - Processing image 7/10 None
+2020-05-24 18-42-31 - faceencoder - INFO - Length of encodings: 1 None
+2020-05-24 18-42-31 - faceencoder - INFO - Processing image 8/10 None
+2020-05-24 18-42-32 - faceencoder - INFO - Length of encodings: 1 None
+2020-05-24 18-42-32 - faceencoder - INFO - Processing image 9/10 None
+2020-05-24 18-42-33 - faceencoder - INFO - Length of encodings: 1 None
+2020-05-24 18-42-33 - faceencoder - INFO - Processing image 10/10 None
+2020-05-24 18-42-33 - faceencoder - INFO - Length of encodings: 1 None
+2020-05-24 18-42-33 - faceencoder - INFO - Serializing encodings... None
+2020-05-24 18-42-44 - socketconnection - INFO - {'username': None, 'car_id': 'car123', 'info_date_time': '2020-05-24T18:42:44.677498', 'action': 4, 'current_location': [-37.866852, 144.891067], 'password': None, 'usertoken': None} None
+2020-05-24 18-42-44 - socketconnection - INFO - Socket connection response: b'{"username": null, "car_id": "car123", "info_date_time": null, "action": 4, "current_location": null, "password": null, "usertoken": null}' None
+2020-05-24 18-42-44 - socketconnection - INFO - Dictionary returned from server: {'username': None, 'current_location': None, 'info_date_time': None, 'action': 4, 'car_id': 'car123', 'usertoken': None, 'password': None} None
+2020-05-24 18-42-44 - socketconnection - INFO - Socket returned action: 4 None
+2020-05-24 18-42-52 - validation - INFO - Current Car in init: <cardetails.CarDetails object at 0x76546ed0> None
+2020-05-24 18-42-52 - facerecognition - INFO - Loading encodings... None
+2020-05-24 18-42-52 - facerecognition - INFO - Starting video stream... None
+2020-05-24 18-42-55 - facerecognition - INFO - Frame read None
+2020-05-24 18-42-56 - facerecognition - INFO - Person found: 5c0be87ed7434d69005f8bbd84cad8ae6abfd49121b4aaeeb4c1f4a2e2987711 None
+2020-05-24 18-42-56 - socketconnection - INFO - Validating 5c0be87ed7434d69005f8bbd84cad8ae6abfd49121b4aaeeb4c1f4a2e2987711 None
+2020-05-24 18-42-56 - socketconnection - INFO - Socket connection response: b'{"username": null, "car_id": null, "info_date_time": "2020-05-24T18:42:56.226830", "action": null, "current_location": null, "password": null, "usertoken": null}' None
+2020-05-24 18-42-56 - socketconnection - INFO - Dictionary returned from server: {'username': None, 'current_location': None, 'info_date_time': '2020-05-24T18:42:56.226830', 'action': None, 'car_id': None, 'usertoken': None, 'password': None} None
+2020-05-24 18-42-56 - socketconnection - INFO - Updating Socket Dictionary None
+2020-05-24 18-42-56 - socketconnection - INFO - Socket returned action: None None
+2020-05-24 18-42-56 - validation - INFO - returned_dict: False None
+2020-05-24 18-50-02 - validation - INFO - Current Car in init: <cardetails.CarDetails object at 0x76546ed0> None
+2020-05-24 18-50-02 - facerecognition - INFO - Loading encodings... None
+2020-05-24 18-50-02 - facerecognition - INFO - Starting video stream... None
+2020-05-24 18-50-04 - facerecognition - INFO - Frame read None
+2020-05-24 18-50-05 - facerecognition - INFO - Person found: 5c0be87ed7434d69005f8bbd84cad8ae6abfd49121b4aaeeb4c1f4a2e2987711 None
+2020-05-24 18-50-05 - socketconnection - INFO - Validating 5c0be87ed7434d69005f8bbd84cad8ae6abfd49121b4aaeeb4c1f4a2e2987711 None
+2020-05-24 18-50-05 - socketconnection - INFO - Socket connection response: b'{"username": null, "car_id": null, "info_date_time": "2020-05-24T18:50:05.948693", "action": null, "current_location": null, "password": null, "usertoken": null}' None
+2020-05-24 18-50-05 - socketconnection - INFO - Dictionary returned from server: {'username': None, 'current_location': None, 'info_date_time': '2020-05-24T18:50:05.948693', 'action': None, 'car_id': None, 'usertoken': None, 'password': None} None
+2020-05-24 18-50-05 - socketconnection - INFO - Updating Socket Dictionary None
+2020-05-24 18-50-05 - socketconnection - INFO - Socket returned action: None None
+2020-05-24 18-50-05 - validation - INFO - returned_dict: False None
+2020-05-24 18-51-46 - validation - INFO - Current Car in init: <cardetails.CarDetails object at 0x76546ed0> None
+2020-05-24 18-51-46 - facerecognition - INFO - Loading encodings... None
+2020-05-24 18-51-46 - facerecognition - INFO - Starting video stream... None
+2020-05-24 18-51-49 - facerecognition - INFO - Frame read None
+2020-05-24 18-51-50 - facerecognition - INFO - Person found: 5c0be87ed7434d69005f8bbd84cad8ae6abfd49121b4aaeeb4c1f4a2e2987711 None
+2020-05-24 18-51-50 - socketconnection - INFO - Validating 5c0be87ed7434d69005f8bbd84cad8ae6abfd49121b4aaeeb4c1f4a2e2987711 None
+2020-05-24 18-51-50 - socketconnection - INFO - Socket connection response: b'{"username": "uname", "car_id": "car123", "info_date_time": "2020-05-24T18:51:50.155667", "action": null, "current_location": null, "password": null, "usertoken": null}' None
+2020-05-24 18-51-50 - socketconnection - INFO - Dictionary returned from server: {'username': 'uname', 'current_location': None, 'info_date_time': '2020-05-24T18:51:50.155667', 'action': None, 'car_id': 'car123', 'usertoken': None, 'password': None} None
+2020-05-24 18-51-50 - socketconnection - INFO - Updating Socket Dictionary None
+2020-05-24 18-51-50 - socketconnection - INFO - Socket returned action: None None
+2020-05-24 18-51-50 - validation - INFO - returned_dict: {'username': 'uname', 'current_location': None, 'info_date_time': datetime.datetime(2020, 5, 24, 18, 51, 50, 155667), 'action': None, 'car_id': 'car123', 'usertoken': None, 'password': None} None
+2020-05-24 18-52-13 - socketconnection - INFO - {'username': None, 'car_id': 'car123', 'info_date_time': '2020-05-24T18:52:13.952879', 'action': 4, 'current_location': [-37.866852, 144.891067], 'password': None, 'usertoken': None} None
+2020-05-24 18-52-14 - socketconnection - INFO - Socket connection response: b'{"username": null, "car_id": "car123", "info_date_time": null, "action": 4, "current_location": null, "password": null, "usertoken": null}' None
+2020-05-24 18-52-14 - socketconnection - INFO - Dictionary returned from server: {'username': None, 'current_location': None, 'info_date_time': None, 'action': 4, 'car_id': 'car123', 'usertoken': None, 'password': None} None
+2020-05-24 18-52-14 - socketconnection - INFO - Socket returned action: 4 None
+2020-05-24 20-30-05 - validation - INFO - Current Car in init: <cardetails.CarDetails object at 0x76546ed0> None
+2020-05-24 20-30-10 - socketconnection - INFO - Socket dictionary compiled: {'username': 'cam123', 'car_id': 'car123', 'info_date_time': '2020-05-24T20:30:10.671405', 'action': 1, 'current_location': None, 'password': '123cam', 'usertoken': None} None
+2020-05-24 20-30-10 - socketconnection - ERROR - Server connection refused: [Errno 111] Connection refused None
+Traceback (most recent call last):
+  File "/home/pi/Desktop/Assignment2/Iot-Carshare/AgentPi/socketconnection.py", line 139, in establish_connection
+    socket_connection.connect(self.ADDRESS)
+ConnectionRefusedError: [Errno 111] Connection refused
+2020-05-24 20-30-10 - validation - INFO - Returned_dict: None None
+2020-05-24 20-33-57 - validation - INFO - Current Car in init: <cardetails.CarDetails object at 0x76546ed0> None
+2020-05-24 20-34-01 - socketconnection - INFO - Socket dictionary compiled: {'username': 'cam123', 'car_id': 'car123', 'info_date_time': '2020-05-24T20:34:01.680185', 'action': 1, 'current_location': None, 'password': '123cam', 'usertoken': None} None
+2020-05-24 20-34-02 - socketconnection - INFO - Socket connection response: b'{"username": null, "car_id": null, "info_date_time": "2020-05-24T20:34:02.178236", "action": null, "current_location": null, "password": null, "usertoken": null}' None
+2020-05-24 20-34-02 - socketconnection - INFO - Dictionary returned from server: {'username': None, 'current_location': None, 'info_date_time': '2020-05-24T20:34:02.178236', 'action': None, 'car_id': None, 'usertoken': None, 'password': None} None
+2020-05-24 20-34-02 - socketconnection - INFO - Updating Socket Dictionary None
+2020-05-24 20-34-02 - socketconnection - INFO - Socket returned action: None None
+2020-05-24 20-34-02 - validation - INFO - Returned_dict: False None
+2020-05-24 20-34-10 - socketconnection - INFO - Socket dictionary compiled: {'username': 'cam123', 'car_id': 'car123', 'info_date_time': '2020-05-24T20:34:10.685390', 'action': 1, 'current_location': None, 'password': '123cam', 'usertoken': None} None
+2020-05-24 20-34-11 - socketconnection - INFO - Socket connection response: b'{"username": null, "car_id": null, "info_date_time": "2020-05-24T20:34:11.377343", "action": null, "current_location": null, "password": null, "usertoken": null}' None
+2020-05-24 20-34-11 - socketconnection - INFO - Dictionary returned from server: {'username': None, 'current_location': None, 'info_date_time': '2020-05-24T20:34:11.377343', 'action': None, 'car_id': None, 'usertoken': None, 'password': None} None
+2020-05-24 20-34-11 - socketconnection - INFO - Updating Socket Dictionary None
+2020-05-24 20-34-11 - socketconnection - INFO - Socket returned action: None None
+2020-05-24 20-34-11 - validation - INFO - Returned_dict: False None
