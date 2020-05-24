@@ -205,6 +205,8 @@ class SocketConnection:
             return returned_dictionary
         except TypeError as e:
             log.exception("Error reading dictionary: {}".format(e))
+        except Exception as e:
+            log.exception("Extreme error: {}".format(e))
 
 if __name__ == "__main__":
     pass
