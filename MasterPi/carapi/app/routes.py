@@ -47,7 +47,11 @@ def facetoken():
 
 @app.route('/users/<int:id>', methods=['GET'])
 def get_user(id):
-    return jsonify(User.query.get_or_404(id).to_dict())
+    user = User.query.get(id)
+    if user:
+        user = user.to_dict()
+        return jsonify(user)
+    return bad_request("user dont exist")
 
 @app.route('/users', methods=['GET'])
 def get_users():

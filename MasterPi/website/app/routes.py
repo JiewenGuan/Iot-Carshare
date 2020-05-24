@@ -116,6 +116,19 @@ def cancel_booking(id):
         flash('An Error Occored:{}'.format(retdata['message']))
         return redirect(url_for('index'))
 
+@app.route('/location/<int:id>')
+def location(id):
+    r = requests.get('http://192.168.1.109:10100/cars/{}'.format(id), verify=False)
+    retdata = r.json() or {}
+    location = retdata['location'][1:-1]
+    location = location.replace(" ","")
+    link = "https://maps.googleapis.com/maps/api/staticmap?center={}".format(location)
+    link = link + "&zoom=13&size=600x300&maptype=roadmap"
+    link = link + "&markers=color:blue%7Clabel:S%7C{}".format(location)
+    link = link + "&key=AIzaSyBLCm8iSwMX79BiYI-aIfanIin70ql51QI"
+    carinfo = "{}, a {} {} made by {} with {} seats, for A${}/h".format(retdata['name'], Config.CAR_COLORS[retdata["colour"]], Config.BODY_TYPE[retdata["body_type"]], retdata["make"], retdata["seats"], retdata["rate"])
+    return render_template('location.html', title = "Location", location = retdata['location'].replace(" ",""), carinfo = carinfo, link = link)
+
 
 
 def make_select_list(arr):

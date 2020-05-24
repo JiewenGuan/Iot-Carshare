@@ -22,5 +22,8 @@
         </td>
         <td>
             <a href="{{ url_for('book_car_request', id = car['id'])}}" class='btn btn-primary'>Book Now</a>
+            {% if car['location'] %}
+                <a href="{{ url_for('location', id = car['id'])}}" class='btn btn-primary'>location</a>
+            {% endif %}
         </td>
     </tr>

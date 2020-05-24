@@ -13,6 +13,8 @@ class User(UserMixin):
 def load_user(id):
     r = requests.get('http://192.168.1.109:10100/users/{}'.format(id), verify=False)
     retdata = r.json() or {}
+    if 'error' in retdata:
+        return None
     return User(username=retdata['username'],id=retdata['id'])  
 
 class Car():
