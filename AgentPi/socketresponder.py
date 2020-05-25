@@ -8,11 +8,21 @@ from agentdata import DictionaryConstructor as DictionaryConstructor
 from masterpiresponder import MasterResponder as MasterResponder
 
 
-# The primary class in this module (though the not main method), this 
-# class is responsible for listening and accepting dictionaryies, then
-# passing them on to another function for the appropriate action to be 
-# undertaken.
 class SocketResponder():
+    """
+    The primary class in this module (though the not main method), this 
+    class is responsible for listening and accepting dictionaries, then
+    passing them on to the :class:`DictionaryInterpreter` class and call the 
+    internal function for the appropriate action to be undertaken.
+
+    .. note:: It is important to set the correct public facing IP address and port,
+        as it is not always possible for the function to determine this automatically.
+        
+    .. warning:: Certain technologies have been found to impede a consistent connection.
+        These include Proxies, Firewalls, and CGNAT implemented by certain retail internet
+        service providers.
+    """
+
     def __init__(self):
         self.IP_ADDRESS = "192.168.1.109"
         self.M_PI_PORT = 33333
@@ -21,6 +31,10 @@ class SocketResponder():
 
 
     def accept_connections(self):
+        """
+        Creates a socket that listens on a defined port at the defined IP for 
+        connection from an Agent.
+        """
         # Create an instance of socket with the predefined IP.
         with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server_socket:
             #server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -75,27 +89,24 @@ class SocketResponder():
 
 
 # Instantiated with a dictionary, this class acts based on the contents of a
-# dictionary and 
+# dictionary and its sole function returns a modified dictionary to the socket.
 class DictionaryInterpreter():
+    """
+    This class is instantiated with a diciontionary from an Agent.
+    The sole function interprets this dictionary and passes it to the
+    appropriate class/function to be acted on, or acts on an invalid action.
+    """
     def __init__(self, received_dict: dict):
         self.received_dict = received_dict
 
-    # This is the entry point for this class - it returns a dictionary, that
-    # in itself has been returned to this function. It determines what
-    # function to call based on the contents of the transmitted dictionary.
-    def interpret_dictionary(self) -> dict:
-        # if self.received_dict["username"] is None:
-        #     # Validate a face recognition token and return dictionary
-        # else: 
-        #     if self.received_dict["password"] is None:
-        #         # Return the vehicle and return dictionary
-        #     else:
-        #         if self.received_dict["usertoken"] is None:
-        #             # Validate a text credential and return dictionary
-        #         else:
-        #             if self.received_dict["info_date_time"] is None:
-        #                 # Update a face recognition token and return dictionary
-
+    def interpret_dictionary(self):
+        """        
+        This is the entry point for this class - it returns a the result from calling
+        a method in the :class:`MasterResponder`, that acts on the dictionary and returns it.
+        This is a modified version of the dictioonary that was passed into the
+        instantiation of the owning class. It determines what
+        function to call based on the contents of the transmitted dictionary.
+        """
         responder = MasterResponder(self.received_dict)
         if self.received_dict["action"] == 1:
             # Validate a text credential and return dictionary

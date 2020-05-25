@@ -14,8 +14,8 @@
     <script src="_static/language_data.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Testing Code Documentation" href="testing_code.html" />
-    <link rel="prev" title="Welcome to IOT Car Share Documentation" href="index.html" />
+    <link rel="next" title="Master Code Documentation" href="master_code.html" />
+    <link rel="prev" title="Installation and Deployment" href="installation.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
@@ -37,12 +37,12 @@
 <div class="section" id="agentpi-py">
 <h2>agentpi.py<a class="headerlink" href="#agentpi-py" title="Permalink to this headline">¶</a></h2>
 <p>Main Entry Point</p>
-<span class="target" id="module-agentpi"></span><p>Main module for the agent. This and the dependencies are called on to
+<span class="target" id="module-AgentPi.agentpi"></span><p>Main module for the agent. This and the dependencies are called on to
 manage the access to a vehicle. The program can be operated by executing 
 this module.</p>
 <dl class="py class">
-<dt id="agentpi.CLIController">
-<em class="property">class </em><code class="sig-prename descclassname">agentpi.</code><code class="sig-name descname">CLIController</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">loaded_car</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#cardetails.CarDetails" title="cardetails.CarDetails">cardetails.CarDetails</a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#agentpi.CLIController" title="Permalink to this definition">¶</a></dt>
+<dt id="AgentPi.agentpi.CLIController">
+<em class="property">class </em><code class="sig-prename descclassname">AgentPi.agentpi.</code><code class="sig-name descname">CLIController</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">loaded_car</span><span class="p">:</span> <span class="n">cardetails.CarDetails</span></em><span class="sig-paren">)</span><a class="headerlink" href="#AgentPi.agentpi.CLIController" title="Permalink to this definition">¶</a></dt>
 <dd><p>The main controller - control is passed from the Main to this class
 when it is instantiated, and this class is where most user interactions occur.
 Essentially control stays here until the program exits.
@@ -52,8 +52,8 @@ relative to the version loaded (at least the car_id) and
 returns nothing.
 The sole method activated is called with no parameters.</p>
 <dl class="py method">
-<dt id="agentpi.CLIController.activated">
-<code class="sig-name descname">activated</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#agentpi.CLIController.activated" title="Permalink to this definition">¶</a></dt>
+<dt id="AgentPi.agentpi.CLIController.activated">
+<code class="sig-name descname">activated</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#AgentPi.agentpi.CLIController.activated" title="Permalink to this definition">¶</a></dt>
 <dd><p>Function that presents the user interface. It is the 
 primary mechanim for user interactions to be responded to.
 If a user is validated, the appropriate class is instantiated
@@ -63,23 +63,23 @@ and control passed to it.</p>
 </dd></dl>
 
 <dl class="py class">
-<dt id="agentpi.CarIDLoader">
-<em class="property">class </em><code class="sig-prename descclassname">agentpi.</code><code class="sig-name descname">CarIDLoader</code><a class="headerlink" href="#agentpi.CarIDLoader" title="Permalink to this definition">¶</a></dt>
+<dt id="AgentPi.agentpi.CarIDLoader">
+<em class="property">class </em><code class="sig-prename descclassname">AgentPi.agentpi.</code><code class="sig-name descname">CarIDLoader</code><a class="headerlink" href="#AgentPi.agentpi.CarIDLoader" title="Permalink to this definition">¶</a></dt>
 <dd><p>This class is responsible for handling any details about the car
 while it is in an locked state, basically for performing any car
 related functions when the software is loaded.
 It is instantiated with nothing, and has one a primary function that
 returns a car_id.</p>
 <dl class="py method">
-<dt id="agentpi.CarIDLoader.get_car_id">
-<code class="sig-name descname">get_car_id</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#agentpi.CarIDLoader.get_car_id" title="Permalink to this definition">¶</a></dt>
+<dt id="AgentPi.agentpi.CarIDLoader.get_car_id">
+<code class="sig-name descname">get_car_id</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#AgentPi.agentpi.CarIDLoader.get_car_id" title="Permalink to this definition">¶</a></dt>
 <dd><p>Function for returning the car_id. This is typically called on when
 a booking is validated.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="agentpi.CarIDLoader.load_car_id">
-<code class="sig-name descname">load_car_id</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#agentpi.CarIDLoader.load_car_id" title="Permalink to this definition">¶</a></dt>
+<dt id="AgentPi.agentpi.CarIDLoader.load_car_id">
+<code class="sig-name descname">load_car_id</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#AgentPi.agentpi.CarIDLoader.load_car_id" title="Permalink to this definition">¶</a></dt>
 <dd><p>Function for loading a car_id. Hides the process for 
 determining the car_id, and is called when instantiated.</p>
 </dd></dl>
@@ -87,15 +87,15 @@ determining the car_id, and is called when instantiated.</p>
 </dd></dl>
 
 <dl class="py class">
-<dt id="agentpi.Main">
-<em class="property">class </em><code class="sig-prename descclassname">agentpi.</code><code class="sig-name descname">Main</code><a class="headerlink" href="#agentpi.Main" title="Permalink to this definition">¶</a></dt>
+<dt id="AgentPi.agentpi.Main">
+<em class="property">class </em><code class="sig-prename descclassname">AgentPi.agentpi.</code><code class="sig-name descname">Main</code><a class="headerlink" href="#AgentPi.agentpi.Main" title="Permalink to this definition">¶</a></dt>
 <dd><p>Main class that contains a single function that 
 when instantiated and called respectively, works 
 to load any neccessary details regarding the vehicle before 
 instantiateing the user interface with a call to :mod:’validation’</p>
 <dl class="py method">
-<dt id="agentpi.Main.start">
-<code class="sig-name descname">start</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#agentpi.Main.start" title="Permalink to this definition">¶</a></dt>
+<dt id="AgentPi.agentpi.Main.start">
+<code class="sig-name descname">start</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#AgentPi.agentpi.Main.start" title="Permalink to this definition">¶</a></dt>
 <dd><p>Primarily modification of this function will be regarding
 the level of logging to record, and whether this should 
 be a new file each time.</p>
@@ -107,20 +107,20 @@ be a new file each time.</p>
 <div class="section" id="validation-py">
 <h2>validation.py<a class="headerlink" href="#validation-py" title="Permalink to this headline">¶</a></h2>
 <p>Validates User Selection</p>
-<span class="target" id="module-validation"></span><p>This class is responsible for accepting a user verification/validation
+<span class="target" id="module-AgentPi.validation"></span><p>This class is responsible for accepting a user verification/validation
 choice, and then validating the user. If the selection is valid, the 
 appropriate user input is sought via a call to the designated function, 
 else control is returned to the calling function.</p>
 <dl class="py class">
-<dt id="validation.ValidateUser">
-<em class="property">class </em><code class="sig-prename descclassname">validation.</code><code class="sig-name descname">ValidateUser</code><span class="sig-paren">(</span><em class="sig-param">userselection: int</em>, <em class="sig-param">current_car: &lt;module 'cardetails' from '/home/pi/Desktop/Assignment2/Iot-Carshare/AgentPi/cardetails.py'&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#validation.ValidateUser" title="Permalink to this definition">¶</a></dt>
+<dt id="AgentPi.validation.ValidateUser">
+<em class="property">class </em><code class="sig-prename descclassname">AgentPi.validation.</code><code class="sig-name descname">ValidateUser</code><span class="sig-paren">(</span><em class="sig-param">userselection: int</em>, <em class="sig-param">current_car: &lt;module 'cardetails' from '/home/pi/Desktop/Assignment2/Iot-Carshare/AgentPi/cardetails.py'&gt;</em><span class="sig-paren">)</span><a class="headerlink" href="#AgentPi.validation.ValidateUser" title="Permalink to this definition">¶</a></dt>
 <dd><p>Validation entrypoint from the CLI. This can only be operated on when instantiated.
 This reduces unwarranted use of the validation function, and must be instantiated
 with the user’s selection, and the class that contains the relevant data structurs.
 Without a valid selection, this will return False.</p>
 <dl class="py method">
-<dt id="validation.ValidateUser.validateCredentials">
-<code class="sig-name descname">validateCredentials</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; bool<a class="headerlink" href="#validation.ValidateUser.validateCredentials" title="Permalink to this definition">¶</a></dt>
+<dt id="AgentPi.validation.ValidateUser.validateCredentials">
+<code class="sig-name descname">validateCredentials</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; bool<a class="headerlink" href="#AgentPi.validation.ValidateUser.validateCredentials" title="Permalink to this definition">¶</a></dt>
 <dd><p>This function is the entrypoint for any instantiation of this class.
 Solely for directing the user’s choice to the appropriate function.
 Returns false if an invalid choice is made, otherwise returns
@@ -128,8 +128,8 @@ true to indicate a return to the base state.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="validation.ValidateUser.validate_face">
-<code class="sig-name descname">validate_face</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#validation.ValidateUser.validate_face" title="Permalink to this definition">¶</a></dt>
+<dt id="AgentPi.validation.ValidateUser.validate_face">
+<code class="sig-name descname">validate_face</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#AgentPi.validation.ValidateUser.validate_face" title="Permalink to this definition">¶</a></dt>
 <dd><p>Attempts to validate a face detection. Instantiates and calls the 
 facerecognition.py which accepts one parameter, the location of the 
 encodings file (pickle) and returns the token if the face is in the database
@@ -137,8 +137,8 @@ for validation with the server.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="validation.ValidateUser.validate_text">
-<code class="sig-name descname">validate_text</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#validation.ValidateUser.validate_text" title="Permalink to this definition">¶</a></dt>
+<dt id="AgentPi.validation.ValidateUser.validate_text">
+<code class="sig-name descname">validate_text</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#AgentPi.validation.ValidateUser.validate_text" title="Permalink to this definition">¶</a></dt>
 <dd><p>Validates user’s text credentials. Internally called. Returns after the number of attempts
 is exceeded or the user was true and the car has been returned..</p>
 </dd></dl>
@@ -149,19 +149,14 @@ is exceeded or the user was true and the car has been returned..</p>
 <div class="section" id="agentdata-py">
 <h2>agentdata.py<a class="headerlink" href="#agentdata-py" title="Permalink to this headline">¶</a></h2>
 <p>Socket Data Protocol</p>
-<span class="target" id="module-agentdata"></span><p>Used to separate the data that contains user information from the
+<span class="target" id="module-AgentPi.agentdata"></span><p>Used to separate the data that contains user information from the
 data the car retains in a locked state. 
 There is no reason for the main module to know who just used the 
 vehicle, so this reduces the need for the main module to know more
-than the car that it is operating in. DONE
-As such, I should move the information from main to validation, or as much 
-as is possible. DONE
-This way, if a valid user is loaded, then the car can be passed into
-the operational section for any usage of the variables. This SHOULD
-remove the need for a carlocked variable…. DONE</p>
+than the car that it is operating in.</p>
 <dl class="py class">
-<dt id="agentdata.DictionaryConstructor">
-<em class="property">class </em><code class="sig-prename descclassname">agentdata.</code><code class="sig-name descname">DictionaryConstructor</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">car_id</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">info_date_time</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="headerlink" href="#agentdata.DictionaryConstructor" title="Permalink to this definition">¶</a></dt>
+<dt id="AgentPi.agentdata.DictionaryConstructor">
+<em class="property">class </em><code class="sig-prename descclassname">AgentPi.agentdata.</code><code class="sig-name descname">DictionaryConstructor</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">car_id</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">info_date_time</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="headerlink" href="#AgentPi.agentdata.DictionaryConstructor" title="Permalink to this definition">¶</a></dt>
 <dd><p>This class is used to construct a dictionary for passing over sockets.
 It must be instantiated with all the parameters, though parameters 
 can be None - this is used to interpret the intent of the socket connection.
@@ -170,21 +165,21 @@ However it offers numerous methods to set data in the class. This affords the
 software the ability to transport complex data from the Agents without affecting
 other functions, as well as ensuring data meets standards before socket communication.</p>
 <dl class="py method">
-<dt id="agentdata.DictionaryConstructor.get_socket_dictionary">
-<code class="sig-name descname">get_socket_dictionary</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; dict<a class="headerlink" href="#agentdata.DictionaryConstructor.get_socket_dictionary" title="Permalink to this definition">¶</a></dt>
+<dt id="AgentPi.agentdata.DictionaryConstructor.get_socket_dictionary">
+<code class="sig-name descname">get_socket_dictionary</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; dict<a class="headerlink" href="#AgentPi.agentdata.DictionaryConstructor.get_socket_dictionary" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the dictionary - should be called once the dictionary is constructed.</p>
 </dd></dl>
 
 </dd></dl>
 
 <dl class="py class">
-<dt id="agentdata.DictionaryDateUpdater">
-<em class="property">class </em><code class="sig-prename descclassname">agentdata.</code><code class="sig-name descname">DictionaryDateUpdater</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">iso_date</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="headerlink" href="#agentdata.DictionaryDateUpdater" title="Permalink to this definition">¶</a></dt>
+<dt id="AgentPi.agentdata.DictionaryDateUpdater">
+<em class="property">class </em><code class="sig-prename descclassname">AgentPi.agentdata.</code><code class="sig-name descname">DictionaryDateUpdater</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">iso_date</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="headerlink" href="#AgentPi.agentdata.DictionaryDateUpdater" title="Permalink to this definition">¶</a></dt>
 <dd><p>Helper class - instantiation accepts an ISO format date and returns a python date object.
 This is not generalised - it is specific to the data employed by the DictionaryConstructor.</p>
 <dl class="py method">
-<dt id="agentdata.DictionaryDateUpdater.get_python_date">
-<code class="sig-name descname">get_python_date</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#agentdata.DictionaryDateUpdater.get_python_date" title="Permalink to this definition">¶</a></dt>
+<dt id="AgentPi.agentdata.DictionaryDateUpdater.get_python_date">
+<code class="sig-name descname">get_python_date</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#AgentPi.agentdata.DictionaryDateUpdater.get_python_date" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the date reformated into python datetime format.</p>
 </dd></dl>
 
@@ -194,55 +189,55 @@ This is not generalised - it is specific to the data employed by the DictionaryC
 <div class="section" id="cardetails-py">
 <h2>cardetails.py<a class="headerlink" href="#cardetails-py" title="Permalink to this headline">¶</a></h2>
 <p>Classes for storing and modifying data in certain vehicle states.</p>
-<span class="target" id="module-cardetails"></span><p>The purpose of <a class="reference internal" href="#module-cardetails" title="cardetails"><code class="xref py py-mod docutils literal notranslate"><span class="pre">cardetails</span></code></a> is to provide a separation of concerns
+<span class="target" id="module-AgentPi.cardetails"></span><p>The purpose of <code class="xref py py-mod docutils literal notranslate"><span class="pre">cardetails</span></code> is to provide a separation of concerns
 between an attempt to validate a user and their booking, the car in 
 an unoccupied state, and this state - an occupied vehicle. As such it
 acts to reduce the risk of data leaking.</p>
 <dl class="py class">
-<dt id="cardetails.CarDetails">
-<em class="property">class </em><code class="sig-prename descclassname">cardetails.</code><code class="sig-name descname">CarDetails</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">car_id</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="headerlink" href="#cardetails.CarDetails" title="Permalink to this definition">¶</a></dt>
+<dt id="AgentPi.cardetails.CarDetails">
+<em class="property">class </em><code class="sig-prename descclassname">AgentPi.cardetails.</code><code class="sig-name descname">CarDetails</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">car_id</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="headerlink" href="#AgentPi.cardetails.CarDetails" title="Permalink to this definition">¶</a></dt>
 <dd><p>Contains and operates on the details regarding a car.
-Beyond the obvious, <a class="reference internal" href="#cardetails.CarDetails" title="cardetails.CarDetails"><code class="xref py py-class docutils literal notranslate"><span class="pre">CarDetails</span></code></a> sets the location of the car at 0.0, 
+Beyond the obvious, <a class="reference internal" href="#AgentPi.cardetails.CarDetails" title="AgentPi.cardetails.CarDetails"><code class="xref py py-class docutils literal notranslate"><span class="pre">CarDetails</span></code></a> sets the location of the car at 0.0, 
 so it is is necessary when instantiating this object to call
 the updateLocation function if you want to use the actual
 location of the vehicle, but this will increase startup time.
 This class accepts the car_id upon instnatiation.</p>
 <dl class="py method">
-<dt id="cardetails.CarDetails.get_car_id">
-<code class="sig-name descname">get_car_id</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; str<a class="headerlink" href="#cardetails.CarDetails.get_car_id" title="Permalink to this definition">¶</a></dt>
+<dt id="AgentPi.cardetails.CarDetails.get_car_id">
+<code class="sig-name descname">get_car_id</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; str<a class="headerlink" href="#AgentPi.cardetails.CarDetails.get_car_id" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the ID for passing onto Master Pi to validate booking.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="cardetails.CarDetails.get_car_user">
-<code class="sig-name descname">get_car_user</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; str<a class="headerlink" href="#cardetails.CarDetails.get_car_user" title="Permalink to this definition">¶</a></dt>
+<dt id="AgentPi.cardetails.CarDetails.get_car_user">
+<code class="sig-name descname">get_car_user</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; str<a class="headerlink" href="#AgentPi.cardetails.CarDetails.get_car_user" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the current user of the vehicle, None if there is no a user.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="cardetails.CarDetails.getcarlocation">
-<code class="sig-name descname">getcarlocation</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; dict<a class="headerlink" href="#cardetails.CarDetails.getcarlocation" title="Permalink to this definition">¶</a></dt>
+<dt id="AgentPi.cardetails.CarDetails.getcarlocation">
+<code class="sig-name descname">getcarlocation</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; dict<a class="headerlink" href="#AgentPi.cardetails.CarDetails.getcarlocation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the last location of the vehicle as a Dictionary for passing
 onto Master Pi to terminate booking.
-Call <a class="reference internal" href="#cardetails.CarDetails.update_car_location" title="cardetails.CarDetails.update_car_location"><code class="xref py py-func docutils literal notranslate"><span class="pre">update_car_location()</span></code></a> location first if you want the most up to date location.</p>
+Call <a class="reference internal" href="#AgentPi.cardetails.CarDetails.update_car_location" title="AgentPi.cardetails.CarDetails.update_car_location"><code class="xref py py-func docutils literal notranslate"><span class="pre">update_car_location()</span></code></a> location first if you want the most up to date location.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="cardetails.CarDetails.remove_user">
-<code class="sig-name descname">remove_user</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cardetails.CarDetails.remove_user" title="Permalink to this definition">¶</a></dt>
+<dt id="AgentPi.cardetails.CarDetails.remove_user">
+<code class="sig-name descname">remove_user</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#AgentPi.cardetails.CarDetails.remove_user" title="Permalink to this definition">¶</a></dt>
 <dd><p>Resets the car to an unoccupied state.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="cardetails.CarDetails.unlock_car">
-<code class="sig-name descname">unlock_car</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">car_dict</span><span class="p">:</span> <span class="n">dict</span></em><span class="sig-paren">)</span><a class="headerlink" href="#cardetails.CarDetails.unlock_car" title="Permalink to this definition">¶</a></dt>
+<dt id="AgentPi.cardetails.CarDetails.unlock_car">
+<code class="sig-name descname">unlock_car</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">car_dict</span><span class="p">:</span> <span class="n">dict</span></em><span class="sig-paren">)</span><a class="headerlink" href="#AgentPi.cardetails.CarDetails.unlock_car" title="Permalink to this definition">¶</a></dt>
 <dd><p>Called to unlock a car - accepts a dictionary of type retrieved from
-<a class="reference internal" href="#module-agentdata" title="agentdata"><code class="xref py py-mod docutils literal notranslate"><span class="pre">agentdata</span></code></a>, which requires validated objects.</p>
+<code class="xref py py-mod docutils literal notranslate"><span class="pre">agentdata</span></code>, which requires validated objects.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="cardetails.CarDetails.update_car_location">
-<code class="sig-name descname">update_car_location</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cardetails.CarDetails.update_car_location" title="Permalink to this definition">¶</a></dt>
+<dt id="AgentPi.cardetails.CarDetails.update_car_location">
+<code class="sig-name descname">update_car_location</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#AgentPi.cardetails.CarDetails.update_car_location" title="Permalink to this definition">¶</a></dt>
 <dd><p>Updates the current location of the car. This instantiates the
 CarLocationUpdater and attempts to update the location - there
 are two levels of error handling here, in case the CarLocationUpdater
@@ -253,22 +248,22 @@ known location.</p>
 </dd></dl>
 
 <dl class="py class">
-<dt id="cardetails.CarLocationUpdater">
-<em class="property">class </em><code class="sig-prename descclassname">cardetails.</code><code class="sig-name descname">CarLocationUpdater</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">currentcar_location</span><span class="p">:</span> <span class="n">dict</span></em><span class="sig-paren">)</span><a class="headerlink" href="#cardetails.CarLocationUpdater" title="Permalink to this definition">¶</a></dt>
+<dt id="AgentPi.cardetails.CarLocationUpdater">
+<em class="property">class </em><code class="sig-prename descclassname">AgentPi.cardetails.</code><code class="sig-name descname">CarLocationUpdater</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">currentcar_location</span><span class="p">:</span> <span class="n">dict</span></em><span class="sig-paren">)</span><a class="headerlink" href="#AgentPi.cardetails.CarLocationUpdater" title="Permalink to this definition">¶</a></dt>
 <dd><p>This class stores and can be used to update the location of the
 car. It is designed to be instantiated by a CarDetails object.
 The location is stored as a dictionary and containes values
 in Decimal Degrees, and the time that it was updated is also stored.</p>
 <dl class="py method">
-<dt id="cardetails.CarLocationUpdater.returncarlocation">
-<code class="sig-name descname">returncarlocation</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cardetails.CarLocationUpdater.returncarlocation" title="Permalink to this definition">¶</a></dt>
+<dt id="AgentPi.cardetails.CarLocationUpdater.returncarlocation">
+<code class="sig-name descname">returncarlocation</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#AgentPi.cardetails.CarLocationUpdater.returncarlocation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Format the return value if necessary. Return the original values
 if the attempt to retrieve a locaiton fails.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="cardetails.CarLocationUpdater.update_car_location">
-<code class="sig-name descname">update_car_location</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#cardetails.CarLocationUpdater.update_car_location" title="Permalink to this definition">¶</a></dt>
+<dt id="AgentPi.cardetails.CarLocationUpdater.update_car_location">
+<code class="sig-name descname">update_car_location</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#AgentPi.cardetails.CarLocationUpdater.update_car_location" title="Permalink to this definition">¶</a></dt>
 <dd><p>Internally called method.
 Attempts to update the location, with a catch for all exceptions
 returning false. More detailed exception information should
@@ -282,7 +277,7 @@ This should return a dictionary object that includes long/lat.</p>
 <div class="section" id="socketconnection-py">
 <h2>socketconnection.py<a class="headerlink" href="#socketconnection-py" title="Permalink to this headline">¶</a></h2>
 <p>Classes performing the correct socket query.</p>
-<span class="target" id="module-socketconnection"></span><p>This module contains the classes that are used to
+<span class="target" id="module-AgentPi.socketconnection"></span><p>This module contains the classes that are used to
 communicate with the master pi.</p>
 <p>Instantiating the class has accepts one paramter - the car_id. 
 The socket connection then sends a pickled object to the server.
@@ -290,43 +285,43 @@ This object is defined at both ends, and is a dictionary that contains
 the car_id and the current time, as well as either of the username 
 and password (text validation) or the user_token (face validation).</p>
 <dl class="py class">
-<dt id="socketconnection.SocketConnection">
-<em class="property">class </em><code class="sig-prename descclassname">socketconnection.</code><code class="sig-name descname">SocketConnection</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">car_id</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="headerlink" href="#socketconnection.SocketConnection" title="Permalink to this definition">¶</a></dt>
+<dt id="AgentPi.socketconnection.SocketConnection">
+<em class="property">class </em><code class="sig-prename descclassname">AgentPi.socketconnection.</code><code class="sig-name descname">SocketConnection</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">car_id</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="headerlink" href="#AgentPi.socketconnection.SocketConnection" title="Permalink to this definition">¶</a></dt>
 <dd><p>This class is instantiated with just the car_id and then the appropriate method
 must be called to achieve the desired result, passing in the appropriate
 objects. A dictionary is then constructed and returned using the agentdata.py
 module and then this is passed to the socket which returns a dictionary
 for the called method to act on.</p>
 <dl class="py method">
-<dt id="socketconnection.SocketConnection.establish_connection">
-<code class="sig-name descname">establish_connection</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dict_to_send</span><span class="p">:</span> <span class="n">dict</span></em><span class="sig-paren">)</span> &#x2192; dict<a class="headerlink" href="#socketconnection.SocketConnection.establish_connection" title="Permalink to this definition">¶</a></dt>
+<dt id="AgentPi.socketconnection.SocketConnection.establish_connection">
+<code class="sig-name descname">establish_connection</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dict_to_send</span><span class="p">:</span> <span class="n">dict</span></em><span class="sig-paren">)</span> &#x2192; dict<a class="headerlink" href="#AgentPi.socketconnection.SocketConnection.establish_connection" title="Permalink to this definition">¶</a></dt>
 <dd><p>This method is called by the methods in this class for performing
 an action with the master pi. It accepts a dictionary (from agentdata)
 and returns a dictionary of the same type to be acted on.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="socketconnection.SocketConnection.terminate_booking">
-<code class="sig-name descname">terminate_booking</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#socketconnection.SocketConnection.terminate_booking" title="Permalink to this definition">¶</a></dt>
+<dt id="AgentPi.socketconnection.SocketConnection.terminate_booking">
+<code class="sig-name descname">terminate_booking</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#AgentPi.socketconnection.SocketConnection.terminate_booking" title="Permalink to this definition">¶</a></dt>
 <dd><p>Updating the Master Pi when the booking has been concluded</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="socketconnection.SocketConnection.validate_face_credentials">
-<code class="sig-name descname">validate_face_credentials</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">user_token</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="headerlink" href="#socketconnection.SocketConnection.validate_face_credentials" title="Permalink to this definition">¶</a></dt>
+<dt id="AgentPi.socketconnection.SocketConnection.validate_face_credentials">
+<code class="sig-name descname">validate_face_credentials</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">user_token</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="headerlink" href="#AgentPi.socketconnection.SocketConnection.validate_face_credentials" title="Permalink to this definition">¶</a></dt>
 <dd><p>Validate the face recognition.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="socketconnection.SocketConnection.validate_text_credentials">
-<code class="sig-name descname">validate_text_credentials</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">username</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">password</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="headerlink" href="#socketconnection.SocketConnection.validate_text_credentials" title="Permalink to this definition">¶</a></dt>
+<dt id="AgentPi.socketconnection.SocketConnection.validate_text_credentials">
+<code class="sig-name descname">validate_text_credentials</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">username</span><span class="p">:</span> <span class="n">str</span></em>, <em class="sig-param"><span class="n">password</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="headerlink" href="#AgentPi.socketconnection.SocketConnection.validate_text_credentials" title="Permalink to this definition">¶</a></dt>
 <dd><p>This function will send the username, password, car_id and date to
 the server for validation.</p>
 </dd></dl>
 
 <dl class="py method">
-<dt id="socketconnection.SocketConnection.validation_returner">
-<code class="sig-name descname">validation_returner</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dict_to_validate</span><span class="p">:</span> <span class="n">dict</span></em><span class="sig-paren">)</span><a class="headerlink" href="#socketconnection.SocketConnection.validation_returner" title="Permalink to this definition">¶</a></dt>
+<dt id="AgentPi.socketconnection.SocketConnection.validation_returner">
+<code class="sig-name descname">validation_returner</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">dict_to_validate</span><span class="p">:</span> <span class="n">dict</span></em><span class="sig-paren">)</span><a class="headerlink" href="#AgentPi.socketconnection.SocketConnection.validation_returner" title="Permalink to this definition">¶</a></dt>
 <dd><p>Accepts a constructed dictionary from the two validation functions,
 sends it to the establish_connection for validation, and returns
 based on the response.</p>
@@ -338,18 +333,18 @@ based on the response.</p>
 <div class="section" id="unlockedcar-py">
 <h2>unlockedcar.py<a class="headerlink" href="#unlockedcar-py" title="Permalink to this headline">¶</a></h2>
 <p>Classes performing the correct socket query.</p>
-<span class="target" id="module-unlockedcar"></span><p>This module contains the functionality that a user is offered when a
+<span class="target" id="module-AgentPi.unlockedcar"></span><p>This module contains the functionality that a user is offered when a
 car is unlocked.</p>
 <dl class="py class">
-<dt id="unlockedcar.UnlockedCar">
-<em class="property">class </em><code class="sig-prename descclassname">unlockedcar.</code><code class="sig-name descname">UnlockedCar</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">unlocked_car</span><span class="p">:</span> <span class="n">dict</span></em><span class="sig-paren">)</span><a class="headerlink" href="#unlockedcar.UnlockedCar" title="Permalink to this definition">¶</a></dt>
+<dt id="AgentPi.unlockedcar.UnlockedCar">
+<em class="property">class </em><code class="sig-prename descclassname">AgentPi.unlockedcar.</code><code class="sig-name descname">UnlockedCar</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">unlocked_car</span><span class="p">:</span> <span class="n">dict</span></em><span class="sig-paren">)</span><a class="headerlink" href="#AgentPi.unlockedcar.UnlockedCar" title="Permalink to this definition">¶</a></dt>
 <dd><p>The main class is constructed with the dictionary that was returned
 by the socket connection from the master pi. It has a single entry point
 of unlock_car that acts based on the dictionary that the class was 
 instantiated with.</p>
 <dl class="py method">
-<dt id="unlockedcar.UnlockedCar.unlock_car">
-<code class="sig-name descname">unlock_car</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#unlockedcar.UnlockedCar.unlock_car" title="Permalink to this definition">¶</a></dt>
+<dt id="AgentPi.unlockedcar.UnlockedCar.unlock_car">
+<code class="sig-name descname">unlock_car</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#AgentPi.unlockedcar.UnlockedCar.unlock_car" title="Permalink to this definition">¶</a></dt>
 <dd><p>Perform functions for unlocking the car.</p>
 </dd></dl>
 
@@ -359,16 +354,16 @@ instantiated with.</p>
 <div class="section" id="utilities-py">
 <h2>utilities.py<a class="headerlink" href="#utilities-py" title="Permalink to this headline">¶</a></h2>
 <p>Classes performing the correct socket query.</p>
-<span class="target" id="module-utilities"></span><p>Module containing class(se) of helper utility functions.</p>
+<span class="target" id="module-AgentPi.utilities"></span><p>Module containing class(se) of helper utility functions.</p>
 <dl class="py class">
-<dt id="utilities.HelperUtilities">
-<em class="property">class </em><code class="sig-prename descclassname">utilities.</code><code class="sig-name descname">HelperUtilities</code><a class="headerlink" href="#utilities.HelperUtilities" title="Permalink to this definition">¶</a></dt>
+<dt id="AgentPi.utilities.HelperUtilities">
+<em class="property">class </em><code class="sig-prename descclassname">AgentPi.utilities.</code><code class="sig-name descname">HelperUtilities</code><a class="headerlink" href="#AgentPi.utilities.HelperUtilities" title="Permalink to this definition">¶</a></dt>
 <dd><p>Contains:
 - Function for clearing the input on unix systems.
 - Function for returning a GPS location.</p>
 <dl class="py method">
-<dt id="utilities.HelperUtilities.clear_keyboard">
-<code class="sig-name descname">clear_keyboard</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#utilities.HelperUtilities.clear_keyboard" title="Permalink to this definition">¶</a></dt>
+<dt id="AgentPi.utilities.HelperUtilities.clear_keyboard">
+<code class="sig-name descname">clear_keyboard</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#AgentPi.utilities.HelperUtilities.clear_keyboard" title="Permalink to this definition">¶</a></dt>
 <dd><p>Helper function to clear the keyboard after a sleep event. 
 it consumes each line until none remain, and then returns control to
 the calling function
@@ -377,8 +372,8 @@ and will throw an exception and exit as this is designed to run on raspbian rasp
 </dd></dl>
 
 <dl class="py method">
-<dt id="utilities.HelperUtilities.get_location">
-<code class="sig-name descname">get_location</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#utilities.HelperUtilities.get_location" title="Permalink to this definition">¶</a></dt>
+<dt id="AgentPi.utilities.HelperUtilities.get_location">
+<code class="sig-name descname">get_location</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#AgentPi.utilities.HelperUtilities.get_location" title="Permalink to this definition">¶</a></dt>
 <dd><p>A utility function to help clear the screen.</p>
 </dd></dl>
 
@@ -406,6 +401,7 @@ and will throw an exception and exit as this is designed to run on raspbian rasp
 <h3>Navigation</h3>
 <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation and Deployment</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Agent Code Documentation</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#agentpi-py">agentpi.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#validation-py">validation.py</a></li>
@@ -416,16 +412,17 @@ and will throw an exception and exit as this is designed to run on raspbian rasp
 <li class="toctree-l2"><a class="reference internal" href="#utilities-py">utilities.py</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="testing_code.html">Testing Code Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="master_code.html">Master Code Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="fr_code.html">Face Recognition Code Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="testing_code.html">Testing Code Documentation</a></li>
 </ul>
 
 <div class="relations">
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="index.html" title="previous chapter">Welcome to IOT Car Share Documentation</a></li>
-      <li>Next: <a href="testing_code.html" title="next chapter">Testing Code Documentation</a></li>
+      <li>Previous: <a href="installation.html" title="previous chapter">Installation and Deployment</a></li>
+      <li>Next: <a href="master_code.html" title="next chapter">Master Code Documentation</a></li>
   </ul></li>
 </ul>
 </div>

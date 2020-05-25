@@ -222,3 +222,8 @@ def list_to_dict(list):
     for i in list:
         ret.append(i.to_dict())
     return ret
+
+
+    
+if __name__ == "__main__":
+    pass

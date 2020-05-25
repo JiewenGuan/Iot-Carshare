@@ -1,0 +1,336 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>Master Code Documentation &#8212; IOT_car_share_assignment 1.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Face Recognition Code Documentation" href="fr_code.html" />
+    <link rel="prev" title="Agent Code Documentation" href="agent_code.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="master-code-documentation">
+<h1>Master Code Documentation<a class="headerlink" href="#master-code-documentation" title="Permalink to this headline">¶</a></h1>
+<p>The Master Pi consists of multiple modules due to the need for it to perform three primary functions.</p>
+<ul class="simple">
+<li><p>Serve the website for creating bookings.</p></li>
+<li><p>Accept socket connection from the Agent Pis and return the requests appropriately.</p></li>
+<li><p>Make an API available for querying the hosted database by the website or the socket connection.</p></li>
+</ul>
+<p>The api/database and website are contained within two directories - carapi and website. These can based
+hosted in separate locations, as the website access the datavase via an API.</p>
+<div class="section" id="module-AgentPi.socketresponder">
+<span id="agentpi-socketresponder-py"></span><h2>AgentPi/socketresponder.py<a class="headerlink" href="#module-AgentPi.socketresponder" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="AgentPi.socketresponder.DictionaryInterpreter">
+<em class="property">class </em><code class="sig-prename descclassname">AgentPi.socketresponder.</code><code class="sig-name descname">DictionaryInterpreter</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">received_dict</span><span class="p">:</span> <span class="n">dict</span></em><span class="sig-paren">)</span><a class="headerlink" href="#AgentPi.socketresponder.DictionaryInterpreter" title="Permalink to this definition">¶</a></dt>
+<dd><p>This class is instantiated with a diciontionary from an Agent.
+The sole function interprets this dictionary and passes it to the
+appropriate class/function to be acted on, or acts on an invalid action.</p>
+<dl class="py method">
+<dt id="AgentPi.socketresponder.DictionaryInterpreter.interpret_dictionary">
+<code class="sig-name descname">interpret_dictionary</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#AgentPi.socketresponder.DictionaryInterpreter.interpret_dictionary" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is the entry point for this class - it returns a the result from calling
+a method in the <code class="xref py py-class docutils literal notranslate"><span class="pre">MasterResponder</span></code>, that acts on the dictionary and returns it.
+This is a modified version of the dictioonary that was passed into the
+instantiation of the owning class. It determines what
+function to call based on the contents of the transmitted dictionary.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="AgentPi.socketresponder.SocketResponder">
+<em class="property">class </em><code class="sig-prename descclassname">AgentPi.socketresponder.</code><code class="sig-name descname">SocketResponder</code><a class="headerlink" href="#AgentPi.socketresponder.SocketResponder" title="Permalink to this definition">¶</a></dt>
+<dd><p>The primary class in this module (though the not main method), this 
+class is responsible for listening and accepting dictionaries, then
+passing them on to the <a class="reference internal" href="#AgentPi.socketresponder.DictionaryInterpreter" title="AgentPi.socketresponder.DictionaryInterpreter"><code class="xref py py-class docutils literal notranslate"><span class="pre">DictionaryInterpreter</span></code></a> class and call the 
+internal function for the appropriate action to be undertaken.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>It is important to set the correct public facing IP address and port,
+as it is not always possible for the function to determine this automatically.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Certain technologies have been found to impede a consistent connection.
+These include Proxies, Firewalls, and CGNAT implemented by certain retail internet
+service providers.</p>
+</div>
+<dl class="py method">
+<dt id="AgentPi.socketresponder.SocketResponder.accept_connections">
+<code class="sig-name descname">accept_connections</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#AgentPi.socketresponder.SocketResponder.accept_connections" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates a socket that listens on a defined port at the defined IP for 
+connection from an Agent.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-AgentPi.masterpiresponder">
+<span id="agentpi-masterpiresponder-py"></span><h2>AgentPi/masterpiresponder.py<a class="headerlink" href="#module-AgentPi.masterpiresponder" title="Permalink to this headline">¶</a></h2>
+<p>This module contains a single class provides the functionality for 
+acting on an agent dictionary.</p>
+<dl class="py class">
+<dt id="AgentPi.masterpiresponder.MasterResponder">
+<em class="property">class </em><code class="sig-prename descclassname">AgentPi.masterpiresponder.</code><code class="sig-name descname">MasterResponder</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">agent_dictionary</span><span class="p">:</span> <span class="n">dict</span></em><span class="sig-paren">)</span><a class="headerlink" href="#AgentPi.masterpiresponder.MasterResponder" title="Permalink to this definition">¶</a></dt>
+<dd><p>It accepts a dictionary and returns a modified dictionary when the 
+apprpriate function is called. This call should pass in a dictionary
+with the requisite keys and values, and will return a dictionary 
+in conformation with the expected result.</p>
+<dl class="py method">
+<dt id="AgentPi.masterpiresponder.MasterResponder.clear_dict">
+<code class="sig-name descname">clear_dict</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#AgentPi.masterpiresponder.MasterResponder.clear_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Helper function to clear a dictionary.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="AgentPi.masterpiresponder.MasterResponder.invalid_action">
+<code class="sig-name descname">invalid_action</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; dict<a class="headerlink" href="#AgentPi.masterpiresponder.MasterResponder.invalid_action" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prevents the Master from returning True.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="AgentPi.masterpiresponder.MasterResponder.return_vehicle">
+<code class="sig-name descname">return_vehicle</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; dict<a class="headerlink" href="#AgentPi.masterpiresponder.MasterResponder.return_vehicle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Called to return the vehicle - returns just the car ID and the action.
+See internal comments on the nature of the return if changing the 
+expectation of the Agent.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="AgentPi.masterpiresponder.MasterResponder.update_fr_token">
+<code class="sig-name descname">update_fr_token</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; dict<a class="headerlink" href="#AgentPi.masterpiresponder.MasterResponder.update_fr_token" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to update a token, if attempting to do do
+manually from an Agent.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="AgentPi.masterpiresponder.MasterResponder.update_return_dict">
+<code class="sig-name descname">update_return_dict</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">is_valid</span><span class="p">:</span> <span class="n">bool</span></em>, <em class="sig-param"><span class="n">username</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="headerlink" href="#AgentPi.masterpiresponder.MasterResponder.update_return_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Helper function to return a validated dictionary in the event
+of a valid begin booking request.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="AgentPi.masterpiresponder.MasterResponder.validate_credentials">
+<code class="sig-name descname">validate_credentials</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; dict<a class="headerlink" href="#AgentPi.masterpiresponder.MasterResponder.validate_credentials" title="Permalink to this definition">¶</a></dt>
+<dd><p>Called to validate username/password credentials. It makes a call to the API
+and expects a True/False determination.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="AgentPi.masterpiresponder.MasterResponder.validate_face">
+<code class="sig-name descname">validate_face</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; dict<a class="headerlink" href="#AgentPi.masterpiresponder.MasterResponder.validate_face" title="Permalink to this definition">¶</a></dt>
+<dd><p>Called to validate a face recognition token - calls the API with 
+the token which must return a username. This then returns a dictionary
+with a username if valid.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="carapi-app-models-py">
+<h2>carapi/app/models.py<a class="headerlink" href="#carapi-app-models-py" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="carapi-app-routes-py">
+<h2>carapi/app/routes.py<a class="headerlink" href="#carapi-app-routes-py" title="Permalink to this headline">¶</a></h2>
+<p>A list of function routes that perform database query logic,
+and update the database as needed.</p>
+</div>
+<div class="section" id="carapi-app-env-py">
+<h2>carapi/app/env.py<a class="headerlink" href="#carapi-app-env-py" title="Permalink to this headline">¶</a></h2>
+<p>This module is predominantly auto-populated during installation of dependencies.</p>
+</div>
+<div class="section" id="carapi-carapi-py">
+<h2>carapi/carapi.py<a class="headerlink" href="#carapi-carapi-py" title="Permalink to this headline">¶</a></h2>
+<p>Key to the database, this module creates a shell context that adds
+the models and the database instance to the shell session. The inherent
+decorator registers the items returned. In this case we are returning
+a dictionary that references the tables in the database and the database
+itself.</p>
+</div>
+<div class="section" id="module-MasterPi.carapi.config">
+<span id="carapi-config-py"></span><h2>carapi/config.py<a class="headerlink" href="#module-MasterPi.carapi.config" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="MasterPi.carapi.config.Config">
+<em class="property">class </em><code class="sig-prename descclassname">MasterPi.carapi.config.</code><code class="sig-name descname">Config</code><a class="headerlink" href="#MasterPi.carapi.config.Config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Configuration variables for the database connection.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="carapi-templates">
+<h2>carapi/templates<a class="headerlink" href="#carapi-templates" title="Permalink to this headline">¶</a></h2>
+<p>This folder contains multiple html documents that serve to template the pages
+that are generated throughout the website. They predominantly populate with
+dynamic content as returned by either session information or database API calls
+that populate with the application of conditional statements.</p>
+<p>Importantly, the base.html file defines a template for inheritance into
+multiple pages to ensure conformity to the style across all pages.</p>
+</div>
+<div class="section" id="forms-py">
+<h2>forms.py<a class="headerlink" href="#forms-py" title="Permalink to this headline">¶</a></h2>
+<p>This module contains classes that define the structure of FlaskForms, both the data they record and importantly the conditions
+in which the form is successfully submitted such as in the event of a username collission.
+It is predominantly the conditional code internal to these classes that performs the validation of user inputs.</p>
+</div>
+<div class="section" id="models-py">
+<h2>models.py<a class="headerlink" href="#models-py" title="Permalink to this headline">¶</a></h2>
+<p>This module defines the data models that are used by the website via classes, namely the User and the Car.</p>
+</div>
+<div class="section" id="routes-py">
+<h2>routes.py<a class="headerlink" href="#routes-py" title="Permalink to this headline">¶</a></h2>
+<p>This module contains the templates for structuring dynamic content
+on the pages. It returns objects that in turn render html based on
+the status of numerous factors such as the user currently validated.</p>
+<ul class="simple">
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">index()</span></code></p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">login()</span></code></p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">register()</span></code></p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">logout()</span></code></p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">book_car_request(id)()</span></code></p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">my_bookings()</span></code></p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">car_info(id)()</span></code></p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">cancel_booking(id)()</span></code></p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">location(id)()</span></code></p></li>
+</ul>
+<p>These are prefixed with decorators which are used to enforce certain validation
+when particular pages are loaded. See the individual functions for further details.
+These mappings as such are predominantly used to create forms, passing them to the
+template for rendering.</p>
+</div>
+<div class="section" id="module-MasterPi.website.config">
+<span id="config-py"></span><h2>config.py<a class="headerlink" href="#module-MasterPi.website.config" title="Permalink to this headline">¶</a></h2>
+<p>This module’s purpose is to contain the class for storing Flask configuration information.</p>
+<dl class="py class">
+<dt id="MasterPi.website.config.Config">
+<em class="property">class </em><code class="sig-prename descclassname">MasterPi.website.config.</code><code class="sig-name descname">Config</code><a class="headerlink" href="#MasterPi.website.config.Config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Configuration class for Flask with keys as class level variables
+for data structures, server IP, booking information .etc</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>It is important to define an environment variable for the
+SECRET_KEY variable if deploying this publicly as the default key
+is not secure.</p>
+</div>
+</dd></dl>
+
+</div>
+<div class="section" id="website-py">
+<h2>website.py<a class="headerlink" href="#website-py" title="Permalink to this headline">¶</a></h2>
+<p>Entry point. No classes to instantiate.</p>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">IOT_car_share_assignment</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<p class="caption"><span class="caption-text">Contents:</span></p>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation and Deployment</a></li>
+<li class="toctree-l1"><a class="reference internal" href="agent_code.html">Agent Code Documentation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Master Code Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#module-AgentPi.socketresponder">AgentPi/socketresponder.py</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-AgentPi.masterpiresponder">AgentPi/masterpiresponder.py</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#carapi-app-models-py">carapi/app/models.py</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#carapi-app-routes-py">carapi/app/routes.py</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#carapi-app-env-py">carapi/app/env.py</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#carapi-carapi-py">carapi/carapi.py</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-MasterPi.carapi.config">carapi/config.py</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#carapi-templates">carapi/templates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#forms-py">forms.py</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#models-py">models.py</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#routes-py">routes.py</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-MasterPi.website.config">config.py</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#website-py">website.py</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="fr_code.html">Face Recognition Code Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="testing_code.html">Testing Code Documentation</a></li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="agent_code.html" title="previous chapter">Agent Code Documentation</a></li>
+      <li>Next: <a href="fr_code.html" title="next chapter">Face Recognition Code Documentation</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Cameron Bolton & Jiewen Guan.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.0.3</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/master_code.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

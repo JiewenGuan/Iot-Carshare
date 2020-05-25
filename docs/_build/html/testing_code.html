@@ -14,8 +14,7 @@
     <script src="_static/language_data.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Face Recognition Code Documentation" href="fr_code.html" />
-    <link rel="prev" title="Agent Code Documentation" href="agent_code.html" />
+    <link rel="prev" title="Face Recognition Code Documentation" href="fr_code.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
@@ -34,9 +33,14 @@
             
   <div class="section" id="testing-code-documentation">
 <h1>Testing Code Documentation<a class="headerlink" href="#testing-code-documentation" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="module-agenttesting">
-<span id="agenttesting-py-test-agent-and-master-api"></span><h2>agenttesting.py – Test Agent and Master API<a class="headerlink" href="#module-agenttesting" title="Permalink to this headline">¶</a></h2>
-<p>This module performs an array of unit tests across the platform.
+<p>Note that certain tests require the database to preseeded to pass. As such
+the failing of certain tests on an active database is considered normal.
+There are testing modules available from the developer for testing in a
+disconnected state - contact the developer for further information.</p>
+<div class="section" id="agenttesting-py">
+<h2>agenttesting.py<a class="headerlink" href="#agenttesting-py" title="Permalink to this headline">¶</a></h2>
+<p>Test Agent and Master API via sockets.</p>
+<span class="target" id="module-agenttesting"></span><p>This module performs an array of unit tests across the platform.
 In general, all modules involving human interaction immediately pass the
 user input to a new module or class or function. This affords our testing
 suite the flexibility to simulate human interaction by mimicking the inputs by passing
@@ -55,7 +59,7 @@ returned is validated.</p>
 <dl class="py class">
 <dt id="agenttesting.TestAgentData">
 <em class="property">class </em><code class="sig-prename descclassname">agenttesting.</code><code class="sig-name descname">TestAgentData</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">methodName</span><span class="o">=</span><span class="default_value">'runTest'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#agenttesting.TestAgentData" title="Permalink to this definition">¶</a></dt>
-<dd><p>This class tests the <a class="reference internal" href="agent_code.html#module-agentdata" title="agentdata"><code class="xref py py-mod docutils literal notranslate"><span class="pre">agentdata</span></code></a> module.</p>
+<dd><p>This class tests the <code class="xref py py-mod docutils literal notranslate"><span class="pre">agentdata</span></code> module.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>Do not use helper functions to create a dictionary.</p>
@@ -104,7 +108,7 @@ relevant dictionaries.</p>
 <dl class="py class">
 <dt id="agenttesting.TestSocketConnection">
 <em class="property">class </em><code class="sig-prename descclassname">agenttesting.</code><code class="sig-name descname">TestSocketConnection</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">methodName</span><span class="o">=</span><span class="default_value">'runTest'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#agenttesting.TestSocketConnection" title="Permalink to this definition">¶</a></dt>
-<dd><p>This class tests <a class="reference internal" href="agent_code.html#module-socketconnection" title="socketconnection"><code class="xref py py-mod docutils literal notranslate"><span class="pre">socketconnection</span></code></a> and by implication,
+<dd><p>This class tests <code class="xref py py-mod docutils literal notranslate"><span class="pre">socketconnection</span></code> and by implication,
 also tests <code class="xref py py-mod docutils literal notranslate"><span class="pre">socketresponder</span></code> and <code class="xref py py-mod docutils literal notranslate"><span class="pre">masterpiresponder</span></code>.
 As such, it tests the raw socket, and requires database interaction to pass.</p>
 <div class="admonition warning">
@@ -285,7 +289,7 @@ This testing suite also requires a socket connection.</p>
 <dl class="py class">
 <dt id="agenttesting.TestSocketValidation">
 <em class="property">class </em><code class="sig-prename descclassname">agenttesting.</code><code class="sig-name descname">TestSocketValidation</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">methodName</span><span class="o">=</span><span class="default_value">'runTest'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#agenttesting.TestSocketValidation" title="Permalink to this definition">¶</a></dt>
-<dd><p>This tests the entry points of the validation methods of <a class="reference internal" href="agent_code.html#module-socketconnection" title="socketconnection"><code class="xref py py-mod docutils literal notranslate"><span class="pre">socketconnection</span></code></a>.
+<dd><p>This tests the entry points of the validation methods of <code class="xref py py-mod docutils literal notranslate"><span class="pre">socketconnection</span></code>.
 Essentially it interfaces directly with the functions
 that the user input is passed to. This checks for the 
 appropriate responses with the minimal data required.</p>
@@ -338,7 +342,7 @@ This testing suite requires two socket connections.</p>
 <dl class="py class">
 <dt id="agenttesting.TestUtilities">
 <em class="property">class </em><code class="sig-prename descclassname">agenttesting.</code><code class="sig-name descname">TestUtilities</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">methodName</span><span class="o">=</span><span class="default_value">'runTest'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#agenttesting.TestUtilities" title="Permalink to this definition">¶</a></dt>
-<dd><p>Primary testing class for <a class="reference internal" href="agent_code.html#module-utilities" title="utilities"><code class="xref py py-mod docutils literal notranslate"><span class="pre">utilities</span></code></a></p>
+<dd><p>Primary testing class for <code class="xref py py-mod docutils literal notranslate"><span class="pre">utilities</span></code></p>
 <dl class="py method">
 <dt id="agenttesting.TestUtilities.setUp">
 <code class="sig-name descname">setUp</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#agenttesting.TestUtilities.setUp" title="Permalink to this definition">¶</a></dt>
@@ -367,7 +371,7 @@ This testing suite requires two socket connections.</p>
 
 <dl class="py function">
 <dt id="agenttesting.dictionary_class_helper_false">
-<code class="sig-prename descclassname">agenttesting.</code><code class="sig-name descname">dictionary_class_helper_false</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="agent_code.html#agentdata.DictionaryConstructor" title="agentdata.DictionaryConstructor">agentdata.DictionaryConstructor</a><a class="headerlink" href="#agenttesting.dictionary_class_helper_false" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">agenttesting.</code><code class="sig-name descname">dictionary_class_helper_false</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; agentdata.DictionaryConstructor<a class="headerlink" href="#agenttesting.dictionary_class_helper_false" title="Permalink to this definition">¶</a></dt>
 <dd><p>This helper functions return dictionary class objects for testing purposes
 populated by incorrect values.
 The only elements that does not change from a valid dictionary is the action.
@@ -383,7 +387,7 @@ return function before passing to any socket calls.</p>
 
 <dl class="py function">
 <dt id="agenttesting.dictionary_class_helper_true">
-<code class="sig-prename descclassname">agenttesting.</code><code class="sig-name descname">dictionary_class_helper_true</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; <a class="reference internal" href="agent_code.html#agentdata.DictionaryConstructor" title="agentdata.DictionaryConstructor">agentdata.DictionaryConstructor</a><a class="headerlink" href="#agenttesting.dictionary_class_helper_true" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">agenttesting.</code><code class="sig-name descname">dictionary_class_helper_true</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; agentdata.DictionaryConstructor<a class="headerlink" href="#agenttesting.dictionary_class_helper_true" title="Permalink to this definition">¶</a></dt>
 <dd><p>This helper functions return dictionary class objects for testing purposes
 populated by correct values.
 To build tests that look at each element of the object,
@@ -397,9 +401,10 @@ return function before passing to any socket calls.</p>
 </dd></dl>
 
 </div>
-<div class="section" id="module-facetesting">
-<span id="facetesting-py-validates-user-selection"></span><h2>facetesting.py - Validates User Selection<a class="headerlink" href="#module-facetesting" title="Permalink to this headline">¶</a></h2>
-<dl class="py class">
+<div class="section" id="facetesting-py">
+<h2>facetesting.py<a class="headerlink" href="#facetesting-py" title="Permalink to this headline">¶</a></h2>
+<p>Validates User Selection</p>
+<span class="target" id="module-facetesting"></span><dl class="py class">
 <dt id="facetesting.TestFaceRecognition">
 <em class="property">class </em><code class="sig-prename descclassname">facetesting.</code><code class="sig-name descname">TestFaceRecognition</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">methodName</span><span class="o">=</span><span class="default_value">'runTest'</span></em><span class="sig-paren">)</span><a class="headerlink" href="#facetesting.TestFaceRecognition" title="Permalink to this definition">¶</a></dt>
 <dd><p>This class tests a face capture event - it requires tester interaction, active 
@@ -480,21 +485,22 @@ We reencode this each time incase the encoding library changes.</p>
 <h3>Navigation</h3>
 <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation and Deployment</a></li>
 <li class="toctree-l1"><a class="reference internal" href="agent_code.html">Agent Code Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="master_code.html">Master Code Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="fr_code.html">Face Recognition Code Documentation</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Testing Code Documentation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#module-agenttesting">agenttesting.py – Test Agent and Master API</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#module-facetesting">facetesting.py - Validates User Selection</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#agenttesting-py">agenttesting.py</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#facetesting-py">facetesting.py</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="fr_code.html">Face Recognition Code Documentation</a></li>
 </ul>
 
 <div class="relations">
 <h3>Related Topics</h3>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
-      <li>Previous: <a href="agent_code.html" title="previous chapter">Agent Code Documentation</a></li>
-      <li>Next: <a href="fr_code.html" title="next chapter">Face Recognition Code Documentation</a></li>
+      <li>Previous: <a href="fr_code.html" title="previous chapter">Face Recognition Code Documentation</a></li>
   </ul></li>
 </ul>
 </div>

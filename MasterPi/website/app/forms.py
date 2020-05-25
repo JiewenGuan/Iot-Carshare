@@ -4,11 +4,14 @@ from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
 import requests
 from wtforms.fields.html5 import DateField, TimeField
 from datetime import date as da, datetime, timedelta
+
+
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
     remember_me = BooleanField('Remember Me')
     submit = SubmitField('Sign In')
+
 
 class RegistrationForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
@@ -36,6 +39,7 @@ class CarSearchForm(FlaskForm):
     status = HiddenField(1)
     submit = SubmitField('Search')
 
+
 class BookingForm(FlaskForm):
     car_id = HiddenField(validators=[DataRequired()])
     user_id = HiddenField(validators=[DataRequired()])
@@ -55,3 +59,7 @@ class BookingForm(FlaskForm):
         if duration.data < 1:
             raise ValidationError('Must book for 1 or more hours')
             
+
+
+if __name__ == "__main__":
+    pass

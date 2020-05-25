@@ -12,10 +12,16 @@
 #
 import os
 import sys
-sys.path.insert(0, os.path.abspath('.'))
+# sys.path.insert(0, os.path.abspath('.'))
+sys.path.insert(0, os.path.abspath('..'))
 sys.path.insert(0, os.path.abspath('../AgentPi'))
-
-
+sys.path.insert(0, os.path.abspath('../MasterPi'))
+sys.path.insert(0, os.path.abspath('../MasterPi/carapi'))
+sys.path.insert(0, os.path.abspath('../MasterPi/carapi/app'))
+sys.path.insert(0, os.path.abspath('../MasterPi/carapi/migrations'))
+sys.path.insert(0, os.path.abspath('../MasterPi/website'))
+sys.path.insert(0, os.path.abspath('../MasterPi/website/app'))
+sys.path.insert(0, os.path.abspath('../MasterPi/website/app/templates'))
 
 # -- Project information -----------------------------------------------------
 

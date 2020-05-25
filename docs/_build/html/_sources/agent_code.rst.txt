@@ -5,47 +5,47 @@ agentpi.py
 ==========
 Main Entry Point
 
-.. automodule:: agentpi
+.. automodule:: AgentPi.agentpi
     :members:
 
 validation.py
 =============
 Validates User Selection
 
-.. automodule:: validation
+.. automodule:: AgentPi.validation
     :members:
 
 agentdata.py
 ============
 Socket Data Protocol
 
-.. automodule:: agentdata
+.. automodule:: AgentPi.agentdata
     :members:
 
 cardetails.py
 =============
 Classes for storing and modifying data in certain vehicle states.
 
-.. automodule:: cardetails
+.. automodule:: AgentPi.cardetails
     :members:
 
 socketconnection.py
 ===================
 Classes performing the correct socket query.
 
-.. automodule:: socketconnection
+.. automodule:: AgentPi.socketconnection
     :members:
 
 unlockedcar.py
 ==============
 Classes performing the correct socket query.
 
-.. automodule:: unlockedcar
+.. automodule:: AgentPi.unlockedcar
     :members:
 
 utilities.py
 ============
 Classes performing the correct socket query.
 
-.. automodule:: utilities
+.. automodule:: AgentPi.utilities
     :members:
