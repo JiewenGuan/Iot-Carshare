@@ -43,7 +43,7 @@ class SocketConnection:
 
         # self.IP_ADDRESS = "127.0.0.1"
         # self.M_PI_PORT = 33333
-        self.IP_ADDRESS = "220.245.59.219"
+        self.IP_ADDRESS = "220.240.169.117"
         self.M_PI_PORT = 33333        
         self.ADDRESS = (self.IP_ADDRESS, self.M_PI_PORT)
 

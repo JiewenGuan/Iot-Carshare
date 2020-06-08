@@ -61,7 +61,7 @@ class CarIDLoader:
         Function for loading a car_id. Hides the process for 
         determining the car_id, and is called when instantiated.
         """
-        self.this_car_id = "car123"
+        self.this_car_id = "testcarX"
 
     def get_car_id(self):
         """
