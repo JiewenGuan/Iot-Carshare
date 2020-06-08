@@ -3,6 +3,7 @@ class Config(object):
     REST_SERVER = '192.168.1.109:5000'
     SECRET_KEY = os.environ.get('SECRET_KEY') or 'new-key'
     CAR_COLORS = ['Color','red','green','blue','yello','white','black']
-    BODY_TYPE = ['Body Type','sedan','truck','van','pickup','suv']
+    BODY_TYPE = ['Body Type','sedan','truck','van','pickup','suv','other']
     CAR_STATUSES = ['in service', 'avaliable', 'booked']
     BOOKING_STAT = ['canceled', 'active', 'returned']
+    USER_TYPE = ['Admin','Engeneer','Customer']

@@ -4,7 +4,8 @@ from flask import jsonify, request, url_for
 from sqlalchemy import and_, desc
 from werkzeug.http import HTTP_STATUS_CODES
 from datetime import datetime
-import hashlib
+
+
 @app.route('/')
 @app.route('/index')
 def index():
@@ -55,29 +56,48 @@ def get_user(id):
 
 @app.route('/users', methods=['GET'])
 def get_users():
-    return jsonify(list_to_dict(User.query.all()))
+    my_filters = request.get_json() or {}
+    query = db.session.query(User)
+
+    for attr,value in my_filters.items():
+        if type(value) == str:
+            query = query.filter(getattr(User,attr).contains(value))
+        else:
+            query = query.filter(getattr(User,attr)==value)
+    
+    return jsonify(list_to_dict(query.all()))
 
 @app.route('/users', methods=['POST'])
 def create_user():
     data = request.get_json() or {}
     if 'username' not in data or 'password' not in data or 'email' not in data:
         return bad_request('must include username, email and password fields')
+    if len(data['password']) < 6:
+        return bad_request('password too short')
     if User.query.filter_by(username=data['username']).first():
         return bad_request('please use a different username')
-    user = User()
-    user.from_dict(data, new_user=True)
-    hashing = hashlib.sha256(user.username.encode("utf-8"))
-    user.face_token = hashing.hexdigest()
+    user = User(data)
     db.session.add(user)
     db.session.commit()
     response = jsonify(user.to_dict())
     response.status_code = 200
     response.headers['Location'] = url_for('get_user', id=user.id)
     return response
+    
+@app.route('/users/<int:id>', methods=['DELETE'])
+def remove_user(id):
+    user = User.query.get(id)
+    if user:
+        db.session.delete(user)
+        db.session.commit()
+        return jsonify(user.to_dict())
+    return bad_request("null user")
 
 @app.route('/users/<int:id>', methods=['PUT'])
 def update_user(id):
-    user = User.query.get_or_404(id)
+    user = User.query.get(id)
+    if not user:
+        return bad_request("null user")
     data = request.get_json() or {}
     if 'username' in data and data['username'] != user.username and \
             User.query.filter_by(username=data['username']).first():
@@ -85,6 +105,21 @@ def update_user(id):
     user.from_dict(data, new_user=False)
     db.session.commit()
     return jsonify(user.to_dict())
+
+@app.route('/userpass/<int:id>', methods=['PUT'])
+def update_password(id):
+    user = User.query.get(id)
+    if not user:
+        return bad_request("null user")
+    data = request.get_json() or {}
+    if 'password' not in data:
+        return bad_request("must contain password")
+    if(user.set_password()):
+        db.session.commit()
+        return jsonify(user.to_dict())
+    else:
+        return bad_request('password too short')
+ 
 
 @app.route('/cars/<int:id>', methods=['GET'])
 def get_car(id):
@@ -103,6 +138,7 @@ def get_cars():
         query = query.filter(getattr(Car,attr)==value)
     
     return jsonify(list_to_dict(query.all()))
+    
 
 @app.route('/cars', methods=['POST'])
 def create_car():
@@ -110,8 +146,7 @@ def create_car():
     if 'name' not in data :
         return bad_request('500 must include name')
     
-    car = Car()
-    car.from_dict(data)
+    car = Car(data)
     db.session.add(car)
     db.session.commit()
     response = jsonify(car.to_dict())
@@ -127,6 +162,31 @@ def update_car(id):
     car.from_dict(data)
     db.session.commit()
     return jsonify(car.to_dict())
+
+@app.route('/cars/<int:id>', methods=['LOCK'])
+def report_car(id):
+    car = Car.query.get(id)
+    if car:
+        car.status = 0
+        return jsonify(car.to_dict())
+    return bad_request("null car")
+
+@app.route('/cars/<int:id>', methods=['UNLOCK'])
+def fix_car(id):
+    car = Car.query.get(id)
+    if car:
+        car.status = 1
+        return jsonify(car.to_dict())
+    return bad_request("null car")
+
+@app.route('/cars/<int:id>', methods=['DELETE'])
+def remove_car(id):
+    car = Car.query.get(id)
+    if car:
+        db.session.delete(car)
+        db.session.commit()
+        return jsonify(car.to_dict())
+    return bad_request("null car")
 
 @app.route('/bookings/<int:id>', methods=['GET'])
 def get_booking(id):
