@@ -88,6 +88,12 @@ class SocketConnection:
         # Return the dictionary.
         return self.validation_returner(socket_dict_tosend)
 
+    def validate_engineer(self, engineer_bluetooth: str):
+        """
+        Validate an engineer's bluetooth credentials.
+        This constitutes Action 5 for communicaiton purposes.
+        """
+
     def validation_returner(self, dict_to_validate: dict):
         """
         Accepts a constructed dictionary from the two validation functions,
@@ -116,7 +122,8 @@ class SocketConnection:
 
     def terminate_booking(self):
         """
-        Updating the Master Pi when the booking has been concluded
+        Updating the Master Pi when the booking has been concluded.
+        This constitutes Action 4 for communication purposes.
         """
         # Create a dictionary object.
         socket_dictionary_creator = DictionaryConstructor(
@@ -134,6 +141,31 @@ class SocketConnection:
         socket_dict_tosend = socket_dictionary_creator.get_socket_dictionary()
         log.info(socket_dict_tosend)
         return self.validation_returner(socket_dict_tosend)
+
+    def terminate_engineer(self, engineer_code: str):
+        """
+        Updates the master pi when an engineer concludes their
+        work. 
+        This constitutes Action 6 for communication purposes.
+        """
+
+        # Create a dictionary to send
+        socket_dictionary_creator = DictionaryConstructor(
+            self.car_id,
+            datetime.datetime.now().isoformat()
+        )
+        # Update dictionary with appropriate information.
+        socket_dictionary_creator.set_action(6)
+        socket_dictionary_creator.set_engineer_code(engineer_code)
+        clearutil = utilities.HelperUtilities()
+        location = clearutil.get_location()
+        socket_dictionary_creator.set_current_location(location)
+
+        # Retrieve the dictionary and send it to the mp.
+        socket_dict_tosend = socket_dictionary_creator.get_socket_dictionary()
+        log.info("Engineer Code Socket Dict: {}".format(socket_dict_tosend))
+        return self.validation_returner(socket_dict_tosend)
+
 
     def establish_connection(self, dict_to_send: dict) -> dict:
         """

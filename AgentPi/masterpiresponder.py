@@ -126,10 +126,85 @@ class MasterResponder():
         self.agent_dictionary["car_id"] = temp_car_id
         self.agent_dictionary["action"] = temp_action
         return self.agent_dictionary
+
+    def validate_engineer(self) -> dict:
+        """
+        Validates an engineer's bluetooth login attempt.
+        A set of engineer ID's are recieved in the dictionary,
+        and this is compared to the ID that is returned (if any)
+        from the API call based on the car id.
+        """
+
+        valid_credentials = False
+        username = None
+
+        carname = self.agent_dictionary["car_id"]
+        # THIS IS A SET!
+        engineer_bt = self.agent_dictionary["engineer_bluetooth"]
+
+        # TODO Ensure correct dictionary name
+        # Checks if the car requires an engineer.
+
+        """
+        Okay so I think the best way to do this is to have an API call that 
+        checks if a car is set for service and return the engineer bluetooth id.
+        If it matches any ID in the set, make an API call that updates the car
+        status.
+        Ideally this shuold return the username of the engineer.
+        
+        Alternatively we could check all the bluetooth IDs for matches, 
+        and then check if there is a booking, a bit like the validate_face call.
+        """
+
+        # data = {"bluetooth": engineer_bt}
+        # r = requests.post('http://192.168.1.109:10100/bluetooth', json = data, verify=False)
+        # user = r.json() or {}
+        # r = requests.get('http://192.168.1.109:10100/cars/{}'.format(carname), verify=False)
+        # car = r.json() or {}
+        # print(user)
+        # print(car)
+
+        # TODO Testing - delete when the API is used.
+        print("Engineer login checkpoint reached")
+        valid_credentials = True
+        uesrname = "test_engineer"
+
+        # Update the dictionary based on the API calls and return.
+        self.update_return_dict(valid_credentials, username)
+        return self.agent_dictionary
+
+    def engineer_return(self) -> dict:
+        """
+        Returns a vehicle to a locked state when an engineer
+        has concluded their work. 
+        """
+
+        carname = self.agent_dictionary["car_id"]
+        location = self.agent_dictionary["current_location"]
+        engineer_code = agent_dictionary["engineer_code"]
+
+        # TODO Code to call API and return engineers booking goes
+        # here.
+
+        print("Engineer return vehicle checkpoint reached.")
+
+        # This will always return as true regardless of the action 
+        # performed in the API, as this satisfies the usecase of
+        # a user being able to leave a car locked regardless of the API.
+        # The return is still logged in the Agent for insurance purposes.
+        temp_car_id = self.agent_dictionary["car_id"]
+        temp_action = self.agent_dictionary["action"]
+
+        # clear dict and return it with the car_id and the action
+        # which are considered a confirmation of return.
+        self.clear_dict()
+        self.agent_dictionary["car_id"] = temp_car_id
+        self.agent_dictionary["action"] = temp_action
+        return self.agent_dictionary
     
     def invalid_action(self) -> dict:
         """
-        Prevents the Master from returning True.
+        Prevents the Master from returning True. 
         """
         self.clear_dict()
         return self.agent_dictionary

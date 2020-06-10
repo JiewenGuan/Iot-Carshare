@@ -100,6 +100,8 @@ class CLIController:
         primary mechanim for user interactions to be responded to.
         If a user is validated, the appropriate class is instantiated
         and control passed to it.
+        Also provides access to engineers via hidden option 9 for 
+        access via bluetooth detection.
         """
         while self.running:
 
@@ -111,6 +113,7 @@ class CLIController:
             print("Please choose from the following options:\n \
                 1. Unlock vehicle with username and password. \n \
                 2. Unlock vehicle with face recognition. \n")
+            # 9. Engineer Access (hidden option)
             user_choice = input("Please enter your selection as an integer: ")
             # pass the result to the Validation module that validates the credentials.
             # True is returned if the user was successful, and only after the

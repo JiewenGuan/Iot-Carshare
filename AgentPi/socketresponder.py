@@ -123,6 +123,14 @@ class DictionaryInterpreter():
             # Return the vehicle and return dictionary
             print("Returning a vehicle....")
             return responder.return_vehicle()
+        elif self.received_dict["action"] == 5:
+            # Validate an engineer and return dictionary.
+            print("Validating engineer bluetooth credentials and returning....")
+            return responder.validate_engineer()
+        elif self.received_dict["action"] == 6:
+            # Return the vehicle from an engineer.
+            print("Engineer attempting to return vehicle")
+            return responder.engineer_return()
         else: 
             # Do nothing and return an empty dicitonary.
             print("Invalid option!")

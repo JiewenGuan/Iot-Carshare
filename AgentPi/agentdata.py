@@ -44,6 +44,8 @@ class DictionaryConstructor:
         self.usertoken = None
         self.info_date_time = info_date_time
         self.current_location = None
+        self.engineer_bluetooth
+        self.engineer_code = None
 
     # Setters for the dictionary beyond the constructor:
     # This is implemented so that the dictionary can be expanded as necessary.
@@ -66,6 +68,12 @@ class DictionaryConstructor:
     def set_current_location(self, current_location: tuple):
         self.current_location = current_location
 
+    def set_engineer_bluetooth(self, engineer_bluetooth: str):
+        self.engineer_bluetooth = engineer_bluetooth
+
+    def set_engineer_code(self, engineer_code: str):
+        self.engineer_code = engineer_code
+
     def get_socket_dictionary(self) -> dict:
         """
         Returns the dictionary - should be called once the dictionary is constructed.
@@ -77,7 +85,9 @@ class DictionaryConstructor:
             "password": self.password,
             "usertoken": self.usertoken,
             "info_date_time": self.info_date_time,
-            "current_location": self.current_location
+            "current_location": self.current_location,
+            "engineer_bluetooth": self.engineer_bluetooth,
+            "engineer_code": self.engineer_code
         }
         return socket_dictionary
 

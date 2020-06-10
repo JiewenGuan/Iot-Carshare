@@ -11,6 +11,7 @@ import time
 import sys
 
 from unlockedcar import UnlockedCar as UnlockedCar
+import engineeraccess
 # To consolidate logs into one location.
 import logging
 log = logging.getLogger(__name__)
@@ -108,6 +109,27 @@ class CarDetails:
                 print("Key assignment error - location data corrupt.")
         else:
             print("Required key in returned location data is missing.")
+
+    def engineer_access(self, car_dict: dict):
+        """
+        Called when an engineer acccess the car.
+        Presents a menu appropriate to an engineer once the car is unlocked.
+        """
+
+        # Store any appropriate data and pass control to the 
+        # EngineerAccess class. 
+        self.currentuser = car_dict["username"]
+        self.carlocked = False
+        os.system("clear")
+        print("Access Granted.")
+        time.sleep(1)
+        engineer_access = engineeraccess.EngineerAccess(car_dict)
+        engineer_access.unlock_car()
+
+        print("Car Locked")
+        self.carlocked = True
+        time.sleep(3)
+        return
 
 
 class CarLocationUpdater:
