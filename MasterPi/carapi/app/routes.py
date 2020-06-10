@@ -168,6 +168,7 @@ def report_car(id):
     car = Car.query.get(id)
     if car:
         car.status = 0
+        db.session.commit()
         return jsonify(car.to_dict())
     return bad_request("null car")
 
@@ -176,6 +177,7 @@ def fix_car(id):
     car = Car.query.get(id)
     if car:
         car.status = 1
+        db.session.commit()
         return jsonify(car.to_dict())
     return bad_request("null car")
 

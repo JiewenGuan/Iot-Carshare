@@ -12,6 +12,7 @@ class User(db.Model):
     bookings = db.relationship('Booking', backref='user', lazy='dynamic')
     face_token =  db.Column(db.String(128), index = True, unique = True)
     last_seen = db.Column(db.DateTime)
+    mac_address = db.Column(db.String(128), unique = True)
     role = db.Column(db.Integer, nullable=False)
 
     def __init__(self, data):

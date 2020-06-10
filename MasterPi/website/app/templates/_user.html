@@ -1,0 +1,18 @@
+<tr>
+    <td>
+        {{user["id"]}}
+    </td>
+    <td>
+        {{user["username"]}}
+    </td>
+    <td>
+        {{user["email"]}}
+    </td>
+    <td>
+        {{Config.USER_TYPE[user["role"]]}}
+    </td>
+    <td>
+        <a href="{{ url_for('user_history', id = user['id'])}}" class='btn btn-primary'>History</a>
+        <a href="{{ url_for('user_edit', id = user['id'])}}" class='btn btn-primary'>Edit</a>
+    </td>
+</tr>

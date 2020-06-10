@@ -8,14 +8,14 @@ def seed_data():
             data={
                 'username': 'admin',
                 'email': 'admin@carshare.com',
-                'password': 'admin'
+                'password': 'adminpass'
             }
         ),
         User(
             data={
-                'username': 'Engeneer',
+                'username': 'engineer',
                 'email': 'heiye1996@outlook.com',
-                'password': 'engneer'
+                'password': 'engineer'
             }
         ),
         User(
@@ -124,3 +124,5 @@ def make_shell_context():
 user = User.query.filter_by(username="admin").first()
 if not user:
     seed_data()
+if __name__ == '__main__':
+    app.run(host='192.168.1.109', port=10100)

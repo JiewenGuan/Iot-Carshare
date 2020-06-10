@@ -2,44 +2,47 @@
 {% import 'bootstrap/wtf.html' as wtf %}
 
 {% block app_content %}
-    <h1>Hi, {{ current_user.username }}!</h1>
-    {% if form %}
-    {{ wtf.quick_form(form, form_type='inline') }}
-    <br>
-    {% endif %}
-    <table class="table">
-        <thead>
-            <tr>
-                <th>
-                    Name
-                </th>
-                <th>
-                    Type
-                </th>
-                <th>
-                    Colour
-                </th>
-                <th>
-                    Make
-                </th>
-                <th>
-                    Rate
-                </th>
-                <th>
-                    Seats
-                </th>
-                <th>
-                    Status
-                </th>
-                <th></th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for car in cars %}
-                {% include '_car.html' %}
-            {% endfor %}
-        </tbody>
-    </table>
-    
+<h1>Hi, {{ Config.USER_TYPE[current_user.role]}} {{ current_user.username }}!</h1>
+{% if current_user.role == 0 %}
+<a href="{{ url_for('add_car')}}">Add New Car</a>
+{% endif %}
+{% if form %}
+{{ wtf.quick_form(form, form_type='inline') }}
+<br>
+{% endif %}
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                Name
+            </th>
+            <th>
+                Type
+            </th>
+            <th>
+                Colour
+            </th>
+            <th>
+                Make
+            </th>
+            <th>
+                Rate
+            </th>
+            <th>
+                Seats
+            </th>
+            <th>
+                Status
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for car in cars %}
+        {% include '_car.html' %}
+        {% endfor %}
+    </tbody>
+</table>
+
 
 {% endblock %}
