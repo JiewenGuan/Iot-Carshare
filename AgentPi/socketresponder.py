@@ -137,7 +137,6 @@ class DictionaryInterpreter():
             return responder.invalid_action()
 
 
-
 class Main():
     def start(self):
         master_responder = SocketResponder()

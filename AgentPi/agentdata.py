@@ -68,7 +68,7 @@ class DictionaryConstructor:
     def set_current_location(self, current_location: tuple):
         self.current_location = current_location
 
-    def set_engineer_bluetooth(self, engineer_bluetooth: str):
+    def set_engineer_bluetooth(self, engineer_bluetooth: set):
         self.engineer_bluetooth = engineer_bluetooth
 
     def set_engineer_code(self, engineer_code: str):
