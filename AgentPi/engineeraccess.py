@@ -16,7 +16,7 @@ log = logging.getLogger(__name__)
 
 class EngineerAccess():
     """
-    The main class is constructed with the dictionary that was returned
+    The EngineerAccess class is constructed with the dictionary that was returned
     by the socket connection from the master pi. It has a single entry point
     of unlock_car that acts based on the dictionary that the class was 
     instantiated with.
@@ -28,6 +28,9 @@ class EngineerAccess():
     def unlock_car(self):
         """
         Perform functions for unlocking the car for an engineer.
+        Presents a single option which is to conclude
+        the work, requring the engineer has a QR code for ID 
+        purposes.
         """
         engineer_in_car = True
         while engineer_in_car:
@@ -35,18 +38,20 @@ class EngineerAccess():
             print("Engineer Access.")
             print("Welcome {}".format(current_username))
             print("Please select from the following options:\n \
-            1. End Maintenance and lock the Car.")
+            1. End Maintenance and lock the vehicle.")
             user_choice = input("Enter your choice: ")
 
             if user_choice == "1":
-                # TODO how do we update the master if the connection fails?
-                socket_connection = SocketConnection(self.unlocked_car["car_id"])
 
                 # TODO get QR code.
 
                 # Validate the QR code.
 
                 # if valid do the following
+
+                # TODO how do we update the master if the connection fails?
+                socket_connection = SocketConnection(self.unlocked_car["car_id"])
+                # Pass in the qr code here?
                 socket_connection.terminate_engineer()
                 engineer_in_car = False
                 # if invalid, inform and loop.

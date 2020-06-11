@@ -126,8 +126,10 @@ class CarDetails:
         engineer_access = engineeraccess.EngineerAccess(car_dict)
         engineer_access.unlock_car()
 
-        print("Car Locked")
+        # From this point the car has been locked by the engineer,
+        # so perform any lock functions here.
         self.carlocked = True
+        print("Car Locked")
         time.sleep(3)
         return
 
