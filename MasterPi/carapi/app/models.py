@@ -104,6 +104,9 @@ class Booking(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     car_id = db.Column(db.Integer, db.ForeignKey('car.id'))
 
+    def __init__(self,data):
+        self.from_dict(data)
+
     def __repr__(self):
         return '<Booking {}|{}>'.format(self.user_id, self.car_id)
     
@@ -113,6 +116,8 @@ class Booking(db.Model):
         self.dration = data['hours']
         self.timestart = datetime.fromisoformat(data['time_start'])
         self.timeend = self.timestart + timedelta(hours=self.dration)
+        if 'status' in data:
+            self.status = data['status']
     
     def to_dict(self):
         data={

@@ -3,7 +3,7 @@ from app.models import User, Car, Booking
 from flask import jsonify, request, url_for
 from sqlalchemy import and_, desc
 from werkzeug.http import HTTP_STATUS_CODES
-from datetime import datetime
+from datetime import datetime, timedelta
 import smtplib
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
@@ -175,11 +175,19 @@ def update_car(id):
 def report_car(id):
     car = Car.query.get(id)
     if car:
-        car.status = 0
-        db.session.commit()
-        engineer = User.query.filter_by(role = 1).first()
+        engineer:User = User.query.filter_by(role = 1).first()
         if not engineer:
             return bad_request("null engineer! go hire one!")
+        car.status = 0
+        booking = Booking({
+            'user_id': engineer.id,
+            'car_id': id,
+            'time_start': datetime.now(),
+            'hours': 1
+        })
+        booking.status = 3
+        db.session.add(booking)
+        db.session.commit()
         receiver_address = engineer.email
         sender_address = 'jiewenguan6@gmail.com'
         sender_pass = 'ASSIGNMENT3pass'
@@ -271,8 +279,7 @@ def book():
     if car.status != 1:
         return bad_request('the car is not avaliable now')
     car.status = 2
-    booking = Booking()
-    booking.from_dict(data)
+    booking = Booking(data)
     booking.status = 1
     db.session.add(booking)
     db.session.commit()
@@ -280,6 +287,49 @@ def book():
     response.status_code = 200
     response.headers['Location'] = url_for('get_booking', id=booking.id)
     return response
+
+@app.route('/metadata', methods=['GET'])
+def metadata():
+    bookings:Booking = Booking.query.all()
+    dau = [0,0,0,0,0,0,0]
+    dbs = [0,0,0,0,0,0,0]
+    dailybookings = [[],[],[],[],[],[],[]]
+    for i in range(7):
+        for booking in bookings:
+            if booking.timestart.date() == datetime.now().date()-timedelta(days=i):
+                dailybookings[i].append(booking)
+    
+    for i in range(7):
+        buffer = []
+        for booking in dailybookings[i]:
+            dbs[i]+=1
+            if booking.user_id not in buffer:
+                buffer.append(booking.user_id)
+                dau[i]+=1
+    servicedCar = []
+    servicenum = []
+    ret = {}
+    services = Booking.query.filter_by(status = 3).all()
+    servedcar = []
+    for service in services:
+        if service.car_id not in servedcar:
+            servedcar.append(service.car_id)
+    
+    servednum = [0]*len(servedcar)
+    for i in range(len(servedcar)):
+        for service in services:
+            if service.car_id == servedcar[i]:
+                servednum[i]+=1
+    svs = {}
+    for i in range(len(servedcar)):
+        svs[str(servedcar[i])]=servednum[i]
+    
+    return "dau {}, dbs {}, svs {}".format(dau, dbs, svs)
+    
+    
+
+
+
 
 
 def bad_request(message):
