@@ -4,7 +4,9 @@ from flask import jsonify, request, url_for
 from sqlalchemy import and_, desc
 from werkzeug.http import HTTP_STATUS_CODES
 from datetime import datetime
-
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
 
 @app.route('/')
 @app.route('/index')
@@ -16,14 +18,14 @@ def uniq_name(name):
     user = User.query.filter_by(username=name).first()
     if user is not None:
         return bad_request('use a different name')
-    return jsonify(User(username=name).to_dict())
+    return jsonify({"message":"name is uniqe"})
 
 @app.route('/uemail/<string:email>', methods=['GET'])
 def uniq_email(email):
     user = User.query.filter_by(email=email).first()
     if user is not None:
         return bad_request('use a different Email')
-    return jsonify(User(email=email).to_dict())
+    return jsonify({"message":"email is uniqe"})
 
 @app.route('/auth', methods=['POST'])
 def auth():
@@ -123,7 +125,10 @@ def update_password(id):
 
 @app.route('/cars/<int:id>', methods=['GET'])
 def get_car(id):
-    return jsonify(Car.query.get_or_404(id).to_dict())
+    car = Car.query.get(id)
+    if car:
+        return jsonify(car.to_dict())
+    return bad_request("null car")
 
 @app.route('/cars/<string:id>', methods=['GET'])
 def get_car_name(id):
@@ -156,23 +161,44 @@ def create_car():
 
 @app.route('/cars/<int:id>', methods=['PUT'])
 def update_car(id):
-    car = Car.query.get_or_404(id)
+    car = Car.query.get(id)
+    if not car:
+        return bad_request("null car")
     data = request.get_json() or {}
-    
+    if car.id != data['id']:
+        return bad_request("wrong car id")
     car.from_dict(data)
     db.session.commit()
     return jsonify(car.to_dict())
 
-@app.route('/cars/<int:id>', methods=['LOCK'])
+@app.route('/report_cars/<int:id>', methods=['GET'])
 def report_car(id):
     car = Car.query.get(id)
     if car:
         car.status = 0
         db.session.commit()
+        engineer = User.query.filter_by(role = 1).first()
+        if not engineer:
+            return bad_request("null engineer! go hire one!")
+        receiver_address = engineer.email
+        sender_address = 'jiewenguan6@gmail.com'
+        sender_pass = 'ASSIGNMENT3pass'
+        mail_content = "The vehicle No.{id} {name} is awaiting your service, please login to the carshare website to see the details.".format(id = car.id, name = car.name)
+        message = MIMEMultipart()
+        message['From'] = sender_address
+        message['To'] = receiver_address
+        message['Subject'] = "Car service notice"
+        message.attach(MIMEText(mail_content, 'plain'))
+        session = smtplib.SMTP('smtp.gmail.com', 587)
+        session.starttls() 
+        session.login(sender_address, sender_pass) 
+        text = message.as_string()
+        session.sendmail(sender_address, receiver_address, text)
+        session.quit()
         return jsonify(car.to_dict())
     return bad_request("null car")
 
-@app.route('/cars/<int:id>', methods=['UNLOCK'])
+@app.route('/fix_cars/<int:id>', methods=['GET'])
 def fix_car(id):
     car = Car.query.get(id)
     if car:
@@ -266,18 +292,6 @@ def error_response(status_code, message=None):
     response = jsonify(payload)
     response.status_code = status_code
     return response
-
-
-
-
-
-
-
-
-
-
-
-
 
 def list_to_dict(list):
     ret = []

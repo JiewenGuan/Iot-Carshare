@@ -6,4 +6,4 @@ class Config(object):
     BODY_TYPE = ['Body Type','sedan','truck','van','pickup','suv','other']
     CAR_STATUSES = ['in service', 'avaliable', 'booked']
     BOOKING_STAT = ['canceled', 'active', 'returned']
-    USER_TYPE = ['Admin','Engeneer','Customer','Select Role']
+    USER_TYPE = ['Admin','Engeneer','Customer']

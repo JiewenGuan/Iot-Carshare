@@ -36,17 +36,21 @@ class User(db.Model):
             'id': self.id,
             'username': self.username,
             'email': self.email, 
-            'role': self.role
+            'role': self.role,
+            'mac_address': self.mac_address
         }
         return data
 
     def from_dict(self, data, new_user=False):
-        for field in ['username','email']:
+        for field in ['username','email','mac_address']:
             if field in data:
                 setattr(self, field, data[field])
         if new_user and 'password' in data:
             self.set_password(data['password'])
-        self.role = 2
+        if 'role' in data:
+            self.role = data['role']
+        else:
+            self.role = 2
         hashing = hashlib.sha256(self.username.encode("utf-8"))
         self.face_token = hashing.hexdigest()
 

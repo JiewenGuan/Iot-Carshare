@@ -27,6 +27,7 @@
             {% if current_user.role == 0 %}
             <a href="{{ url_for('car_history', id = car['id'])}}" class='btn btn-primary'>History</a>
             <a href="{{ url_for('car_edit', id = car['id'])}}" class='btn btn-primary'>Edit</a>
+            <a href="{{ url_for('car_report', id = car['id'])}}" class='btn btn-primary'>Report</a>            
             {% endif %}
             {% if car['location'] %}
                 <a href="{{ url_for('location', id = car['id'])}}" class='btn btn-primary'>location</a>

@@ -12,9 +12,9 @@ class LoginForm(FlaskForm):
     submit = SubmitField('Sign In')
 
 class RegistrationForm(FlaskForm):
-    username = StringField('Username', validators=[DataRequired()])
-    email = StringField('Email', validators=[DataRequired(), Email()])
-    password = PasswordField('Password', validators=[DataRequired()])
+    username = StringField('Username', validators=[DataRequired(),Length(max=128,message="too long")])
+    email = StringField('Email', validators=[DataRequired(), Email(),Length(max=128,message="too long")])
+    password = PasswordField('Password', validators=[DataRequired(),Length(min=6, max=128,message="too long")])
     password2 = PasswordField(
         'Repeat Password', validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Register')
@@ -71,5 +71,13 @@ class AddCarForm(FlaskForm):
     seats = IntegerField('Seats',validators=[DataRequired(),NumberRange(min=1)])
     location = StringField('Location',validators=[DataRequired(),Regexp("^\[([-+]?)([\d]{1,2})(((\.)(\d+)(,)))(\s*)(([-+]?)([\d]{1,3})((\.)(\d+))?)\]$")])
     rate = DecimalField("Rate",validators=[DataRequired(), NumberRange(min=1)])
-    submit = SubmitField('Book')
-    
+    submit = SubmitField('Submit')
+        
+
+class EditUserForm(FlaskForm):
+    username = StringField('Username', validators=[DataRequired(),Length(max=128,message="too long")])
+    email = StringField('Email', validators=[DataRequired(), Email(),Length(max=128,message="too long")])
+    user_type = SelectField('Colour',coerce=int,validators=[NumberRange(min=0,max=2)])
+    mac_address = StringField('Mac Address', validators=[Length(max=128,message="too long")])
+
+    submit = SubmitField('Confirm')
