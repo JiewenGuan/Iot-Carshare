@@ -46,10 +46,10 @@ is of the correct format before been returned.
 # Only import appropriate packages to reduce loading time.
 from imutils.video import VideoStream
 from pyzbar import pyzbar
-import datetime
+# import datetime
 import imutils
 import time
-import cv2
+# import cv2
 
 # To consolidate logs into one location.
 import logging
@@ -71,8 +71,8 @@ class QRReader():
         or False if the code is invalid.        
         """
 
-        # Initialise the VideoStream and sleep for adequate time
-        # for the camera to be initialised.
+        # Initialise the VideoStream and as such, sleep for 
+        # adequate time for the camera to be initialised.
         log.info("Starting video stream...")
         video_stream = VideoStream(src=0).start()
         time.sleep(2)
@@ -82,17 +82,11 @@ class QRReader():
         timeout_time = time.time() + 10
         # found = set()
         valid_code = False
-        print("1")
+        # print("1")
 
         # Extract frames from the video_stream and process them for potential barcodes.
         # Breaks after the set time.
         while True:
-            # Check the time elapsed and break if it exceeds the set time.
-            if time.time() > timeout_time: 
-                # print("No valid codes identified.")
-                # time.sleep(2)
-                break
-
             # grab the frame from the threaded video stream and resize it to
             # have a maximum width of 400 pixels
             # Extract a fream from the stream and resize it to a processor
@@ -114,9 +108,20 @@ class QRReader():
                     extracted_qrcode = extracted_barcode.data.decode("utf-8")
                     log.info("QRCODE Found: {}".format(extracted_qrcode))
                     valid_code = self.validate_qr_code(extracted_qrcode)
-                    if valid_code:
+                    if valid_code is not False:
                         log.info("Most recent code is of valid format.")
                         break
+
+                # Break out of the loop.
+            if valid_code is not False:
+                break
+            
+            # Check the time elapsed and break if it exceeds the set time.
+            if time.time() > timeout_time: 
+                # print("No valid codes identified.")
+                # time.sleep(2)
+                # print("time breaking")
+                break
 
                 # the barcode data is a bytes object so we convert it to a string
                 # Convert the barcode from a byte array to a string.
@@ -133,8 +138,9 @@ class QRReader():
             # time.sleep(1)
 
         # Close the videostream (all video streams), and return
-        # the found code.
+        # the found code, or False.
         video_stream.stop()
+        log.info("Video Stream terminated. Returning result.")
         return valid_code
 
     
@@ -146,7 +152,10 @@ class QRReader():
         False if the code is invalid.
         """
 
+        # In this implementation, the qrcode should be at least two words
+        # and the first word should be "PIOT".
         extracted_code = qr_code.split()
+        log.info("Analysing QR Code....")
         if extracted_code[0] == "PIOT":
             return qr_code
         return False
@@ -154,4 +163,4 @@ class QRReader():
 
 if __name__ == "__main__":
     qr_read_test = QRReader()
-    qr_read_test.read_qr_code()
+    print("Finally: {}".format(qr_read_test.read_qr_code()))

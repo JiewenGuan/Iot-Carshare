@@ -39,7 +39,7 @@ class HelperUtilities:
 
     def get_location(self):
         """
-        A utility function to help clear the screen.
+        A utility function that returns a random but real location.
         """
         location = [
             [-37.806995, 144.967241], 

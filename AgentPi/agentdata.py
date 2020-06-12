@@ -44,7 +44,7 @@ class DictionaryConstructor:
         self.usertoken = None
         self.info_date_time = info_date_time
         self.current_location = None
-        self.engineer_bluetooth
+        self.engineer_bluetooth = None
         self.engineer_code = None
 
     # Setters for the dictionary beyond the constructor:
@@ -68,7 +68,7 @@ class DictionaryConstructor:
     def set_current_location(self, current_location: tuple):
         self.current_location = current_location
 
-    def set_engineer_bluetooth(self, engineer_bluetooth: set):
+    def set_engineer_bluetooth(self, engineer_bluetooth: list):
         self.engineer_bluetooth = engineer_bluetooth
 
     def set_engineer_code(self, engineer_code: str):

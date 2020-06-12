@@ -37,11 +37,11 @@ class BluetoothListenerEngineer():
     For this to return, the device must be discoverable.
     """
 
-    def __init__(self, listen_interval: int):
+    def __init__(self):
         # self.listen_interval = listen_interval
         pass
 
-    def listen_bluetooth(self, listen_interval) -> set:
+    def listen_bluetooth(self, listen_interval) -> list:
         """
         Called to return a set of persisting bluetooth 
         MAC addresses based on the listen_interval parameter.
@@ -62,11 +62,13 @@ class BluetoothListenerEngineer():
         # devices. Using list comprehension in case order
         # becomes significant in a future implementation.
         # persisting_devices = [i for i, j in zip(initial_devices, final_devices) if i == j]
-        persisting_devices = set(initial_devices).intersection(final_devices)
+        # persisting_devices = set(initial_devices).intersection(final_devices)
+        # Pythonic but not very efficient (O(n^2) vs set comparison O(n))
+        persisting_devices = [x for x in initial_devices if x in final_devices]
         log.info("Persisting devices: {}".format(persisting_devices))
         return persisting_devices
 
-    def catch_bluetooth(self) -> set:
+    def catch_bluetooth(self) -> list:
         """
         Called to return a set of bluetooth MAC addresses
         that were detetected during the predetermined 
@@ -75,7 +77,7 @@ class BluetoothListenerEngineer():
 
         found_devices = bluetooth.discover_devices()
         log.info("Detected devices: {}".format(found_devices))
-        return set(found_devices)
+        return found_devices
 
 
 if __name__ == "__main__":

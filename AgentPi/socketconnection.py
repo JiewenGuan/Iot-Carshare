@@ -90,7 +90,7 @@ class SocketConnection:
         # Return the dictionary.
         return self.validation_returner(socket_dict_tosend)
 
-    def validate_engineer(self, engineer_bluetooth: set):
+    def validate_engineer(self, engineer_bluetooth: list):
         """
         Validate an engineer's bluetooth credentials.
         This constitutes Action 5 for communicaiton purposes.
@@ -232,7 +232,7 @@ class SocketConnection:
             print("Unable to connect to server")
             log.exception("Server connection refused: {}".format(err))
             return None
-        except e:
+        except Exception as e:
             log.exception(e)
             return None
                 
