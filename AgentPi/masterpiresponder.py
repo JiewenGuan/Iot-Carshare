@@ -139,7 +139,7 @@ class MasterResponder():
         username = None
 
         carname = self.agent_dictionary["car_id"]
-        # THIS IS A SET!
+        # THIS IS A LIST!
         engineer_bt = self.agent_dictionary["engineer_bluetooth"]
 
         # TODO Ensure correct dictionary name
@@ -250,5 +250,7 @@ if __name__ == "__main__":
 # self.usertoken = usertoken
 # self.info_date_time = info_date_time
 # self.current_location = current_location
+# self.engineer_bluetooth = None
+# self.engineer_code = None
 
 

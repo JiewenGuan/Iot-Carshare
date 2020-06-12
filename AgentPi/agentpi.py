@@ -49,7 +49,7 @@ class CarIDLoader:
     while it is in an locked state, basically for performing any car
     related functions when the software is loaded.
     It is instantiated with nothing, and has one a primary function that
-    returns a car_id.
+    returns a :attr:`car_id`.
     """
 
     def __init__(self):
@@ -77,8 +77,8 @@ class CLIController:
     when it is instantiated, and this class is where most user interactions occur.
     Essentially control stays here until the program exits.
     It is responsible for displaying a CLI for the user. 
-    It accepts a CarDetails object which should have details
-    relative to the version loaded (at least the car_id) and 
+    It accepts a :class:`CarDetails` object which should have details
+    relative to the version loaded (at least the :attr:`car_id`) and 
     returns nothing.
     The sole method activated is called with no parameters.
     """
@@ -134,7 +134,7 @@ class Main():
     Main class that contains a single function that 
     when instantiated and called respectively, works 
     to load any neccessary details regarding the vehicle before 
-    instantiateing the user interface with a call to :mod:'validation'
+    instantiateing the user interface with a call to :mod:`validation`
     """
 
     def start(self):

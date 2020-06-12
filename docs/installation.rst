@@ -14,17 +14,23 @@ running simultaneously on the same device, consider using a virtual environment.
     sudo apt install python3-venv
     pip3 install virtualenv 
 
-    cd ~/webapp 
-    python3 -m venv venv 
-    source venv/bin/activate
+    # Change to your prefered directory and create your virtual environment.
+    cd ~/your_directory 
+    python3 -m venv your_venv 
+    source your_venv/bin/activate
 
 Agent Pi Installation
 =====================
-The Agent requires a large number of dependencies due to the face recognition requirements.
+The Agent requires a large number of dependencies due to the face recognition requirements, 
+QR Code detection, and bluetooth interactions.
 Different environments may affect these instructions. 
 
 Importantly it uses the dateutil package to parse dates. If this is deployed on Python 3.7 or
 newer this can be deprecated and internal datetime functions used instead.
+
+Similarly this software has been developed with openCV 3.5.0 - newer versions of openCV include
+functionality for recognising QR codes, however these have not been tested with the custom 
+compilation of openCV described in this document.
 
 The following is adapted from a guide provided by RMIT University in the course 
 Programming Internet of Things Semester 1 2020, which is in turn adapted from 
@@ -151,9 +157,19 @@ Reset CONF_SWAPSIZE to a smaller size: ::
 
     sudo /etc/init.d/dphys-swapfile restart
 
-Instal imutils python3 package: ::
+Install imutils python3 package: ::
 
     pip3 install imutils
+
+Install bluetooth dependencies: ::
+
+    sudo apt install bluetooth
+    sudo apt install libbluetooth-dev
+    python3 -m pip install pybluez
+
+Install QR Code dependency: ::
+
+    python3 -m pip install pyzbar
 
 
 Master Pi Installation

@@ -2,11 +2,13 @@
 This module contains the classes that are used to
 communicate with the master pi.
 
-Instantiating the class has accepts one paramter - the car_id. 
-The socket connection then sends a pickled object to the server.
-This object is defined at both ends, and is a dictionary that contains
-the car_id and the current time, as well as either of the username 
-and password (text validation) or the user_token (face validation).
+Instantiating the class has accepts one paramter - the :attr:`car_id`. 
+The socket connection then sends a JSON object to the server.
+This object is defined at both ends, and is based on a dictionary that contains
+the :attr:`car_id` and the current time, as well as either of the username 
+and password (text validation) or the user_token (face validation), or any
+further attributes deemed relevant by the called function. See the individual
+function for further details..
 """
 
 # The two entry points for validation accept either the token from the face recognition file
@@ -32,9 +34,9 @@ log = logging.getLogger(__name__)
 
 class SocketConnection:
     """
-    This class is instantiated with just the car_id and then the appropriate method
+    This class is instantiated with just the :attr:`car_id` and then the appropriate method
     must be called to achieve the desired result, passing in the appropriate
-    objects. A dictionary is then constructed and returned using the agentdata.py
+    objects. A dictionary is then constructed and returned using the :mod:`agentdata`
     module and then this is passed to the socket which returns a dictionary
     for the called method to act on.
     """
@@ -188,8 +190,8 @@ class SocketConnection:
 
     def establish_connection(self, dict_to_send: dict) -> dict:
         """
-        This method is called by the methods in this class for performing
-        an action with the master pi. It accepts a dictionary (from agentdata)
+        This method is called by methods in this class for performing
+        an action with the master pi. It accepts a dictionary (from :mod:`agentdata`)
         and returns a dictionary of the same type to be acted on.
         """
 

@@ -24,7 +24,7 @@ class CarDetails:
     so it is is necessary when instantiating this object to call
     the updateLocation function if you want to use the actual
     location of the vehicle, but this will increase startup time.
-    This class accepts the car_id upon instnatiation.
+    This class accepts the :attr:`car_id` upon instantiation.
     """
 
     def __init__(self, car_id: str):
@@ -87,13 +87,15 @@ class CarDetails:
     def update_car_location(self):
         """
         Updates the current location of the car. This instantiates the
-        CarLocationUpdater and attempts to update the location - there
-        are two levels of error handling here, in case the CarLocationUpdater
+        :class:`CarLocationUpdater` and attempts to update the location - there
+        are two levels of error handling here, in case the :class:`CarLocationUpdater`
         fails to return valid data, at which point it defaults to the previous
         known location.
         """
+
         location_updater = CarLocationUpdater(self.carlocation)
         new_location = location_updater.returncarlocation()
+        
         # Attempt to update the location - if this fails due to key errors, 
         # return values to original, notify, else fail hard and fast.
         if "Longitude" in new_location and \
@@ -114,6 +116,7 @@ class CarDetails:
         """
         Called when an engineer acccess the car.
         Presents a menu appropriate to an engineer once the car is unlocked.
+        And returns to the main menu when the engineer has locked the vehicle.
         """
 
         # Store any appropriate data and pass control to the 
@@ -137,10 +140,11 @@ class CarDetails:
 class CarLocationUpdater:
     """
     This class stores and can be used to update the location of the
-    car. It is designed to be instantiated by a CarDetails object.
+    car. It is designed to be instantiated by a :class:`CarDetails` object.
     The location is stored as a dictionary and containes values
     in Decimal Degrees, and the time that it was updated is also stored.
     """
+
     def __init__(self, currentcar_location: dict):
         self.currentcar_location = currentcar_location
 

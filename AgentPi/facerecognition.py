@@ -13,7 +13,7 @@ validation.
 # import the necessary packages
 from imutils.video import VideoStream
 import face_recognition
-import argparse
+# import argparse
 import imutils
 import pickle
 import time

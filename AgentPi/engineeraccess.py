@@ -18,9 +18,9 @@ log = logging.getLogger(__name__)
 
 class EngineerAccess():
     """
-    The EngineerAccess class is constructed with the dictionary that was returned
+    The :class:`EngineerAccess` class is constructed with the dictionary that was returned
     by the socket connection from the master pi. It has a single entry point
-    of unlock_car that acts based on the dictionary that the class was 
+    of :func:`unlock_car` that acts based on the dictionary that the class was 
     instantiated with.
     """
 
@@ -32,7 +32,7 @@ class EngineerAccess():
         Perform functions for unlocking the car for an engineer.
         Presents a single option which is to conclude
         the work, requring the engineer has a QR code for ID 
-        purposes. If the logouts fail after a set number of times,
+        purposes. If the logout attempts fail after a set number of times,
         the car locks for security reasons.
         """
 
@@ -65,7 +65,7 @@ class EngineerAccess():
                 if engineer_code:
                     # TODO how do we update the master if the connection fails?
                     socket_connection = SocketConnection(self.unlocked_car["car_id"])
-                    # Pass in the qr code here?
+                    # Pass in the qr code to the socket connection and await a return.
                     car_returned = socket_connection.terminate_engineer(engineer_code)
                     engineer_in_car = False
                 elif logout_attempts >= failed_logouts:

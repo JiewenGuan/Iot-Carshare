@@ -1,9 +1,9 @@
 
 """
 This module performs the functions associated with QR code
-reading. It has one class QRReader that consists of two 
-functions - read_qr_code which uses the camera to search
-for QR codes, and validate_qr_code which ensures the QR Code
+reading. It has one class :class:`QRReader` that consists of two 
+functions - :func:`read_qr_code` which uses the camera to search
+for QR codes, and :func:`validate_qr_code` which ensures the QR Code
 is of the correct format before been returned.
 """
 ##########################################################################################
@@ -40,16 +40,11 @@ is of the correct format before been returned.
 # and their referenced 
 # https://www.pyimagesearch.com/2018/05/21/an-opencv-barcode-and-qr-code-scanner-with-zbar/
 
-# TODO Dependencies
-# python3 -m pip install pyzbar
-
 # Only import appropriate packages to reduce loading time.
 from imutils.video import VideoStream
 from pyzbar import pyzbar
-# import datetime
 import imutils
 import time
-# import cv2
 
 # To consolidate logs into one location.
 import logging
@@ -58,15 +53,15 @@ log = logging.getLogger(__name__)
 
 class QRReader():
     """
-    The QRReader class consists of two functions, read_qr_code which is publicly
-    callable read_qr_code, and validate_qr_code which is called to validate
+    The QRReader class consists of two functions, :func:`read_qr_code` which is publicly
+    callable, and :func:`validate_qr_code` which is called to validate
     any codes that are found.
     """
 
     def read_qr_code(self):
         """
         This functions initialises the camera and then searches for QR codes. 
-        Any codes that are found are incrementally passed to validate_qr_code 
+        Any codes that are found are incrementally passed to :func:`validate_qr_code` 
         which returns the code to be returned to the calling function,
         or False if the code is invalid.        
         """
@@ -77,12 +72,9 @@ class QRReader():
         video_stream = VideoStream(src=0).start()
         time.sleep(2)
 
-        # Defines a timeout time for video, and the return
-        # valid_code 
+        # Defines a timeout time for video, and the return valid_code.
         timeout_time = time.time() + 10
-        # found = set()
         valid_code = False
-        # print("1")
 
         # Extract frames from the video_stream and process them for potential barcodes.
         # Breaks after the set time.
@@ -97,7 +89,7 @@ class QRReader():
             # Extract any barcodes from the frame.
             found_barcodes = pyzbar.decode(extracted_frame)
 
-            # Assess all the barcodes found by looping through .
+            # Assess all the barcodes found by looping through the returned list.
             for extracted_barcode in found_barcodes:
                 # Determine the type, and if of type QRCODE then continue.
                 # Is instance does not work as the type function returns a string.
@@ -112,37 +104,19 @@ class QRReader():
                         log.info("Most recent code is of valid format.")
                         break
 
-                # Break out of the loop.
+            # Break out of the loop if a valid code has been found.
             if valid_code is not False:
                 break
             
             # Check the time elapsed and break if it exceeds the set time.
             if time.time() > timeout_time: 
-                # print("No valid codes identified.")
-                # time.sleep(2)
-                # print("time breaking")
                 break
-
-                # the barcode data is a bytes object so we convert it to a string
-                # Convert the barcode from a byte array to a string.
-                # barcodeData = barcode.data.decode("utf-8")
-
-
-                # if the barcode text has not been seen before print it and update the set
-                # if barcodeData not in found:
-                #     print("[FOUND] Type: {}, Data: {}".format(barcodeType, barcodeData))
-                #     found.add(barcodeData)
-            
-            # Delay the scan of the next frame to reduce the chance of reading an 
-            # undesired barcode again.
-            # time.sleep(1)
 
         # Close the videostream (all video streams), and return
         # the found code, or False.
         video_stream.stop()
         log.info("Video Stream terminated. Returning result.")
         return valid_code
-
     
     def validate_qr_code(self, qr_code: str):
         """

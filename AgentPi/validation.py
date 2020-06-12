@@ -54,7 +54,7 @@ class ValidateUser:
     def validate_text(self):
         """
         Validates user's text credentials. Internally called. Returns after the number of attempts
-        is exceeded or the user was true and the car has been returned..
+        is exceeded or the user was true and the car has been returned.
         """
 
         attempts = 3
@@ -102,7 +102,7 @@ class ValidateUser:
     def validate_face(self):
         """
         Attempts to validate a face detection. Instantiates and calls the 
-        facerecognition.py which accepts one parameter, the location of the 
+        :mod:`facerecognition` which accepts one parameter, the location of the 
         encodings file (pickle) and returns the token if the face is in the database
         for validation with the server.
         """
@@ -140,8 +140,8 @@ class ValidateUser:
         """
         This function is called when an engineer attempts to log in.
         It calls the appropriate bluetooth detection function in 
-        the bluetoothlistener module and if an address is returned
-        it then calls the socket connection and acts based on the 
+        the :mod:`bluetoothlistener` module and if an address is returned
+        it then calls the socket connection and acts based on the return.
         """
 
         # Inform the user of the choice and action. Call bluetooth
@@ -172,7 +172,6 @@ class ValidateUser:
             print("No devices found.")
             time.sleep(3)
             return
-
 
 
 # For testing purposes.

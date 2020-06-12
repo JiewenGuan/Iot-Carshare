@@ -1,17 +1,11 @@
 """
 This module performs the functions associated with the
 bluetooth recognition of users. It serves this function
-by periodically collecting the MAC addresses of nearby
-devices, comparing this to a previously collected set
-of devices, and then polls the master pi for any valid
+by periodically or (relatively) instantaneously collecting the MAC addresses 
+of active devices that are in range of the Agent
+device, comparing this to a previously collected set
+of devices in the case of periodic testing, and then polls the master pi for any valid
 engineer appointment for the vehicle ID.
-"""
-
-"""
-Dependencies
-sudo apt install bluetooth
-sudo apt install libbluetooth-dev
-python3 -m pip install pybluez
 """
 
 import bluetooth
@@ -26,7 +20,7 @@ class BluetoothListenerEngineer():
     This class encapsulates the functions required to 
     listen for bluetooth devices. It is instantiated
     with no parameters.
-    Its primary functions listen_bluetooth (accepts 
+    Its primary functions :func:`listen_bluetooth` (accepts 
     one paramater as an int which is the interval 
     time in seconds between listen events) and 
     catch_bluetooth (no defined time) return a set of 
@@ -38,13 +32,12 @@ class BluetoothListenerEngineer():
     """
 
     def __init__(self):
-        # self.listen_interval = listen_interval
         pass
 
     def listen_bluetooth(self, listen_interval) -> list:
         """
         Called to return a set of persisting bluetooth 
-        MAC addresses based on the listen_interval parameter.
+        MAC addresses based on the :attr:`listen_interval` parameter.
         """
 
         # Listen for initial devices, then pause and listen
@@ -55,15 +48,12 @@ class BluetoothListenerEngineer():
         final_devices = bluetooth.discover_devices()
         log.info("Final devices: {}".format(final_devices))
 
-        # print("Initial devices: {}".format(initial_devices))
-        # print("Final devices: {}".format(final_devices))
-
         # Compare the lists and return a list of persisting
         # devices. Using list comprehension in case order
         # becomes significant in a future implementation.
-        # persisting_devices = [i for i, j in zip(initial_devices, final_devices) if i == j]
         # persisting_devices = set(initial_devices).intersection(final_devices)
-        # Pythonic but not very efficient (O(n^2) vs set comparison O(n))
+        # Pythonic but not very efficient (O(n^2) vs set comparison O(n)). This is okay
+        # as we don't expect there to be many bluetooth devices that persist.
         persisting_devices = [x for x in initial_devices if x in final_devices]
         log.info("Persisting devices: {}".format(persisting_devices))
         return persisting_devices
