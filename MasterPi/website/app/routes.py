@@ -3,10 +3,11 @@ from app.forms import EditUserForm, LoginForm, RegistrationForm, CarSearchForm, 
 from app.models import User
 from flask import render_template, flash, redirect, url_for, request
 from flask_login import login_user, logout_user, current_user, login_required
-import requests
+import requests, html.parser as htmlparser
 from config import Config
 from datetime import date, datetime, timedelta
 from functools import wraps
+
 
 def auth_admin(f):
     @wraps(f)
@@ -66,10 +67,24 @@ def login():
         return redirect(url_for('index'))
     return render_template('login.html', title='Sign In', form=form)
 
+
 @app.route('/dashboard', methods=['GET', 'POST'])
 @auth_admin
 def dashboard():
-    return "dash board"
+    r = requests.get('http://192.168.1.109:10100/metadata',
+                     verify=False)
+    retdata = r.json() or {}
+
+
+    pielabels = Config.BODY_TYPE
+    pielabels.pop(0)
+    pievalues = retdata['pie']
+    pie = ""
+    for i in range(len(pielabels)):
+        pie=pie+",[\'{}\',{}]".format(pielabels[i],pievalues[i])
+
+    return render_template('dashboard.html', pie = pie)
+
 
 @app.route('/admin_user', methods=['GET', 'POST'])
 @auth_admin
@@ -89,7 +104,7 @@ def admin_user():
                      json=data, verify=False)
     retdata = r.json() or {}
     role_list = make_select_list(Config.USER_TYPE)
-    role_list.insert(0,(-1,"Select Role"))
+    role_list.insert(0, (-1, "Select Role"))
     form.role.choices = role_list
     return render_template('admin_user.html', title='Admin User', form=form, users=retdata, Config=Config)
 
@@ -114,7 +129,7 @@ def car_edit(id):
     form.colour.choices = make_select_list(Config.CAR_COLORS)
 
     r = requests.get(
-            'http://192.168.1.109:10100/cars/{}'.format(id), verify=False)
+        'http://192.168.1.109:10100/cars/{}'.format(id), verify=False)
     retdata = r.json() or {}
     if 'error' in retdata:
         flash('An Error Occored:{}'.format(retdata['message']))
@@ -146,8 +161,7 @@ def car_edit(id):
         form.rate.data = retdata['rate']
         form.seats.data = retdata['seats']
         form.location.data = retdata['location']
-    return render_template('edit_car.html', title = 'Edit Car', form = form, carid = id)
-
+    return render_template('edit_car.html', title='Edit Car', form=form, carid=id)
 
 
 @app.route('/car_report/<int:id>', methods=['GET', 'POST'])
@@ -207,9 +221,9 @@ def user_history(id):
 def user_edit(id):
     form = EditUserForm()
     form.user_type.choices = make_select_list(Config.USER_TYPE)
-    
+
     r = requests.get(
-            'http://192.168.1.109:10100/users/{}'.format(id), verify=False)
+        'http://192.168.1.109:10100/users/{}'.format(id), verify=False)
     retdata = r.json() or {}
     if 'error' in retdata:
         flash('An Error Occored:{}'.format(retdata['message']))
@@ -217,20 +231,22 @@ def user_edit(id):
 
     if form.validate_on_submit():
         if form.username.data != retdata['username']:
-            tr = requests.get('http://192.168.1.109:10100/uniq/{}'.format(form.username.data), verify=False)
+            tr = requests.get(
+                'http://192.168.1.109:10100/uniq/{}'.format(form.username.data), verify=False)
             if 'error' in tr.json():
                 flash('Please use a different username.')
-                return render_template('edit_user.html', title = 'Edit User', form = form, userid = id)
-                
+                return render_template('edit_user.html', title='Edit User', form=form, userid=id)
+
         if form.email.data != retdata['email']:
-            tr = requests.get('http://192.168.1.109:10100/uemail/{}'.format(form.email.data), verify=False)
+            tr = requests.get(
+                'http://192.168.1.109:10100/uemail/{}'.format(form.email.data), verify=False)
             if 'error' in tr.json():
                 flash('Please use a different email.')
-                return render_template('edit_user.html', title = 'Edit User', form = form, userid = id)
-                
+                return render_template('edit_user.html', title='Edit User', form=form, userid=id)
+
         user = {
             'username': form.username.data,
-            'email': form.email.data, 
+            'email': form.email.data,
             'mac_address': form.mac_address.data or "",
             'role': form.user_type.data
         }
@@ -245,7 +261,7 @@ def user_edit(id):
         form.username.data = retdata['username']
         form.email.data = retdata['email']
         form.mac_address.data = retdata['mac_address'] or ""
-    return render_template('edit_user.html', title = 'Edit User', form = form, userid = id)
+    return render_template('edit_user.html', title='Edit User', form=form, userid=id)
 
 
 @app.route('/register', methods=['GET', 'POST'])

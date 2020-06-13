@@ -329,7 +329,7 @@ def metadata():
     for booking in bookings:
         car_type = Car.query.get(booking.car_id).body_type
         pie[car_type]+=1
-
+    pie.pop(0)
     retdata = {
         "dau":dau,
         "dbs":dbs,
