@@ -1,7 +1,7 @@
 from app import app, db
 from app.models import User, Car, Booking
 from flask import jsonify, request, url_for
-from sqlalchemy import and_, desc
+from sqlalchemy import and_, desc, orm
 from werkzeug.http import HTTP_STATUS_CODES
 from datetime import datetime, timedelta
 import smtplib
@@ -323,8 +323,21 @@ def metadata():
     svs = {}
     for i in range(len(servedcar)):
         svs[str(servedcar[i])]=servednum[i]
+
+    pie = [0,0,0,0,0,0,0]
+
+    for booking in bookings:
+        car_type = Car.query.get(booking.car_id).body_type
+        pie[car_type]+=1
+
+    retdata = {
+        "dau":dau,
+        "dbs":dbs,
+        "svs":svs,
+        "pie":pie
+    }
     
-    return "dau {}, dbs {}, svs {}".format(dau, dbs, svs)
+    return jsonify(retdata)
     
     
 
