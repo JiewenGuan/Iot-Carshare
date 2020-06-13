@@ -3,7 +3,8 @@ from app.forms import EditUserForm, LoginForm, RegistrationForm, CarSearchForm, 
 from app.models import User
 from flask import render_template, flash, redirect, url_for, request
 from flask_login import login_user, logout_user, current_user, login_required
-import requests, html.parser as htmlparser
+import requests
+import html.parser as htmlparser
 from config import Config
 from datetime import date, datetime, timedelta
 from functools import wraps
@@ -75,15 +76,37 @@ def dashboard():
                      verify=False)
     retdata = r.json() or {}
 
-
     pielabels = Config.BODY_TYPE
-    pielabels.pop(0)
     pievalues = retdata['pie']
+    if len(pielabels) > len(pievalues):
+        pielabels.pop(0)
     pie = ""
     for i in range(len(pielabels)):
-        pie=pie+",[\'{}\',{}]".format(pielabels[i],pievalues[i])
+        pie = pie+",[\'{}\',{}]".format(pielabels[i], pievalues[i])
 
-    return render_template('dashboard.html', pie = pie)
+    linelabels = []
+    line = ""
+
+    for i in range(7):
+        line = line+",[\'{lable}\',{dau},{dbs}]".format(
+            lable=str(datetime.now().date()-timedelta(days=i)),
+            dau=retdata['dau'][i],
+            dbs=retdata['dbs'][i]
+        )
+    svs = retdata["svs"]
+    bar = ""
+    for key in svs:
+        color = "green"
+        if svs[key] > 1:
+            color = "yellow"
+        if svs[key] > 2:
+            color = "red"
+        bar = bar + ",[\'{lable}\',{num},'{color}']".format(
+            lable=key,
+            num=svs[key],
+            color=color
+        )
+    return render_template('dashboard.html', pie=pie, line=line,bar = bar)
 
 
 @app.route('/admin_user', methods=['GET', 'POST'])

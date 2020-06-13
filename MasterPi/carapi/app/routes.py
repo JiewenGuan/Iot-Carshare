@@ -182,7 +182,7 @@ def report_car(id):
         booking = Booking({
             'user_id': engineer.id,
             'car_id': id,
-            'time_start': datetime.now(),
+            'time_start': datetime.now().isoformat(),
             'hours': 1
         })
         booking.status = 3
@@ -290,7 +290,7 @@ def book():
 
 @app.route('/metadata', methods=['GET'])
 def metadata():
-    bookings:Booking = Booking.query.all()
+    bookings:Booking = Booking.query.filter(Booking.status != 3).all()
     dau = [0,0,0,0,0,0,0]
     dbs = [0,0,0,0,0,0,0]
     dailybookings = [[],[],[],[],[],[],[]]
@@ -322,7 +322,7 @@ def metadata():
                 servednum[i]+=1
     svs = {}
     for i in range(len(servedcar)):
-        svs[str(servedcar[i])]=servednum[i]
+        svs["No."+str(servedcar[i])+" "+Car.query.get(servedcar[i]).name]=servednum[i]
 
     pie = [0,0,0,0,0,0,0]
 
@@ -330,6 +330,8 @@ def metadata():
         car_type = Car.query.get(booking.car_id).body_type
         pie[car_type]+=1
     pie.pop(0)
+    dau.reverse()
+    dbs.reverse()
     retdata = {
         "dau":dau,
         "dbs":dbs,
