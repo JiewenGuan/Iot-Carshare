@@ -154,7 +154,10 @@ def get_car(id):
 
 @app.route('/cars/<string:id>', methods=['GET'])
 def get_car_name(id):
-    return jsonify(Car.query.filter_by(name=id).first().to_dict())
+    car = Car.query.filter_by(name=id).first()
+    if car:
+        return jsonify(car.to_dict())
+    return bad_request("null car")
 
 @app.route('/cars', methods=['GET'])
 def get_cars():

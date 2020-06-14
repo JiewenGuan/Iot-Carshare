@@ -162,6 +162,7 @@ class MasterResponder():
         # Check if the car is valid and needs service.
         r = requests.get('http://192.168.1.109:10100/cars/{}'.format(carname), verify=False)
         car = r.json() or {}
+        
         if car['status' == 3]:
             # Check if any bluetooth address matches an engineer.
             for bt in engineer_bt:
