@@ -29,10 +29,10 @@ Engineer | engineer | engineer
 
 
 ### Github Usage
-![Image of Github Commit History](https://github.com/Waaaghtech/Iot-Carshare/github.png)
+![Image of Github Commit History](https://github.com/Waaaghtech/Iot-Carshare/blob/master/github.png?raw=true)
 
 ### Trello Usage
-![Image of Trello Board](https://github.com/Waaaghtech/Iot-Carshare/trello.png)
+![Image of Trello Board](https://github.com/Waaaghtech/Iot-Carshare/blob/master/trello.png?raw=true)
 
 ### File Structure
 This project is divided into three primary direcctories with subdirectories as appropriate.
