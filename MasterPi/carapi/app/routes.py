@@ -154,7 +154,10 @@ def get_car(id):
 
 @app.route('/cars/<string:id>', methods=['GET'])
 def get_car_name(id):
-    return jsonify(Car.query.filter_by(name=id).first().to_dict())
+    car = Car.query.filter_by(name=id).first()
+    if car:
+        return jsonify(car.to_dict())
+    return bad_request("null car")
 
 @app.route('/cars', methods=['GET'])
 def get_cars():
@@ -172,6 +175,9 @@ def create_car():
     if 'name' not in data :
         return bad_request('500 must include name')
     
+    if Car.query.filter_by(name=data['name']).first():
+        return bad_request('please use a different car name')
+
     car = Car(data)
     db.session.add(car)
     db.session.commit()
@@ -188,6 +194,11 @@ def update_car(id):
     data = request.get_json() or {}
     if car.id != data['id']:
         return bad_request("wrong car id")
+
+    if 'name' in data and data['name'] != car.name and \
+            Car.query.filter_by(name=data['name']).first():
+        return bad_request('please use a different Car name')
+    
     car.from_dict(data)
     db.session.commit()
     return jsonify(car.to_dict())

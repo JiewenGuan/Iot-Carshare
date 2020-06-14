@@ -162,21 +162,23 @@ class MasterResponder():
         # Check if the car is valid and needs service.
         r = requests.get('http://192.168.1.109:10100/cars/{}'.format(carname), verify=False)
         car = r.json() or {}
-        if car['status' == 3]:
+
+        if 'status' in car:
+            if car['status'] == 0:
             # Check if any bluetooth address matches an engineer.
-            for bt in engineer_bt:
-                data = {'bluetooth':bt}
-                r = requests.post('http://192.168.1.109:10100/bt_addr',json = data, verify=False)
-                user = r.json() or {}
-                if user:
-                    if 'id' in user and 'id' in car:
-                        r = requests.get('http://192.168.1.109:10100/user_bookings/{}'.format(user['id']), verify=False)
-                        bookings = r.json() or {} 
-                        for booking in bookings:
-                            if booking['car_id'] == car['id'] and booking['status'] == 3:
-                                valid_credentials = True
-                                username = user['username']
-                                break
+                for bt in engineer_bt:
+                    data = {'bluetooth':bt}
+                    r = requests.post('http://192.168.1.109:10100/bt_addr',json = data, verify=False)
+                    user = r.json() or {}
+                    if user:
+                        if 'id' in user and 'id' in car:
+                            r = requests.get('http://192.168.1.109:10100/user_bookings/{}'.format(user['id']), verify=False)
+                            bookings = r.json() or {} 
+                            for booking in bookings:
+                                if booking['car_id'] == car['id'] and booking['status'] == 3:
+                                    valid_credentials = True
+                                    username = user['username']
+                                    break
 
         # TODO Testing - delete when the API is used.
         # print("Engineer login checkpoint reached")
@@ -195,7 +197,7 @@ class MasterResponder():
 
         carname = self.agent_dictionary["car_id"]
         location = self.agent_dictionary["current_location"]
-        engineer_code = agent_dictionary["engineer_code"]
+        engineer_code = self.agent_dictionary["engineer_code"]
 
         # TODO Code to call API and return engineers booking goes
         # here.
@@ -208,9 +210,12 @@ class MasterResponder():
         # The return is still logged in the Agent for insurance purposes.
         temp_car_id = self.agent_dictionary["car_id"]
         temp_action = self.agent_dictionary["action"]
+        r = requests.get('http://192.168.1.109:10100/cars/{}'.format(carname), verify=False)
+        car = r.json() or {}
+
 
         # Attempt to update the car status in the db.
-        r = requests.get('http://192.168.1.109:10100/fix_cars/{}'.format(carname), verify=False)
+        r = requests.get('http://192.168.1.109:10100/fix_cars/{}'.format(car['id']), verify=False)
         car = r.json() or {}
         if car:
             print("Car status updated")

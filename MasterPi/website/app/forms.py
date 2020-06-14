@@ -82,7 +82,7 @@ class AddCarForm(FlaskForm):
 class EditUserForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired(),Length(max=128,message="too long")])
     email = StringField('Email', validators=[DataRequired(), Email(),Length(max=128,message="too long")])
-    user_type = SelectField('Colour',coerce=int,validators=[NumberRange(min=0,max=2)])
+    user_type = SelectField('Colour',coerce=int,validators=[NumberRange(min=0,max=3)])
     mac_address = StringField('Mac Address', validators=[Length(max=128,message="too long")])
 
     submit = SubmitField('Confirm')

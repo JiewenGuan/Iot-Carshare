@@ -23,6 +23,9 @@
                     <li><a href="{{ url_for('admin_user')}}">Users</a></li>
                     <li><a href="{{ url_for('dashboard')}}">Dashboard</a></li>
                     {% endif %}
+                    {% if current_user.role == 3 %}
+                    <li><a href="{{ url_for('dashboard')}}">Dashboard</a></li>
+                    {% endif %}
                 </ul>
                 <ul class="nav navbar-nav navbar-right">
                     {% if current_user.is_anonymous %}
