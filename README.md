@@ -1,6 +1,10 @@
 # Programming Internte of Things - Assignment 3
 ## Car Share System
 
+### Introduction
+This software represents the culmination of mutliple assignements that have resulted in a platform that enables a company to install raspberry pi devices with cameras in vehicles, and use these to manage the vehicles as a fleet of rental-style cars. 
+It achevieves this by presenting a website where different users can perform a number of functions including registering, booking, cancelling bookings, and other administrative tasks related to the operations of the company. 
+A cloud database containing all information is accessed using an API that employes paramaterized SQL queries, the API of which is accessed by both the Master Pi in responding to Agent Pi requests, and the website itself. 
 
 ### Instructions
 The implemenation of the specification has resulted in four primary programs all of which can be operated on independent hardware depending on the desired configuration. In consideration of the Master Pi, this means that the socket response functionality, the database API, and the website can be deployed on physically separate hardware, spreading processing loads and affording a level of redundancy in the platform.
