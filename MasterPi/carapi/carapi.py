@@ -290,6 +290,7 @@ def seed_data():
 def make_shell_context():
     return {'db': db, 'User': User, 'Car': Car, 'Booking': Booking}
 
+
 user = User.query.filter_by(username="admin").first()
 if not user:
     seed_data()

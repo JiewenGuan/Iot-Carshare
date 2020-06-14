@@ -22,7 +22,7 @@ class HelperUtilities:
         Helper function to clear the keyboard after a sleep event. 
         it consumes each line until none remain, and then returns control to
         the calling function
-        This may not function on windows - see https://docs.python.org/3/library/select.html
+        This may not function on Windows - see https://docs.python.org/3/library/select.html
         and will throw an exception and exit as this is designed to run on raspbian raspberry pi.
         """
         try: 
@@ -39,7 +39,7 @@ class HelperUtilities:
 
     def get_location(self):
         """
-        A utility function to help clear the screen.
+        A utility function that returns a random but real location.
         """
         location = [
             [-37.806995, 144.967241], 

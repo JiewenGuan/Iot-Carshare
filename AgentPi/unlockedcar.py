@@ -20,7 +20,7 @@ class UnlockedCar():
     """
     The main class is constructed with the dictionary that was returned
     by the socket connection from the master pi. It has a single entry point
-    of unlock_car that acts based on the dictionary that the class was 
+    of :func:`unlock_car` that acts based on the dictionary that the class was 
     instantiated with.
     """
     def __init__(self, unlocked_car: dict):

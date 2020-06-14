@@ -5,13 +5,15 @@ Used to separate the data that contains user information from the
 data the car retains in a locked state. 
 There is no reason for the main module to know who just used the 
 vehicle, so this reduces the need for the main module to know more
-than the car that it is operating in. DONE
-As such, I should move the information from main to validation, or as much 
-as is possible. DONE
-This way, if a valid user is loaded, then the car can be passed into
-the operational section for any usage of the variables. This SHOULD
-remove the need for a carlocked variable.... DONE
+than the car that it is operating in. 
 """
+
+# DONE
+# As such, I should move the information from main to validation, or as much 
+# as is possible. DONE
+# This way, if a valid user is loaded, then the car can be passed into
+# the operational section for any usage of the variables. This SHOULD
+# remove the need for a carlocked variable.... DONE
  
 import datetime
 import dateutil.parser
@@ -42,6 +44,8 @@ class DictionaryConstructor:
         self.usertoken = None
         self.info_date_time = info_date_time
         self.current_location = None
+        self.engineer_bluetooth = None
+        self.engineer_code = None
 
     # Setters for the dictionary beyond the constructor:
     # This is implemented so that the dictionary can be expanded as necessary.
@@ -64,6 +68,12 @@ class DictionaryConstructor:
     def set_current_location(self, current_location: tuple):
         self.current_location = current_location
 
+    def set_engineer_bluetooth(self, engineer_bluetooth: list):
+        self.engineer_bluetooth = engineer_bluetooth
+
+    def set_engineer_code(self, engineer_code: str):
+        self.engineer_code = engineer_code
+
     def get_socket_dictionary(self) -> dict:
         """
         Returns the dictionary - should be called once the dictionary is constructed.
@@ -75,7 +85,9 @@ class DictionaryConstructor:
             "password": self.password,
             "usertoken": self.usertoken,
             "info_date_time": self.info_date_time,
-            "current_location": self.current_location
+            "current_location": self.current_location,
+            "engineer_bluetooth": self.engineer_bluetooth,
+            "engineer_code": self.engineer_code
         }
         return socket_dictionary
 

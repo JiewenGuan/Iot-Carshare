@@ -2,7 +2,14 @@ import os
 basedir = os.path.abspath(os.path.dirname(__file__))
 
 class Config(object):
+
+    """
+    Configuration variables for the database connection.
+    """
+#     HOST = "35.197.181.169"
+
     HOST = "35.197.165.251"
+
     USER = "root"
     PASSWORD = "3dE3GoPn9tKP7kjm"
     DATABASE = "carshare"
@@ -13,3 +20,7 @@ class Config(object):
     #SQLALCHEMY_DATABASE_URI = os.environ.get('DATABASE_URL') or \
         #'sqlite:///' + os.path.join(basedir, 'app.db')
     SQLALCHEMY_TRACK_MODIFICATIONS = True
+
+
+if __name__ == "__main__":
+    pass

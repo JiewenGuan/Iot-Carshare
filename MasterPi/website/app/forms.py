@@ -5,11 +5,13 @@ import requests, re
 from wtforms.fields.html5 import DateField, TimeField
 from datetime import date as da, datetime, timedelta
 
+
 class LoginForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired()])
     password = PasswordField('Password', validators=[DataRequired()])
     remember_me = BooleanField('Remember Me')
     submit = SubmitField('Sign In')
+
 
 class RegistrationForm(FlaskForm):
     username = StringField('Username', validators=[DataRequired(),Length(max=128,message="too long")])
@@ -37,12 +39,14 @@ class CarSearchForm(FlaskForm):
     status = HiddenField(1)
     submit = SubmitField('Search')
 
+
 class UserSearchForm(FlaskForm):
     id = IntegerField(render_kw={"placeholder": "id"})
     username = StringField(render_kw={"placeholder": "Username"})
     email = StringField(render_kw={"placeholder": "Email"})
     role = SelectField('Role',coerce=int,validate_choice=False)
     submit = SubmitField('Search')
+
 
 class BookingForm(FlaskForm):
     car_id = HiddenField(validators=[DataRequired()])
@@ -63,6 +67,7 @@ class BookingForm(FlaskForm):
         if duration.data < 1:
             raise ValidationError('Must book for 1 or more hours')
             
+            
 class AddCarForm(FlaskForm):
     name = StringField('Name',validators=[DataRequired(), Length(max=63,message="too long")])
     make = StringField('Make',validators=[DataRequired(), Length(max=63,message="too long")])
@@ -81,3 +86,7 @@ class EditUserForm(FlaskForm):
     mac_address = StringField('Mac Address', validators=[Length(max=128,message="too long")])
 
     submit = SubmitField('Confirm')
+
+    
+if __name__ == "__main__":
+    pass

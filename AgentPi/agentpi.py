@@ -49,7 +49,7 @@ class CarIDLoader:
     while it is in an locked state, basically for performing any car
     related functions when the software is loaded.
     It is instantiated with nothing, and has one a primary function that
-    returns a car_id.
+    returns a :attr:`car_id`.
     """
 
     def __init__(self):
@@ -61,7 +61,7 @@ class CarIDLoader:
         Function for loading a car_id. Hides the process for 
         determining the car_id, and is called when instantiated.
         """
-        self.this_car_id = "car123"
+        self.this_car_id = "testcarX"
 
     def get_car_id(self):
         """
@@ -77,8 +77,8 @@ class CLIController:
     when it is instantiated, and this class is where most user interactions occur.
     Essentially control stays here until the program exits.
     It is responsible for displaying a CLI for the user. 
-    It accepts a CarDetails object which should have details
-    relative to the version loaded (at least the car_id) and 
+    It accepts a :class:`CarDetails` object which should have details
+    relative to the version loaded (at least the :attr:`car_id`) and 
     returns nothing.
     The sole method activated is called with no parameters.
     """
@@ -100,6 +100,8 @@ class CLIController:
         primary mechanim for user interactions to be responded to.
         If a user is validated, the appropriate class is instantiated
         and control passed to it.
+        Also provides access to engineers via hidden option 9 for 
+        access via bluetooth detection.
         """
         while self.running:
 
@@ -111,6 +113,7 @@ class CLIController:
             print("Please choose from the following options:\n \
                 1. Unlock vehicle with username and password. \n \
                 2. Unlock vehicle with face recognition. \n")
+            # 9. Engineer Access (hidden option)
             user_choice = input("Please enter your selection as an integer: ")
             # pass the result to the Validation module that validates the credentials.
             # True is returned if the user was successful, and only after the
@@ -131,7 +134,7 @@ class Main():
     Main class that contains a single function that 
     when instantiated and called respectively, works 
     to load any neccessary details regarding the vehicle before 
-    instantiateing the user interface with a call to :mod:'validation'
+    instantiateing the user interface with a call to :mod:`validation`
     """
 
     def start(self):

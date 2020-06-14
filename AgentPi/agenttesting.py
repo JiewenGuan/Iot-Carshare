@@ -220,7 +220,8 @@ class TestSocketResponseAction1(unittest.TestCase):
         test_dict = self.valid_dict
         test_dict["usertoken"] = self.invalid_dict["usertoken"]
         returned_dict = self.sock_conn.validation_returner(test_dict)
-        self.assertEqual(returned_dict["username"], test_dict["username"])
+        # self.assertEqual(returned_dict["username"], test_dict["username"])
+        self.assertEqual(returned_dict, False)
 
     def test_a1_invalid_info_date_time(self):
         """
@@ -265,24 +266,25 @@ class TestSocketResponseAction2(unittest.TestCase):
 
     def test_a2_invalid_username(self):
         """
-        Incorrect username - should return a valid dictionary.
+        Incorrect username - should return a valid dictionary that is empty or false.
         """
         test_dict = self.valid_dict
         test_dict["username"] = self.invalid_dict["username"]
         returned_dict = self.sock_conn.validation_returner(test_dict)
         # print("Username that should be valid: {}".format(self.valid_dict["username"]))
-        self.assertEqual(returned_dict["username"], self.test_data_true.username)
-
+        # self.assertEqual(returned_dict["username"], self.test_data_true.username)
+        self.assertEqual(returned_dict, False)
     def test_a2_invalid_password(self):
         """
-        Incorrect password - should return a valid dictionary.
+        Incorrect password - should return a valid dictionary that is empty or false.
         """
         test_dict = self.valid_dict
         test_dict["password"] = self.invalid_dict["password"]
         returned_dict = self.sock_conn.validation_returner(test_dict)
         # print("\nTest send: {}".format(test_dict))
         # print("Test return: {}\n".format(returned_dict))
-        self.assertEqual(returned_dict["username"], self.valid_dict["username"])
+        # self.assertEqual(returned_dict["username"], self.valid_dict["username"])
+        self.assertEqual(returned_dict, False)
 
     def test_a2_invalid_usertoken(self):
         """
@@ -407,8 +409,8 @@ class TestSocketValidation(unittest.TestCase):
             self.valid_dict["username"], 
             self.valid_dict["password"]
             )
-        self.assertEqual(self.valid_dict["username"], returned_dict["username"])
-
+        # self.assertEqual(self.valid_dict["username"], returned_dict["username"])
+        self.assertEqual(returned_dict, False)
     def test_invalid_cred(self):
         """
         Test invalid credential response.
@@ -426,8 +428,8 @@ class TestSocketValidation(unittest.TestCase):
         returned_dict = self.sock_conn_valid.validate_face_credentials(
             self.valid_dict["usertoken"] 
             )
-        self.assertEqual(returned_dict["username"], self.valid_dict["username"])
-
+        # self.assertEqual(returned_dict["username"], self.valid_dict["username"])
+        self.assertEqual(returned_dict, False)
     def test_invalid_token(self):
         """
         Test invalid token response.

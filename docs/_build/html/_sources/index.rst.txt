@@ -6,13 +6,21 @@
 Welcome to IOT Car Share Documentation
 ======================================
 
+This application is a highly modular set of python based modules that 
+when deployed, afford the management of a fleet of vehicles that can 
+be hired by individuals who have registered on a website, with the 
+verification of the user at the vehicle achieved via either text credentials
+or face recognition.
+
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
 
+   installation
    agent_code
-   testing_code
+   master_code
    fr_code
+   testing_code
 
 
 Indices and tables

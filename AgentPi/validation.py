@@ -11,6 +11,7 @@ import time
 from socketconnection import SocketConnection
 import cardetails as CarDetails
 from facerecognition import FaceRecognition
+import bluetoothlistener
 # To consolidate logs into one location.
 import logging
 log = logging.getLogger(__name__)
@@ -44,13 +45,16 @@ class ValidateUser:
         elif self.userselection == "2":
             self.validate_face()
             return True
+        elif self.userselection == "9":
+            self.validate_engineer()
+            return True
         else:
             return False
 
     def validate_text(self):
         """
         Validates user's text credentials. Internally called. Returns after the number of attempts
-        is exceeded or the user was true and the car has been returned..
+        is exceeded or the user was true and the car has been returned.
         """
 
         attempts = 3
@@ -98,7 +102,7 @@ class ValidateUser:
     def validate_face(self):
         """
         Attempts to validate a face detection. Instantiates and calls the 
-        facerecognition.py which accepts one parameter, the location of the 
+        :mod:`facerecognition` which accepts one parameter, the location of the 
         encodings file (pickle) and returns the token if the face is in the database
         for validation with the server.
         """
@@ -122,12 +126,52 @@ class ValidateUser:
                 # place in and throughout this function call.
                 # Return to the main menu when done (cascades back through calling functions).
                 self.current_car.unlock_car(returned_dict)
+                return
             else:
                 print("Booking not found.")
                 time.sleep(3)
+                return
         else:
             print("Face not recognised!\nPlease login with credentials.")
         time.sleep(2)
+        return
+
+    def validate_engineer(self):
+        """
+        This function is called when an engineer attempts to log in.
+        It calls the appropriate bluetooth detection function in 
+        the :mod:`bluetoothlistener` module and if an address is returned
+        it then calls the socket connection and acts based on the return.
+        """
+
+        # Inform the user of the choice and action. Call bluetooth
+        # detection function and act based on number of devices found.
+        print("Validating engineer presence. \n \
+        Please ensure your registered blueooth device is active....")
+        btvalidation = bluetoothlistener.BluetoothListenerEngineer()
+        detected_devices = btvalidation.catch_bluetooth()
+        if len(detected_devices) > 0:
+            # Devices were detected - determine if there is a valid
+            # engineer booking at this car, acting appropriately
+            # depending on the return.
+            print("Validating device....")
+            returned_dict = self.socket_connection.validate_engineer(detected_devices)
+            log.info("returned_dict: {}".format(returned_dict))
+            if returned_dict is None:
+                print("Unable to establish server connection.")
+                time.sleep(3)
+                return
+            if returned_dict is not False:
+                self.current_car.engineer_access(returned_dict)
+            else:
+                print("No authorised devices detected. \n \
+                Access denied!")
+                time.sleep(3)
+                return
+        else:
+            print("No devices found.")
+            time.sleep(3)
+            return
 
 
 # For testing purposes.

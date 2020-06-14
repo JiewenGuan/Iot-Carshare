@@ -2,11 +2,13 @@
 This module contains the classes that are used to
 communicate with the master pi.
 
-Instantiating the class has accepts one paramter - the car_id. 
-The socket connection then sends a pickled object to the server.
-This object is defined at both ends, and is a dictionary that contains
-the car_id and the current time, as well as either of the username 
-and password (text validation) or the user_token (face validation).
+Instantiating the class has accepts one paramter - the :attr:`car_id`. 
+The socket connection then sends a JSON object to the server.
+This object is defined at both ends, and is based on a dictionary that contains
+the :attr:`car_id` and the current time, as well as either of the username 
+and password (text validation) or the user_token (face validation), or any
+further attributes deemed relevant by the called function. See the individual
+function for further details..
 """
 
 # The two entry points for validation accept either the token from the face recognition file
@@ -32,18 +34,19 @@ log = logging.getLogger(__name__)
 
 class SocketConnection:
     """
-    This class is instantiated with just the car_id and then the appropriate method
+    This class is instantiated with just the :attr:`car_id` and then the appropriate method
     must be called to achieve the desired result, passing in the appropriate
-    objects. A dictionary is then constructed and returned using the agentdata.py
+    objects. A dictionary is then constructed and returned using the :mod:`agentdata`
     module and then this is passed to the socket which returns a dictionary
     for the called method to act on.
     """
+
     def __init__(self, car_id: str):
         self.car_id = car_id
 
         # self.IP_ADDRESS = "127.0.0.1"
         # self.M_PI_PORT = 33333
-        self.IP_ADDRESS = "220.245.59.219"
+        self.IP_ADDRESS = "220.240.169.117"
         self.M_PI_PORT = 33333        
         self.ADDRESS = (self.IP_ADDRESS, self.M_PI_PORT)
 
@@ -73,6 +76,7 @@ class SocketConnection:
         """
         Validate the face recognition.
         """
+
         # Construct the dictionary
         log.info("Validating {}".format(user_token))
         socket_dictionary_creator = DictionaryConstructor(
@@ -88,13 +92,35 @@ class SocketConnection:
         # Return the dictionary.
         return self.validation_returner(socket_dict_tosend)
 
+    def validate_engineer(self, engineer_bluetooth: list):
+        """
+        Validate an engineer's bluetooth credentials.
+        This constitutes Action 5 for communicaiton purposes.
+        """
+
+        # Construct the dictionary with the appropriate action (5)
+        # and the set of bluetooth addresses.
+        log.info("Validating engineer: {}".format(engineer_bluetooth))
+        socket_dictionary_creator = DictionaryConstructor(
+            self.car_id,
+            datetime.datetime.now().isoformat()
+        )
+        socket_dictionary_creator.set_action(5)
+        socket_dictionary_creator.set_engineer_bluetooth(engineer_bluetooth)
+
+        # Retrieve the dictionary and pass it to the socket.
+        socket_dict_tosend = socket_dictionary_creator.get_socket_dictionary()
+        # Return the dictionary returned by the MP.
+        return self.validation_returner(socket_dict_tosend)
+
     def validation_returner(self, dict_to_validate: dict):
         """
         Accepts a constructed dictionary from the two validation functions,
         sends it to the establish_connection for validation, and returns
         based on the response.
         """
-        # Send dictioary to master pi, accepting the return
+
+        # Send dictionary to master pi, accepting the return
         socket_return = self.establish_connection(dict_to_validate)
 
         # Process the dictionary and return based on the outcome.
@@ -104,10 +130,11 @@ class SocketConnection:
             return None
 
         log.info("Socket returned action: {}".format(socket_return["action"]))
-        if socket_return["action"] == 4:
+        if socket_return["action"] == 4 or socket_return["action"] == 6:
             # Vehicle returned successfully, otherwise will
             # return false as there will be no username either.
             return True
+        
         if socket_return["username"] is None:
             # Invalid Credentials
             return False
@@ -116,8 +143,10 @@ class SocketConnection:
 
     def terminate_booking(self):
         """
-        Updating the Master Pi when the booking has been concluded
+        Updating the Master Pi when the booking has been concluded.
+        This constitutes Action 4 for communication purposes.
         """
+
         # Create a dictionary object.
         socket_dictionary_creator = DictionaryConstructor(
             self.car_id, 
@@ -135,12 +164,37 @@ class SocketConnection:
         log.info(socket_dict_tosend)
         return self.validation_returner(socket_dict_tosend)
 
+    def terminate_engineer(self, engineer_code: str):
+        """
+        Updates the master pi when an engineer concludes their
+        work. 
+        This constitutes Action 6 for communication purposes.
+        """
+
+        # Create a dictionary to send
+        socket_dictionary_creator = DictionaryConstructor(
+            self.car_id,
+            datetime.datetime.now().isoformat()
+        )
+        # Update dictionary with appropriate information.
+        socket_dictionary_creator.set_action(6)
+        socket_dictionary_creator.set_engineer_code(engineer_code)
+        clearutil = utilities.HelperUtilities()
+        location = clearutil.get_location()
+        socket_dictionary_creator.set_current_location(location)
+
+        # Retrieve the dictionary and send it to the mp.
+        socket_dict_tosend = socket_dictionary_creator.get_socket_dictionary()
+        log.info("Engineer Code Socket Dict: {}".format(socket_dict_tosend))
+        return self.validation_returner(socket_dict_tosend)
+
     def establish_connection(self, dict_to_send: dict) -> dict:
         """
-        This method is called by the methods in this class for performing
-        an action with the master pi. It accepts a dictionary (from agentdata)
+        This method is called by methods in this class for performing
+        an action with the master pi. It accepts a dictionary (from :mod:`agentdata`)
         and returns a dictionary of the same type to be acted on.
         """
+
         # Convert the dictionary to a string json string object in utf-8.
         # This ensure that almost all special characters are preserved.
         encoded_dictionary = json.dumps(dict_to_send).encode("utf-8")
@@ -180,7 +234,7 @@ class SocketConnection:
             print("Unable to connect to server")
             log.exception("Server connection refused: {}".format(err))
             return None
-        except e:
+        except Exception as e:
             log.exception(e)
             return None
                 

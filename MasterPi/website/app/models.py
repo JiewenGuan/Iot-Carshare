@@ -36,6 +36,6 @@ class Car():
         for field in data:
             setattr(self, field, data[field])
 
-        
 
-    
+if __name__ == "__main__":
+    pass

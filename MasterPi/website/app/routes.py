@@ -1,3 +1,21 @@
+"""
+This module contains the templates for structuring dynamic content
+on the pages. It returns objects that in turn render html based on
+the status of numerous factors such as the user currently validated.
+- index
+- login
+- register
+- logout
+- book_car_request(id):
+- my_bookings():
+- car_info(id):
+- cancel_booking(id):
+- location(id):
+These are prefixed with decorators which are used to enforce certain validation
+when particular pages are loaded.
+"""
+
+
 from app import app
 from app.forms import EditUserForm, LoginForm, RegistrationForm, CarSearchForm, BookingForm, UserSearchForm, AddCarForm
 from app.models import User
@@ -401,3 +419,7 @@ def make_select_list(arr):
         c.append((i, arr[i]))
         i += 1
     return c
+
+
+if __name__ == "__main__":
+    pass

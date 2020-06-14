@@ -14,7 +14,7 @@
     <script src="_static/language_data.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Agent Code Documentation" href="agent_code.html" />
+    <link rel="next" title="Installation and Deployment" href="installation.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
   
@@ -33,9 +33,21 @@
             
   <div class="section" id="welcome-to-iot-car-share-documentation">
 <h1>Welcome to IOT Car Share Documentation<a class="headerlink" href="#welcome-to-iot-car-share-documentation" title="Permalink to this headline">¶</a></h1>
+<p>This application is a highly modular set of python based modules that
+when deployed, afford the management of a fleet of vehicles that can
+be hired by individuals who have registered on a website, with the
+verification of the user at the vehicle achieved via either text credentials
+or face recognition.</p>
 <div class="toctree-wrapper compound">
 <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation and Deployment</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#agent-pi-installation">Agent Pi Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#master-pi-installation">Master Pi Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#agent-pi-deployment">Agent Pi Deployment</a></li>
+<li class="toctree-l2"><a class="reference internal" href="installation.html#master-pi-deployment">Master Pi Deployment</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="agent_code.html">Agent Code Documentation</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="agent_code.html#agentpi-py">agentpi.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="agent_code.html#validation-py">validation.py</a></li>
@@ -46,15 +58,31 @@
 <li class="toctree-l2"><a class="reference internal" href="agent_code.html#utilities-py">utilities.py</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="testing_code.html">Testing Code Documentation</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="testing_code.html#module-agenttesting">agenttesting.py – Test Agent and Master API</a></li>
-<li class="toctree-l2"><a class="reference internal" href="testing_code.html#module-facetesting">facetesting.py - Validates User Selection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="master_code.html">Master Code Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="master_code.html#module-AgentPi.socketresponder">AgentPi/socketresponder.py</a></li>
+<li class="toctree-l2"><a class="reference internal" href="master_code.html#module-AgentPi.masterpiresponder">AgentPi/masterpiresponder.py</a></li>
+<li class="toctree-l2"><a class="reference internal" href="master_code.html#carapi-app-models-py">carapi/app/models.py</a></li>
+<li class="toctree-l2"><a class="reference internal" href="master_code.html#carapi-app-routes-py">carapi/app/routes.py</a></li>
+<li class="toctree-l2"><a class="reference internal" href="master_code.html#carapi-app-env-py">carapi/app/env.py</a></li>
+<li class="toctree-l2"><a class="reference internal" href="master_code.html#carapi-carapi-py">carapi/carapi.py</a></li>
+<li class="toctree-l2"><a class="reference internal" href="master_code.html#module-MasterPi.carapi.config">carapi/config.py</a></li>
+<li class="toctree-l2"><a class="reference internal" href="master_code.html#carapi-templates">carapi/templates</a></li>
+<li class="toctree-l2"><a class="reference internal" href="master_code.html#forms-py">forms.py</a></li>
+<li class="toctree-l2"><a class="reference internal" href="master_code.html#models-py">models.py</a></li>
+<li class="toctree-l2"><a class="reference internal" href="master_code.html#routes-py">routes.py</a></li>
+<li class="toctree-l2"><a class="reference internal" href="master_code.html#module-MasterPi.website.config">config.py</a></li>
+<li class="toctree-l2"><a class="reference internal" href="master_code.html#website-py">website.py</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="fr_code.html">Face Recognition Code Documentation</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="fr_code.html#facecapture-py">facecapture.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="fr_code.html#faceencoder-py">faceencoder.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="fr_code.html#facerecognition-py">facerecognition.py</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="testing_code.html">Testing Code Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="testing_code.html#agenttesting-py">agenttesting.py</a></li>
+<li class="toctree-l2"><a class="reference internal" href="testing_code.html#facetesting-py">facetesting.py</a></li>
 </ul>
 </li>
 </ul>
@@ -88,16 +116,18 @@
 <h3>Navigation</h3>
 <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul>
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation and Deployment</a></li>
 <li class="toctree-l1"><a class="reference internal" href="agent_code.html">Agent Code Documentation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="testing_code.html">Testing Code Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="master_code.html">Master Code Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="fr_code.html">Face Recognition Code Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="testing_code.html">Testing Code Documentation</a></li>
 </ul>
 
 <div class="relations">
 <h3>Related Topics</h3>
 <ul>
   <li><a href="#">Documentation overview</a><ul>
-      <li>Next: <a href="agent_code.html" title="next chapter">Agent Code Documentation</a></li>
+      <li>Next: <a href="installation.html" title="next chapter">Installation and Deployment</a></li>
   </ul></li>
 </ul>
 </div>
