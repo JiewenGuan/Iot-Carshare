@@ -162,22 +162,23 @@ class MasterResponder():
         # Check if the car is valid and needs service.
         r = requests.get('http://192.168.1.109:10100/cars/{}'.format(carname), verify=False)
         car = r.json() or {}
-        
-        if car['status' == 3]:
+
+        if 'status' in car:
+            if car['status'] == 0:
             # Check if any bluetooth address matches an engineer.
-            for bt in engineer_bt:
-                data = {'bluetooth':bt}
-                r = requests.post('http://192.168.1.109:10100/bt_addr',json = data, verify=False)
-                user = r.json() or {}
-                if user:
-                    if 'id' in user and 'id' in car:
-                        r = requests.get('http://192.168.1.109:10100/user_bookings/{}'.format(user['id']), verify=False)
-                        bookings = r.json() or {} 
-                        for booking in bookings:
-                            if booking['car_id'] == car['id'] and booking['status'] == 3:
-                                valid_credentials = True
-                                username = user['username']
-                                break
+                for bt in engineer_bt:
+                    data = {'bluetooth':bt}
+                    r = requests.post('http://192.168.1.109:10100/bt_addr',json = data, verify=False)
+                    user = r.json() or {}
+                    if user:
+                        if 'id' in user and 'id' in car:
+                            r = requests.get('http://192.168.1.109:10100/user_bookings/{}'.format(user['id']), verify=False)
+                            bookings = r.json() or {} 
+                            for booking in bookings:
+                                if booking['car_id'] == car['id'] and booking['status'] == 3:
+                                    valid_credentials = True
+                                    username = user['username']
+                                    break
 
         # TODO Testing - delete when the API is used.
         # print("Engineer login checkpoint reached")
