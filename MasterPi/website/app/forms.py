@@ -1,7 +1,7 @@
 from flask_wtf import FlaskForm
-from wtforms import HiddenField, StringField, PasswordField, BooleanField, SubmitField, SelectField, IntegerField
-from wtforms.validators import ValidationError, DataRequired, Email, EqualTo
-import requests
+from wtforms import DecimalField, HiddenField, StringField, PasswordField, BooleanField, SubmitField, SelectField, IntegerField
+from wtforms.validators import ValidationError, DataRequired, Email, EqualTo, Length, NumberRange, Regexp
+import requests, re
 from wtforms.fields.html5 import DateField, TimeField
 from datetime import date as da, datetime, timedelta
 
@@ -14,9 +14,9 @@ class LoginForm(FlaskForm):
 
 
 class RegistrationForm(FlaskForm):
-    username = StringField('Username', validators=[DataRequired()])
-    email = StringField('Email', validators=[DataRequired(), Email()])
-    password = PasswordField('Password', validators=[DataRequired()])
+    username = StringField('Username', validators=[DataRequired(),Length(max=128,message="too long")])
+    email = StringField('Email', validators=[DataRequired(), Email(),Length(max=128,message="too long")])
+    password = PasswordField('Password', validators=[DataRequired(),Length(min=6, max=128,message="too long")])
     password2 = PasswordField(
         'Repeat Password', validators=[DataRequired(), EqualTo('password')])
     submit = SubmitField('Register')
@@ -40,6 +40,14 @@ class CarSearchForm(FlaskForm):
     submit = SubmitField('Search')
 
 
+class UserSearchForm(FlaskForm):
+    id = IntegerField(render_kw={"placeholder": "id"})
+    username = StringField(render_kw={"placeholder": "Username"})
+    email = StringField(render_kw={"placeholder": "Email"})
+    role = SelectField('Role',coerce=int,validate_choice=False)
+    submit = SubmitField('Search')
+
+
 class BookingForm(FlaskForm):
     car_id = HiddenField(validators=[DataRequired()])
     user_id = HiddenField(validators=[DataRequired()])
@@ -59,7 +67,26 @@ class BookingForm(FlaskForm):
         if duration.data < 1:
             raise ValidationError('Must book for 1 or more hours')
             
+            
+class AddCarForm(FlaskForm):
+    name = StringField('Name',validators=[DataRequired(), Length(max=63,message="too long")])
+    make = StringField('Make',validators=[DataRequired(), Length(max=63,message="too long")])
+    body_type = SelectField('Body_type',coerce=int,validators=[DataRequired(),NumberRange(min=1,max=6)])
+    colour = SelectField('Colour',coerce=int,validators=[DataRequired(),NumberRange(min=1,max=6)])
+    seats = IntegerField('Seats',validators=[DataRequired(),NumberRange(min=1)])
+    location = StringField('Location',validators=[DataRequired(),Regexp("^\[([-+]?)([\d]{1,2})(((\.)(\d+)(,)))(\s*)(([-+]?)([\d]{1,3})((\.)(\d+))?)\]$")])
+    rate = DecimalField("Rate",validators=[DataRequired(), NumberRange(min=1)])
+    submit = SubmitField('Submit')
+        
 
+class EditUserForm(FlaskForm):
+    username = StringField('Username', validators=[DataRequired(),Length(max=128,message="too long")])
+    email = StringField('Email', validators=[DataRequired(), Email(),Length(max=128,message="too long")])
+    user_type = SelectField('Colour',coerce=int,validators=[NumberRange(min=0,max=2)])
+    mac_address = StringField('Mac Address', validators=[Length(max=128,message="too long")])
 
+    submit = SubmitField('Confirm')
+
+    
 if __name__ == "__main__":
     pass

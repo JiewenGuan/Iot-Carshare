@@ -34,12 +34,28 @@ class MasterResponder():
         r = requests.get('http://192.168.1.109:10100/cars/{}'.format(carname), verify=False)
         car = r.json() or {}
 
-        if 'id' in user and 'id' in car:
-            r = requests.get('http://192.168.1.109:10100/user_bookings/{}'.format(user['id']), verify=False)
-            bookings = r.json() or {} 
-            for booking in bookings:
-                if booking['car_id'] == car['id'] and booking['status'] == 1:
-                    valid_credentials = True
+
+#         if 'id' in user and 'id' in car:
+#             r = requests.get('http://192.168.1.109:10100/user_bookings/{}'.format(user['id']), verify=False)
+#             bookings = r.json() or {} 
+#             for booking in bookings:
+#                 if booking['car_id'] == car['id'] and booking['status'] == 1:
+#                     valid_credentials = True
+
+        if user and car:
+            if 'id' in user and 'id' in car:
+                r = requests.get('http://192.168.1.109:10100/user_bookings/{}'.format(user['id']), verify=False)
+                bookings = r.json() or {} 
+                for booking in bookings:
+                    if booking['car_id'] == car['id'] and booking['status'] == 1:
+                        valid_credentials = True
+
+        # TODO Testing - update with actual validation call.
+        #if self.agent_dictionary["car_id"] == "car123":
+            #if self.agent_dictionary["username"] == "uname":
+                #if self.agent_dictionary["password"] == "pword":
+                    #valid_credentials = True
+
         
         self.update_return_dict(valid_credentials, self.agent_dictionary["username"])
         return self.agent_dictionary
@@ -61,15 +77,14 @@ class MasterResponder():
         user = r.json() or {}
         r = requests.get('http://192.168.1.109:10100/cars/{}'.format(carname), verify=False)
         car = r.json() or {}
-        print(user)
-        print(car)
-        if 'id' in user and 'id' in car:
-            r = requests.get('http://192.168.1.109:10100/user_bookings/{}'.format(user['id']), verify=False)
-            bookings = r.json() or {} 
-            for booking in bookings:
-                if booking['car_id'] == car['id'] and booking['status'] == 1:
-                    valid_credentials = True
-                    username = user['username']
+        if user and car:
+            if 'id' in user and 'id' in car:
+                r = requests.get('http://192.168.1.109:10100/user_bookings/{}'.format(user['id']), verify=False)
+                bookings = r.json() or {} 
+                for booking in bookings:
+                    if booking['car_id'] == car['id'] and booking['status'] == 1:
+                        valid_credentials = True
+                        username = user['username']
 
         self.update_return_dict(valid_credentials, username)
         return self.agent_dictionary

@@ -1,8 +1,8 @@
-"""second create
+"""mac address
 
-Revision ID: 546afaf23d23
+Revision ID: 202e2b2b7f7d
 Revises: 
-Create Date: 2020-05-24 21:13:10.818156
+Create Date: 2020-06-10 19:09:53.878914
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '546afaf23d23'
+revision = '202e2b2b7f7d'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -33,17 +33,15 @@ def upgrade():
     op.create_index(op.f('ix_car_name'), 'car', ['name'], unique=True)
     op.create_table('user',
     sa.Column('id', sa.Integer(), nullable=False),
-    sa.Column('username', sa.String(length=128), nullable=True),
-    sa.Column('email', sa.String(length=128), nullable=True),
-    sa.Column('callendarToken', sa.String(length=128), nullable=True),
-    sa.Column('carapiToken', sa.String(length=128), nullable=True),
-    sa.Column('token_expiration', sa.DateTime(), nullable=True),
-    sa.Column('password_hash', sa.String(length=128), nullable=True),
+    sa.Column('username', sa.String(length=128), nullable=False),
+    sa.Column('email', sa.String(length=128), nullable=False),
+    sa.Column('password_hash', sa.String(length=128), nullable=False),
     sa.Column('face_token', sa.String(length=128), nullable=True),
+    sa.Column('last_seen', sa.DateTime(), nullable=True),
+    sa.Column('mac_address', sa.String(length=128), nullable=True),
+    sa.Column('role', sa.Integer(), nullable=False),
     sa.PrimaryKeyConstraint('id')
     )
-    op.create_index(op.f('ix_user_callendarToken'), 'user', ['callendarToken'], unique=True)
-    op.create_index(op.f('ix_user_carapiToken'), 'user', ['carapiToken'], unique=True)
     op.create_index(op.f('ix_user_email'), 'user', ['email'], unique=True)
     op.create_index(op.f('ix_user_face_token'), 'user', ['face_token'], unique=True)
     op.create_index(op.f('ix_user_username'), 'user', ['username'], unique=True)
@@ -69,8 +67,6 @@ def downgrade():
     op.drop_index(op.f('ix_user_username'), table_name='user')
     op.drop_index(op.f('ix_user_face_token'), table_name='user')
     op.drop_index(op.f('ix_user_email'), table_name='user')
-    op.drop_index(op.f('ix_user_carapiToken'), table_name='user')
-    op.drop_index(op.f('ix_user_callendarToken'), table_name='user')
     op.drop_table('user')
     op.drop_index(op.f('ix_car_name'), table_name='car')
     op.drop_table('car')

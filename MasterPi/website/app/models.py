@@ -5,9 +5,10 @@ from flask import session
 
 class User(UserMixin):
 
-    def __init__(self, username, id):
+    def __init__(self, username, id, role):
         self.username = username
         self.id = id
+        self.role = role
 
 @login.user_loader
 def load_user(id):
@@ -15,7 +16,7 @@ def load_user(id):
     retdata = r.json() or {}
     if 'error' in retdata:
         return None
-    return User(username=retdata['username'],id=retdata['id'])  
+    return User(username=retdata['username'],id=retdata['id'],role=retdata['role'])  
 
 class Car():
     

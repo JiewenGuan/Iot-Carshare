@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+{% import 'bootstrap/wtf.html' as wtf %}
+
+{% block app_content %}
+    <h1>Hi, {{ current_user.username }}!</h1>
+    <h3>Booking history of Car No.{{carid}}</h3>
+    <br>
+    <table class="table">
+        <thead>
+            <tr>
+                <th scope="col">
+                    Time Booked
+                </th>
+                <th scope="col">
+                    Session Start
+                </th>
+                <th scope="col">
+                    Session End
+                </th>
+                <th scope="col">
+                    User ID
+                </th>
+                <th scope="col">
+                    Duration
+                </th>
+                <th scope="col">
+                    Status
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for booking in bookings %}
+                <tr>
+                    <td scope="row">
+                        {{booking['timebooked']}} 
+                    </td>
+                    <td scope="row">
+                        {{booking['timestart']}} 
+                    </td>
+                    <td scope="row">
+                        {{booking['timeend']}} 
+                    </td>
+                    <td scope="row">
+                        {{booking['user_id']}} 
+                    </td>
+                    <td>
+                        {{booking["dration"]}} Hours
+                    </td>
+                    <td>
+                        {{Config.BOOKING_STAT[booking["status"]]}} 
+                    </td>
+                </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    
+
+{% endblock %}

@@ -1,25 +1,32 @@
 from app import db
 from datetime import datetime, timedelta
 from werkzeug.security import generate_password_hash, check_password_hash
+import hashlib
+
 
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(128), index=True, unique=True)
-    email = db.Column(db.String(128), index = True, unique = True)
-    callendarToken = db.Column(db.String(128), index = True, unique = True)
-    carapiToken = db.Column(db.String(128), index = True, unique = True)
-    token_expiration = db.Column(db.DateTime)
-    password_hash = db.Column(db.String(128))
+    username = db.Column(db.String(128), index=True, unique=True, nullable=False)
+    email = db.Column(db.String(128), index = True, unique = True, nullable=False)
+    password_hash = db.Column(db.String(128), nullable=False)
     bookings = db.relationship('Booking', backref='user', lazy='dynamic')
     face_token =  db.Column(db.String(128), index = True, unique = True)
+    last_seen = db.Column(db.DateTime)
+    mac_address = db.Column(db.String(128), unique = True)
+    role = db.Column(db.Integer, nullable=False)
+
+    def __init__(self, data):
+        self.from_dict(data=data, new_user=True)
 
     def __repr__(self):
         return '<User {}>'.format(self.username)
     
     def set_password(self, password):
-        self.password_hash = generate_password_hash(password)
-    def set_callendarToken(self, callendarToken):
-        self.callendarToken = callendarToken
+        if len(password) > 6:
+            self.password_hash = generate_password_hash(password)
+            return True
+        else:
+            return False
 
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
@@ -29,18 +36,23 @@ class User(db.Model):
             'id': self.id,
             'username': self.username,
             'email': self.email, 
-            'callendarToken': self.callendarToken
-            #'password_hash': self.password_hash
-            #'bookings': url_for('get_user_bookings', id=self.id),
+            'role': self.role,
+            'mac_address': self.mac_address
         }
         return data
 
     def from_dict(self, data, new_user=False):
-        for field in ['username','email']:
+        for field in ['username','email','mac_address']:
             if field in data:
                 setattr(self, field, data[field])
         if new_user and 'password' in data:
             self.set_password(data['password'])
+        if 'role' in data:
+            self.role = data['role']
+        else:
+            self.role = 2
+        hashing = hashlib.sha256(self.username.encode("utf-8"))
+        self.face_token = hashing.hexdigest()
 
 
 class Car(db.Model):
@@ -54,6 +66,9 @@ class Car(db.Model):
     rate = db.Column(db.Float)
     status = db.Column(db.Integer)
     bookings = db.relationship('Booking', backref='car', lazy='dynamic')
+
+    def __init__(self, data):
+        self.from_dict(data=data)
     
     def __repr__(self):
         return '<Car {}|{}>'.format(self.id, self.name)
@@ -69,7 +84,6 @@ class Car(db.Model):
             'location': self.location,
             'rate': self.rate,
             'status': self.status
-            #'bookings': url_for('get_car_bookings', id=self.id),
         }
         return data
 
@@ -90,6 +104,9 @@ class Booking(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
     car_id = db.Column(db.Integer, db.ForeignKey('car.id'))
 
+    def __init__(self,data):
+        self.from_dict(data)
+
     def __repr__(self):
         return '<Booking {}|{}>'.format(self.user_id, self.car_id)
     
@@ -99,6 +116,8 @@ class Booking(db.Model):
         self.dration = data['hours']
         self.timestart = datetime.fromisoformat(data['time_start'])
         self.timeend = self.timestart + timedelta(hours=self.dration)
+        if 'status' in data:
+            self.status = data['status']
     
     def to_dict(self):
         data={

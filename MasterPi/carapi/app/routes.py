@@ -1,10 +1,13 @@
 from app import app, db
 from app.models import User, Car, Booking
 from flask import jsonify, request, url_for
-from sqlalchemy import and_, desc
+from sqlalchemy import and_, desc, orm
 from werkzeug.http import HTTP_STATUS_CODES
-from datetime import datetime
-import hashlib
+from datetime import datetime, timedelta
+import smtplib
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+
 @app.route('/')
 @app.route('/index')
 def index():
@@ -15,14 +18,14 @@ def uniq_name(name):
     user = User.query.filter_by(username=name).first()
     if user is not None:
         return bad_request('use a different name')
-    return jsonify(User(username=name).to_dict())
+    return jsonify({"message":"name is uniqe"})
 
 @app.route('/uemail/<string:email>', methods=['GET'])
 def uniq_email(email):
     user = User.query.filter_by(email=email).first()
     if user is not None:
         return bad_request('use a different Email')
-    return jsonify(User(email=email).to_dict())
+    return jsonify({"message":"email is uniqe"})
 
 @app.route('/auth', methods=['POST'])
 def auth():
@@ -55,29 +58,48 @@ def get_user(id):
 
 @app.route('/users', methods=['GET'])
 def get_users():
-    return jsonify(list_to_dict(User.query.all()))
+    my_filters = request.get_json() or {}
+    query = db.session.query(User)
+
+    for attr,value in my_filters.items():
+        if type(value) == str:
+            query = query.filter(getattr(User,attr).contains(value))
+        else:
+            query = query.filter(getattr(User,attr)==value)
+    
+    return jsonify(list_to_dict(query.all()))
 
 @app.route('/users', methods=['POST'])
 def create_user():
     data = request.get_json() or {}
     if 'username' not in data or 'password' not in data or 'email' not in data:
         return bad_request('must include username, email and password fields')
+    if len(data['password']) < 6:
+        return bad_request('password too short')
     if User.query.filter_by(username=data['username']).first():
         return bad_request('please use a different username')
-    user = User()
-    user.from_dict(data, new_user=True)
-    hashing = hashlib.sha256(user.username.encode("utf-8"))
-    user.face_token = hashing.hexdigest()
+    user = User(data)
     db.session.add(user)
     db.session.commit()
     response = jsonify(user.to_dict())
     response.status_code = 200
     response.headers['Location'] = url_for('get_user', id=user.id)
     return response
+    
+@app.route('/users/<int:id>', methods=['DELETE'])
+def remove_user(id):
+    user = User.query.get(id)
+    if user:
+        db.session.delete(user)
+        db.session.commit()
+        return jsonify(user.to_dict())
+    return bad_request("null user")
 
 @app.route('/users/<int:id>', methods=['PUT'])
 def update_user(id):
-    user = User.query.get_or_404(id)
+    user = User.query.get(id)
+    if not user:
+        return bad_request("null user")
     data = request.get_json() or {}
     if 'username' in data and data['username'] != user.username and \
             User.query.filter_by(username=data['username']).first():
@@ -86,9 +108,27 @@ def update_user(id):
     db.session.commit()
     return jsonify(user.to_dict())
 
+@app.route('/userpass/<int:id>', methods=['PUT'])
+def update_password(id):
+    user = User.query.get(id)
+    if not user:
+        return bad_request("null user")
+    data = request.get_json() or {}
+    if 'password' not in data:
+        return bad_request("must contain password")
+    if(user.set_password()):
+        db.session.commit()
+        return jsonify(user.to_dict())
+    else:
+        return bad_request('password too short')
+ 
+
 @app.route('/cars/<int:id>', methods=['GET'])
 def get_car(id):
-    return jsonify(Car.query.get_or_404(id).to_dict())
+    car = Car.query.get(id)
+    if car:
+        return jsonify(car.to_dict())
+    return bad_request("null car")
 
 @app.route('/cars/<string:id>', methods=['GET'])
 def get_car_name(id):
@@ -103,6 +143,7 @@ def get_cars():
         query = query.filter(getattr(Car,attr)==value)
     
     return jsonify(list_to_dict(query.all()))
+    
 
 @app.route('/cars', methods=['POST'])
 def create_car():
@@ -110,8 +151,7 @@ def create_car():
     if 'name' not in data :
         return bad_request('500 must include name')
     
-    car = Car()
-    car.from_dict(data)
+    car = Car(data)
     db.session.add(car)
     db.session.commit()
     response = jsonify(car.to_dict())
@@ -121,12 +161,68 @@ def create_car():
 
 @app.route('/cars/<int:id>', methods=['PUT'])
 def update_car(id):
-    car = Car.query.get_or_404(id)
+    car = Car.query.get(id)
+    if not car:
+        return bad_request("null car")
     data = request.get_json() or {}
-    
+    if car.id != data['id']:
+        return bad_request("wrong car id")
     car.from_dict(data)
     db.session.commit()
     return jsonify(car.to_dict())
+
+@app.route('/report_cars/<int:id>', methods=['GET'])
+def report_car(id):
+    car = Car.query.get(id)
+    if car:
+        engineer:User = User.query.filter_by(role = 1).first()
+        if not engineer:
+            return bad_request("null engineer! go hire one!")
+        car.status = 0
+        booking = Booking({
+            'user_id': engineer.id,
+            'car_id': id,
+            'time_start': datetime.now().isoformat(),
+            'hours': 1
+        })
+        booking.status = 3
+        db.session.add(booking)
+        db.session.commit()
+        receiver_address = engineer.email
+        sender_address = 'jiewenguan6@gmail.com'
+        sender_pass = 'ASSIGNMENT3pass'
+        mail_content = "The vehicle No.{id} {name} is awaiting your service, please login to the carshare website to see the details.".format(id = car.id, name = car.name)
+        message = MIMEMultipart()
+        message['From'] = sender_address
+        message['To'] = receiver_address
+        message['Subject'] = "Car service notice"
+        message.attach(MIMEText(mail_content, 'plain'))
+        session = smtplib.SMTP('smtp.gmail.com', 587)
+        session.starttls() 
+        session.login(sender_address, sender_pass) 
+        text = message.as_string()
+        session.sendmail(sender_address, receiver_address, text)
+        session.quit()
+        return jsonify(car.to_dict())
+    return bad_request("null car")
+
+@app.route('/fix_cars/<int:id>', methods=['GET'])
+def fix_car(id):
+    car = Car.query.get(id)
+    if car:
+        car.status = 1
+        db.session.commit()
+        return jsonify(car.to_dict())
+    return bad_request("null car")
+
+@app.route('/cars/<int:id>', methods=['DELETE'])
+def remove_car(id):
+    car = Car.query.get(id)
+    if car:
+        db.session.delete(car)
+        db.session.commit()
+        return jsonify(car.to_dict())
+    return bad_request("null car")
 
 @app.route('/bookings/<int:id>', methods=['GET'])
 def get_booking(id):
@@ -183,8 +279,7 @@ def book():
     if car.status != 1:
         return bad_request('the car is not avaliable now')
     car.status = 2
-    booking = Booking()
-    booking.from_dict(data)
+    booking = Booking(data)
     booking.status = 1
     db.session.add(booking)
     db.session.commit()
@@ -192,6 +287,64 @@ def book():
     response.status_code = 200
     response.headers['Location'] = url_for('get_booking', id=booking.id)
     return response
+
+@app.route('/metadata', methods=['GET'])
+def metadata():
+    bookings:Booking = Booking.query.filter(Booking.status != 3).all()
+    dau = [0,0,0,0,0,0,0]
+    dbs = [0,0,0,0,0,0,0]
+    dailybookings = [[],[],[],[],[],[],[]]
+    for i in range(7):
+        for booking in bookings:
+            if booking.timestart.date() == datetime.now().date()-timedelta(days=i):
+                dailybookings[i].append(booking)
+    
+    for i in range(7):
+        buffer = []
+        for booking in dailybookings[i]:
+            dbs[i]+=1
+            if booking.user_id not in buffer:
+                buffer.append(booking.user_id)
+                dau[i]+=1
+    servicedCar = []
+    servicenum = []
+    ret = {}
+    services = Booking.query.filter_by(status = 3).all()
+    servedcar = []
+    for service in services:
+        if service.car_id not in servedcar:
+            servedcar.append(service.car_id)
+    
+    servednum = [0]*len(servedcar)
+    for i in range(len(servedcar)):
+        for service in services:
+            if service.car_id == servedcar[i]:
+                servednum[i]+=1
+    svs = {}
+    for i in range(len(servedcar)):
+        svs["No."+str(servedcar[i])+" "+Car.query.get(servedcar[i]).name]=servednum[i]
+
+    pie = [0,0,0,0,0,0,0]
+
+    for booking in bookings:
+        car_type = Car.query.get(booking.car_id).body_type
+        pie[car_type]+=1
+    pie.pop(0)
+    dau.reverse()
+    dbs.reverse()
+    retdata = {
+        "dau":dau,
+        "dbs":dbs,
+        "svs":svs,
+        "pie":pie
+    }
+    
+    return jsonify(retdata)
+    
+    
+
+
+
 
 
 def bad_request(message):
@@ -204,18 +357,6 @@ def error_response(status_code, message=None):
     response = jsonify(payload)
     response.status_code = status_code
     return response
-
-
-
-
-
-
-
-
-
-
-
-
 
 def list_to_dict(list):
     ret = []
