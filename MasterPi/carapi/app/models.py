@@ -106,8 +106,6 @@ class Car(db.Model):
         for field in data:
             setattr(self, field, data[field])
 
-    
-
 
 class Booking(db.Model):
     """

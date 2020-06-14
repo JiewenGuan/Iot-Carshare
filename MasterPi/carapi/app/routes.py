@@ -39,7 +39,7 @@ def uniq_email(email):
 def auth():
     data = request.get_json() or {}
     if 'username' not in data or 'password' not in data:
-        return bad_request('500 must include username and password fields')
+        return bad_request('500 must include username and password fields.')
     user = User.query.filter_by(username=data['username']).first()
     if user:
         if user.check_password(data['password']):
@@ -50,11 +50,25 @@ def auth():
 def facetoken():
     data = request.get_json() or {}
     if 'facetoken' not in data:
-        return bad_request('500 must include username and password fields')
+        return bad_request('500 invalid face token.')
     user = User.query.filter_by(face_token=data['facetoken']).first()
     if user:
         return jsonify(user.to_dict())
     return bad_request('wrong username or password!')
+
+@app.route('/bt_addr', methods=['POST'])
+def bt_addr():
+    """
+    This route affords the validation of an engineer using 
+    their bluetooth mac address.
+    """
+    data = request.get_json() or {}
+    if 'bluetooth' not in data:
+        return bad_request('500 invalid bluetooth address.')
+    user = User.query.filter_by(mac_address=data['bluetooth']).first()
+    if user:
+        return jsonify(user.to_dict())
+    return bad_request('Bluetooth address invalid.')
 
 @app.route('/users/<int:id>', methods=['GET'])
 def get_user(id):
@@ -152,7 +166,6 @@ def get_cars():
     
     return jsonify(list_to_dict(query.all()))
     
-
 @app.route('/cars', methods=['POST'])
 def create_car():
     data = request.get_json() or {}
