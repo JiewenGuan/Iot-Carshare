@@ -23,7 +23,9 @@ AgentPi/masterpiresponder.py
 
 carapi/app/models.py
 ====================
-
+This module defines the data models that are usedby the database and served
+by the API. There are three clases defining the three key data objects,
+which are representative of the tables i the database.
 
 .. automodule:: MasterPi.carapi.app.models
     :members:
@@ -31,7 +33,10 @@ carapi/app/models.py
 carapi/app/routes.py
 ====================
 A list of function routes that perform database query logic,
-and update the database as needed. 
+and update the database as needed. For inherent functionality, see 
+each individual function, but essentially they serve to answer
+any query deemed relevant in the API by the website or the Master serving
+the socket queries from an Agent. This is achieved using parameterised SQL.
 
 .. automodule:: MasterPi.carapi.app.routes
     :members:
@@ -94,8 +99,17 @@ This module contains the templates for structuring dynamic content
 on the pages. It returns objects that in turn render html based on
 the status of numerous factors such as the user currently validated.
 
+- :func:`auth_admin(f)`
 - :func:`index()`
 - :func:`login()`
+- :func:`dashboard()`
+- :func:`admin_user()`
+- :func:`car_history(id)`
+- :func:`car_edit(id)`
+- :func:`car_report(id)`
+- :func:`add_car()`
+- :func:`user_history(id)`
+- :func:`user_edit(id)`
 - :func:`register()`
 - :func:`logout()`
 - :func:`book_car_request(id)`
@@ -103,6 +117,7 @@ the status of numerous factors such as the user currently validated.
 - :func:`car_info(id)`
 - :func:`cancel_booking(id)`
 - :func:`location(id)`
+- :func:`make_select_list(arr)`
 
 These are prefixed with decorators which are used to enforce certain validation
 when particular pages are loaded. See the individual functions for further details.

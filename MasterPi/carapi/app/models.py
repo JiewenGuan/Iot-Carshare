@@ -1,3 +1,9 @@
+"""
+This module defines the data models that are usedby the database and served
+by the API. There are three clases defining the three key data objects,
+which are representative of the tables i the database.
+"""
+
 from app import db
 from datetime import datetime, timedelta
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -5,6 +11,11 @@ import hashlib
 
 
 class User(db.Model):
+    """
+    Defines the model for a user and the CRUD commands available.
+    This includes all classes of users as these are controlled via the
+    role parameter.
+    """
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(128), index=True, unique=True, nullable=False)
     email = db.Column(db.String(128), index = True, unique = True, nullable=False)
@@ -56,6 +67,10 @@ class User(db.Model):
 
 
 class Car(db.Model):
+    """
+    Defines the model for a car and the CRUD commands available.
+    """
+
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64), index=True, unique=True)
     make = db.Column(db.String(64))
@@ -95,6 +110,9 @@ class Car(db.Model):
 
 
 class Booking(db.Model):
+    """
+    Defines the model for a booking and the CRUD commands available.
+    """
     id = db.Column(db.Integer, primary_key=True)
     timebooked = db.Column(db.DateTime, default=datetime.now)
     timestart = db.Column(db.DateTime)

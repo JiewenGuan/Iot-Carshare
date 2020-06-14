@@ -43,6 +43,13 @@ Classes performing the correct socket query.
 .. automodule:: AgentPi.unlockedcar
     :members:
 
+engineeraccess.py
+=================
+Classes associated with an engineer's access requirements.
+
+.. automodule:: AgentPi.engineeraccess
+    :members:
+
 utilities.py
 ============
 Classes performing the correct socket query.

@@ -1,3 +1,11 @@
+"""
+A list of function routes that perform database query logic,
+and update the database as needed. For inherent functionality, see 
+each individual function, but essentially they serve to answer
+any query deemed relevant in the API by the website or the Master serving
+the socket queries from an Agent. This is achieved using parameterised SQL.
+"""
+
 from app import app, db
 from app.models import User, Car, Booking
 from flask import jsonify, request, url_for

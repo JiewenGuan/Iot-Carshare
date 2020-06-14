@@ -4,7 +4,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <title>Face Recognition Code Documentation &#8212; IOT_car_share_assignment 1.0 documentation</title>
+    <title>External Input Code Documentation &#8212; IOT_car_share_assignment 1.0 documentation</title>
     <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
     <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
@@ -32,8 +32,8 @@
 
           <div class="body" role="main">
             
-  <div class="section" id="face-recognition-code-documentation">
-<h1>Face Recognition Code Documentation<a class="headerlink" href="#face-recognition-code-documentation" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="external-input-code-documentation">
+<h1>External Input Code Documentation<a class="headerlink" href="#external-input-code-documentation" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="facecapture-py">
 <h2>facecapture.py<a class="headerlink" href="#facecapture-py" title="Permalink to this headline">¶</a></h2>
 <p>Captures a set of faces to be encoded.</p>
@@ -100,6 +100,84 @@ any other result including errors.</p>
 </dd></dl>
 
 </div>
+<div class="section" id="qrreader-py">
+<h2>qrreader.py<a class="headerlink" href="#qrreader-py" title="Permalink to this headline">¶</a></h2>
+<p>Captures any QR codes and validated their structure for use by an engineer when locking a vehicle.</p>
+<span class="target" id="module-AgentPi.qrreader"></span><p>This module performs the functions associated with QR code
+reading. It has one class <a class="reference internal" href="#AgentPi.qrreader.QRReader" title="AgentPi.qrreader.QRReader"><code class="xref py py-class docutils literal notranslate"><span class="pre">QRReader</span></code></a> that consists of two 
+functions - <code class="xref py py-func docutils literal notranslate"><span class="pre">read_qr_code()</span></code> which uses the camera to search
+for QR codes, and <code class="xref py py-func docutils literal notranslate"><span class="pre">validate_qr_code()</span></code> which ensures the QR Code
+is of the correct format before been returned.</p>
+<dl class="py class">
+<dt id="AgentPi.qrreader.QRReader">
+<em class="property">class </em><code class="sig-prename descclassname">AgentPi.qrreader.</code><code class="sig-name descname">QRReader</code><a class="headerlink" href="#AgentPi.qrreader.QRReader" title="Permalink to this definition">¶</a></dt>
+<dd><p>The QRReader class consists of two functions, <a class="reference internal" href="#AgentPi.qrreader.QRReader.read_qr_code" title="AgentPi.qrreader.QRReader.read_qr_code"><code class="xref py py-func docutils literal notranslate"><span class="pre">read_qr_code()</span></code></a> which is publicly
+callable, and <a class="reference internal" href="#AgentPi.qrreader.QRReader.validate_qr_code" title="AgentPi.qrreader.QRReader.validate_qr_code"><code class="xref py py-func docutils literal notranslate"><span class="pre">validate_qr_code()</span></code></a> which is called to validate
+any codes that are found.</p>
+<dl class="py method">
+<dt id="AgentPi.qrreader.QRReader.read_qr_code">
+<code class="sig-name descname">read_qr_code</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#AgentPi.qrreader.QRReader.read_qr_code" title="Permalink to this definition">¶</a></dt>
+<dd><p>This functions initialises the camera and then searches for QR codes. 
+Any codes that are found are incrementally passed to <a class="reference internal" href="#AgentPi.qrreader.QRReader.validate_qr_code" title="AgentPi.qrreader.QRReader.validate_qr_code"><code class="xref py py-func docutils literal notranslate"><span class="pre">validate_qr_code()</span></code></a> 
+which returns the code to be returned to the calling function,
+or False if the code is invalid.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="AgentPi.qrreader.QRReader.validate_qr_code">
+<code class="sig-name descname">validate_qr_code</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">qr_code</span><span class="p">:</span> <span class="n">str</span></em><span class="sig-paren">)</span><a class="headerlink" href="#AgentPi.qrreader.QRReader.validate_qr_code" title="Permalink to this definition">¶</a></dt>
+<dd><p>This function validates a QR code that has been passed to it
+by checking if the code has the correct structure and if needed,
+extracts the relevant data and returns the data, or returns 
+False if the code is invalid.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="bluetoothlistener-py">
+<h2>bluetoothlistener.py<a class="headerlink" href="#bluetoothlistener-py" title="Permalink to this headline">¶</a></h2>
+<p>Peforms functions associated with listening for engineer bluetooth devices when an engineer attempts to access a vehicle.</p>
+<span class="target" id="module-AgentPi.bluetoothlistener"></span><p>This module performs the functions associated with the
+bluetooth recognition of users. It serves this function
+by periodically or (relatively) instantaneously collecting the MAC addresses 
+of active devices that are in range of the Agent
+device, comparing this to a previously collected set
+of devices in the case of periodic testing, and then polls the master pi for any valid
+engineer appointment for the vehicle ID.</p>
+<dl class="py class">
+<dt id="AgentPi.bluetoothlistener.BluetoothListenerEngineer">
+<em class="property">class </em><code class="sig-prename descclassname">AgentPi.bluetoothlistener.</code><code class="sig-name descname">BluetoothListenerEngineer</code><a class="headerlink" href="#AgentPi.bluetoothlistener.BluetoothListenerEngineer" title="Permalink to this definition">¶</a></dt>
+<dd><p>This class encapsulates the functions required to 
+listen for bluetooth devices. It is instantiated
+with no parameters.
+Its primary functions <a class="reference internal" href="#AgentPi.bluetoothlistener.BluetoothListenerEngineer.listen_bluetooth" title="AgentPi.bluetoothlistener.BluetoothListenerEngineer.listen_bluetooth"><code class="xref py py-func docutils literal notranslate"><span class="pre">listen_bluetooth()</span></code></a> (accepts 
+one paramater as an int which is the interval 
+time in seconds between listen events) and 
+catch_bluetooth (no defined time) return a set of 
+devices that have persisted for at least the 
+defined time. The logic underpinning this is that 
+many devices will move within proximity but less 
+will persist - those that persist may be an engineer.
+For this to return, the device must be discoverable.</p>
+<dl class="py method">
+<dt id="AgentPi.bluetoothlistener.BluetoothListenerEngineer.catch_bluetooth">
+<code class="sig-name descname">catch_bluetooth</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; list<a class="headerlink" href="#AgentPi.bluetoothlistener.BluetoothListenerEngineer.catch_bluetooth" title="Permalink to this definition">¶</a></dt>
+<dd><p>Called to return a set of bluetooth MAC addresses
+that were detetected during the predetermined 
+detection period.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="AgentPi.bluetoothlistener.BluetoothListenerEngineer.listen_bluetooth">
+<code class="sig-name descname">listen_bluetooth</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">listen_interval</span></em><span class="sig-paren">)</span> &#x2192; list<a class="headerlink" href="#AgentPi.bluetoothlistener.BluetoothListenerEngineer.listen_bluetooth" title="Permalink to this definition">¶</a></dt>
+<dd><p>Called to return a set of persisting bluetooth 
+MAC addresses based on the <code class="xref py py-attr docutils literal notranslate"><span class="pre">listen_interval</span></code> parameter.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
 </div>
 
 
@@ -124,10 +202,12 @@ any other result including errors.</p>
 <li class="toctree-l1"><a class="reference internal" href="installation.html">Installation and Deployment</a></li>
 <li class="toctree-l1"><a class="reference internal" href="agent_code.html">Agent Code Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="master_code.html">Master Code Documentation</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Face Recognition Code Documentation</a><ul>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">External Input Code Documentation</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#facecapture-py">facecapture.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#faceencoder-py">faceencoder.py</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#facerecognition-py">facerecognition.py</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#qrreader-py">qrreader.py</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#bluetoothlistener-py">bluetoothlistener.py</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="testing_code.html">Testing Code Documentation</a></li>

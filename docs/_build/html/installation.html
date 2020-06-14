@@ -44,17 +44,22 @@ running simultaneously on the same device, consider using a virtual environment.
 <dl>
 <dt>::</dt><dd><p>sudo apt install python3-venv
 pip3 install virtualenv</p>
-<p>cd ~/webapp
-python3 -m venv venv
-source venv/bin/activate</p>
+<p># Change to your prefered directory and create your virtual environment.
+cd ~/your_directory
+python3 -m venv your_venv
+source your_venv/bin/activate</p>
 </dd>
 </dl>
 <div class="section" id="agent-pi-installation">
 <h2>Agent Pi Installation<a class="headerlink" href="#agent-pi-installation" title="Permalink to this headline">¶</a></h2>
-<p>The Agent requires a large number of dependencies due to the face recognition requirements.
+<p>The Agent requires a large number of dependencies due to the face recognition requirements,
+QR Code detection, and bluetooth interactions.
 Different environments may affect these instructions.</p>
 <p>Importantly it uses the dateutil package to parse dates. If this is deployed on Python 3.7 or
 newer this can be deprecated and internal datetime functions used instead.</p>
+<p>Similarly this software has been developed with openCV 3.5.0 - newer versions of openCV include
+functionality for recognising QR codes, however these have not been tested with the custom
+compilation of openCV described in this document.</p>
 <p>The following is adapted from a guide provided by RMIT University in the course
 Programming Internet of Things Semester 1 2020, which is in turn adapted from
 <a class="reference external" href="https://www.pyimagesearch.com/2017/10/09/optimizing-opencv-on-the-raspberry-pi/">https://www.pyimagesearch.com/2017/10/09/optimizing-opencv-on-the-raspberry-pi/</a>
@@ -183,8 +188,18 @@ sesssion.</p>
 <span class="n">sudo</span> <span class="o">/</span><span class="n">etc</span><span class="o">/</span><span class="n">init</span><span class="o">.</span><span class="n">d</span><span class="o">/</span><span class="n">dphys</span><span class="o">-</span><span class="n">swapfile</span> <span class="n">restart</span>
 </pre></div>
 </div>
-<p>Instal imutils python3 package:</p>
+<p>Install imutils python3 package:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip3</span> <span class="n">install</span> <span class="n">imutils</span>
+</pre></div>
+</div>
+<p>Install bluetooth dependencies:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">apt</span> <span class="n">install</span> <span class="n">bluetooth</span>
+<span class="n">sudo</span> <span class="n">apt</span> <span class="n">install</span> <span class="n">libbluetooth</span><span class="o">-</span><span class="n">dev</span>
+<span class="n">python3</span> <span class="o">-</span><span class="n">m</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">pybluez</span>
+</pre></div>
+</div>
+<p>Install QR Code dependency:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">python3</span> <span class="o">-</span><span class="n">m</span> <span class="n">pip</span> <span class="n">install</span> <span class="n">pyzbar</span>
 </pre></div>
 </div>
 </div>
@@ -341,7 +356,7 @@ Once compelte simply run the following command in the AgentPi directory.</p>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="agent_code.html">Agent Code Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="master_code.html">Master Code Documentation</a></li>
-<li class="toctree-l1"><a class="reference internal" href="fr_code.html">Face Recognition Code Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="fr_code.html">External Input Code Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="testing_code.html">Testing Code Documentation</a></li>
 </ul>
 

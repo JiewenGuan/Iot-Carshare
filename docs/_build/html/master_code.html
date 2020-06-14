@@ -14,7 +14,7 @@
     <script src="_static/language_data.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Face Recognition Code Documentation" href="fr_code.html" />
+    <link rel="next" title="External Input Code Documentation" href="fr_code.html" />
     <link rel="prev" title="Agent Code Documentation" href="agent_code.html" />
    
   <link rel="stylesheet" href="_static/custom.css" type="text/css" />
@@ -108,6 +108,13 @@ in conformation with the expected result.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt id="AgentPi.masterpiresponder.MasterResponder.engineer_return">
+<code class="sig-name descname">engineer_return</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; dict<a class="headerlink" href="#AgentPi.masterpiresponder.MasterResponder.engineer_return" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a vehicle to a locked state when an engineer
+has concluded their work.</p>
+</dd></dl>
+
+<dl class="py method">
 <dt id="AgentPi.masterpiresponder.MasterResponder.invalid_action">
 <code class="sig-name descname">invalid_action</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; dict<a class="headerlink" href="#AgentPi.masterpiresponder.MasterResponder.invalid_action" title="Permalink to this definition">¶</a></dt>
 <dd><p>Prevents the Master from returning True.</p>
@@ -143,6 +150,15 @@ and expects a True/False determination.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt id="AgentPi.masterpiresponder.MasterResponder.validate_engineer">
+<code class="sig-name descname">validate_engineer</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; dict<a class="headerlink" href="#AgentPi.masterpiresponder.MasterResponder.validate_engineer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Validates an engineer’s bluetooth login attempt.
+A set of engineer ID’s are recieved in the dictionary,
+and this is compared to the ID that is returned (if any)
+from the API call based on the car id.</p>
+</dd></dl>
+
+<dl class="py method">
 <dt id="AgentPi.masterpiresponder.MasterResponder.validate_face">
 <code class="sig-name descname">validate_face</code><span class="sig-paren">(</span><span class="sig-paren">)</span> &#x2192; dict<a class="headerlink" href="#AgentPi.masterpiresponder.MasterResponder.validate_face" title="Permalink to this definition">¶</a></dt>
 <dd><p>Called to validate a face recognition token - calls the API with 
@@ -155,11 +171,17 @@ with a username if valid.</p>
 </div>
 <div class="section" id="carapi-app-models-py">
 <h2>carapi/app/models.py<a class="headerlink" href="#carapi-app-models-py" title="Permalink to this headline">¶</a></h2>
+<p>This module defines the data models that are usedby the database and served
+by the API. There are three clases defining the three key data objects,
+which are representative of the tables i the database.</p>
 </div>
 <div class="section" id="carapi-app-routes-py">
 <h2>carapi/app/routes.py<a class="headerlink" href="#carapi-app-routes-py" title="Permalink to this headline">¶</a></h2>
 <p>A list of function routes that perform database query logic,
-and update the database as needed.</p>
+and update the database as needed. For inherent functionality, see
+each individual function, but essentially they serve to answer
+any query deemed relevant in the API by the website or the Master serving
+the socket queries from an Agent. This is achieved using parameterised SQL.</p>
 </div>
 <div class="section" id="carapi-app-env-py">
 <h2>carapi/app/env.py<a class="headerlink" href="#carapi-app-env-py" title="Permalink to this headline">¶</a></h2>
@@ -175,6 +197,8 @@ itself.</p>
 </div>
 <div class="section" id="module-MasterPi.carapi.config">
 <span id="carapi-config-py"></span><h2>carapi/config.py<a class="headerlink" href="#module-MasterPi.carapi.config" title="Permalink to this headline">¶</a></h2>
+<p>This module serves the simple purpose of storing data related to 
+the database connection.</p>
 <dl class="py class">
 <dt id="MasterPi.carapi.config.Config">
 <em class="property">class </em><code class="sig-prename descclassname">MasterPi.carapi.config.</code><code class="sig-name descname">Config</code><a class="headerlink" href="#MasterPi.carapi.config.Config" title="Permalink to this definition">¶</a></dt>
@@ -207,8 +231,17 @@ It is predominantly the conditional code internal to these classes that performs
 on the pages. It returns objects that in turn render html based on
 the status of numerous factors such as the user currently validated.</p>
 <ul class="simple">
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">auth_admin(f)()</span></code></p></li>
 <li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">index()</span></code></p></li>
 <li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">login()</span></code></p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">dashboard()</span></code></p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">admin_user()</span></code></p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">car_history(id)()</span></code></p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">car_edit(id)()</span></code></p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">car_report(id)()</span></code></p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">add_car()</span></code></p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">user_history(id)()</span></code></p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">user_edit(id)()</span></code></p></li>
 <li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">register()</span></code></p></li>
 <li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">logout()</span></code></p></li>
 <li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">book_car_request(id)()</span></code></p></li>
@@ -216,6 +249,7 @@ the status of numerous factors such as the user currently validated.</p>
 <li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">car_info(id)()</span></code></p></li>
 <li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">cancel_booking(id)()</span></code></p></li>
 <li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">location(id)()</span></code></p></li>
+<li><p><code class="xref py py-func docutils literal notranslate"><span class="pre">make_select_list(arr)()</span></code></p></li>
 </ul>
 <p>These are prefixed with decorators which are used to enforce certain validation
 when particular pages are loaded. See the individual functions for further details.
@@ -282,7 +316,7 @@ is not secure.</p>
 <li class="toctree-l2"><a class="reference internal" href="#website-py">website.py</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="fr_code.html">Face Recognition Code Documentation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="fr_code.html">External Input Code Documentation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="testing_code.html">Testing Code Documentation</a></li>
 </ul>
 
@@ -291,7 +325,7 @@ is not secure.</p>
 <ul>
   <li><a href="index.html">Documentation overview</a><ul>
       <li>Previous: <a href="agent_code.html" title="previous chapter">Agent Code Documentation</a></li>
-      <li>Next: <a href="fr_code.html" title="next chapter">Face Recognition Code Documentation</a></li>
+      <li>Next: <a href="fr_code.html" title="next chapter">External Input Code Documentation</a></li>
   </ul></li>
 </ul>
 </div>

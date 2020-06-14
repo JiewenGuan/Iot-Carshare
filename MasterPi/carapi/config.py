@@ -1,3 +1,7 @@
+"""
+This module serves the simple purpose of storing data related to 
+the database connection.
+"""
 import os
 basedir = os.path.abspath(os.path.dirname(__file__))
 

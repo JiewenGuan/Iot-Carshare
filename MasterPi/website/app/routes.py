@@ -12,7 +12,8 @@ the status of numerous factors such as the user currently validated.
 - cancel_booking(id):
 - location(id):
 These are prefixed with decorators which are used to enforce certain validation
-when particular pages are loaded.
+when particular pages are loaded. These mappings as such are predominantly used to create forms, passing them to the
+template for rendering.
 """
 
 
