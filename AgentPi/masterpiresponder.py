@@ -147,7 +147,7 @@ class MasterResponder():
         Validates an engineer's bluetooth login attempt.
         A set of engineer ID's are recieved in the dictionary,
         and this is compared to the ID that is returned (if any)
-        from the API call based on the car id.
+        from the API call based on the car id and the set of engineers.
         """
 
         valid_credentials = False
@@ -158,34 +158,12 @@ class MasterResponder():
         engineer_bt = self.agent_dictionary["engineer_bluetooth"]
         print(engineer_bt)
 
-        # TODO Ensure correct dictionary name
-        # Checks if the car requires an engineer.
-
-        """
-        Okay so I think the best way to do this is to have an API call that 
-        checks if a car is set for service and return the engineer bluetooth id.
-        If it matches any ID in the set, make an API call that updates the car
-        status.
-        Ideally this shuold return the username of the engineer.
-        
-        Alternatively we could check all the bluetooth IDs for matches, 
-        and then check if there is a booking, a bit like the validate_face call....
-        """
-
-        # data = {"bluetooth": engineer_bt}
-        # r = requests.post('http://192.168.1.109:10100/bluetooth', json = data, verify=False)
-        # user = r.json() or {}
-        # r = requests.get('http://192.168.1.109:10100/cars/{}'.format(carname), verify=False)
-        # car = r.json() or {}
-        # print(user)
-        # print(car)
-
         # This validation function is a cascade of checks designed to reduce server load.
         # Check if the car is valid and needs service.
         r = requests.get('http://192.168.1.109:10100/cars/{}'.format(carname), verify=False)
         car = r.json() or {}
         if car['status' == 3]:
-            # Check if any bluetooth address
+            # Check if any bluetooth address matches an engineer.
             for bt in engineer_bt:
                 data = {'bluetooth':bt}
                 r = requests.post('http://192.168.1.109:10100/bt_addr',json = data, verify=False)
@@ -221,8 +199,8 @@ class MasterResponder():
 
         # TODO Code to call API and return engineers booking goes
         # here.
+        print("Engineer {} return vehicle checkpoint reached.".format(engineer_code))
 
-        print("Engineer return vehicle checkpoint reached.")
 
         # This will always return as true regardless of the action 
         # performed in the API, as this satisfies the usecase of
@@ -230,6 +208,14 @@ class MasterResponder():
         # The return is still logged in the Agent for insurance purposes.
         temp_car_id = self.agent_dictionary["car_id"]
         temp_action = self.agent_dictionary["action"]
+
+        # Attempt to update the car status in the db.
+        r = requests.get('http://192.168.1.109:10100/fix_cars/{}'.format(carname), verify=False)
+        car = r.json() or {}
+        if car:
+            print("Car status updated")
+        else:
+            print("Car returned")
 
         # clear dict and return it with the car_id and the action
         # which are considered a confirmation of return.
