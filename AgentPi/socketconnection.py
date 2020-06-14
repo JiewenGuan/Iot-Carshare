@@ -253,7 +253,7 @@ class SocketConnection:
                 try: 
                     update_dictionary = DictionaryDateUpdater(returned_dictionary["info_date_time"])
                     returned_dictionary["info_date_time"] = update_dictionary.get_python_date()
-                except e:
+                except Exception as e:
                     print("Error converting dictionary!")
                     log.exception("Error converting dictionary: ".format(e))
             return returned_dictionary

@@ -180,11 +180,6 @@ class MasterResponder():
                                     username = user['username']
                                     break
 
-        # TODO Testing - delete when the API is used.
-        # print("Engineer login checkpoint reached")
-        # valid_credentials = True
-        # username = "test_engineer"
-
         # Update the dictionary based on the API calls and return.
         self.update_return_dict(valid_credentials, username)
         return self.agent_dictionary

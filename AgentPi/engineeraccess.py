@@ -70,6 +70,13 @@ class EngineerAccess():
                     # Pass in the qr code to the socket connection and await a return.
                     car_returned = socket_connection.terminate_engineer(engineer_code)
                     engineer_in_car = False
+                    try:
+                        extracted_qrcode = extracted_barcode.data.decode("utf-8")
+                        print("Thanks {} with ID {}.".format(current_username, extracted_qrcode[1]))
+                    except Exception as e:
+                        pass 
+                    print("You have been logged out.")
+                    time.sleep(3)
                 elif logout_attempts >= failed_logouts:
                     print("Exceeded logout attempts - locking vehicle for security purposes.")
                     time.sleep(3)

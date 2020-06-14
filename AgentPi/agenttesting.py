@@ -502,6 +502,7 @@ class TestInvalidAction(unittest.TestCase):
             returned_dict = self.sock_conn_valid.validation_returner(test_dict)
             self.assertEqual(returned_dict, False)
 
+
 class TestBluetooth(unittest.TestCase):
     """
     Primary testing class for :mod:`bluetoothlistener`
