@@ -37,6 +37,14 @@ def auth_admin(f):
         return f(*args, **kwargs)
     return decorated_function
 
+def auth_manager(f):
+    @wraps(f)
+    def decorated_function(*args, **kwargs):
+        if current_user.role != 3 and current_user.role != 0:
+            return redirect(url_for('index'))
+        return f(*args, **kwargs)
+    return decorated_function
+
 
 @app.route('/')
 @app.route('/index', methods=['GET', 'POST'])
@@ -82,23 +90,23 @@ def login():
             flash('Invalid username or password')
             return redirect(url_for('login'))
         login_user(user, remember=form.remember_me.data)
-        if current_user.role == 0:
+        if current_user.role == 3:
             return redirect(url_for("dashboard"))
         return redirect(url_for('index'))
     return render_template('login.html', title='Sign In', form=form)
 
 
 @app.route('/dashboard', methods=['GET', 'POST'])
-@auth_admin
+@auth_manager
 def dashboard():
     r = requests.get('http://192.168.1.109:10100/metadata',
                      verify=False)
     retdata = r.json() or {}
-
-    pielabels = Config.BODY_TYPE
+    pielabels = []
+    for i in Config.BODY_TYPE:
+        pielabels.append(i)
     pievalues = retdata['pie']
-    if len(pielabels) > len(pievalues):
-        pielabels.pop(0)
+    pielabels.pop(0)
     pie = ""
     for i in range(len(pielabels)):
         pie = pie+",[\'{}\',{}]".format(pielabels[i], pievalues[i])

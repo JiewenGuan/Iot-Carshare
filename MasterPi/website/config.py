@@ -20,7 +20,7 @@ class Config(object):
     BODY_TYPE = ['Body Type','Sedan','Truck','Van','Pickup','Suv','Other']
     CAR_STATUSES = ['in service', 'avaliable', 'booked']
     BOOKING_STAT = ['canceled', 'active', 'returned', 'service']
-    USER_TYPE = ['Admin','Engeneer','Customer']
+    USER_TYPE = ['Admin','Engeneer','Customer','Manager']
 
 if __name__ == "__main__":
     pass

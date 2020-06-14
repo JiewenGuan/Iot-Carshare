@@ -56,6 +56,7 @@ def seed_data():
     ]
     users[0].role = 0
     users[1].role = 1
+    users[2].role = 3
     db.session.bulk_save_objects(users)
 
     cars = [

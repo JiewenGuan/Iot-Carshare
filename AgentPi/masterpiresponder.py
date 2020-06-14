@@ -197,7 +197,7 @@ class MasterResponder():
 
         carname = self.agent_dictionary["car_id"]
         location = self.agent_dictionary["current_location"]
-        engineer_code = agent_dictionary["engineer_code"]
+        engineer_code = self.agent_dictionary["engineer_code"]
 
         # TODO Code to call API and return engineers booking goes
         # here.
@@ -210,9 +210,12 @@ class MasterResponder():
         # The return is still logged in the Agent for insurance purposes.
         temp_car_id = self.agent_dictionary["car_id"]
         temp_action = self.agent_dictionary["action"]
+        r = requests.get('http://192.168.1.109:10100/cars/{}'.format(carname), verify=False)
+        car = r.json() or {}
+
 
         # Attempt to update the car status in the db.
-        r = requests.get('http://192.168.1.109:10100/fix_cars/{}'.format(carname), verify=False)
+        r = requests.get('http://192.168.1.109:10100/fix_cars/{}'.format(car['id']), verify=False)
         car = r.json() or {}
         if car:
             print("Car status updated")
