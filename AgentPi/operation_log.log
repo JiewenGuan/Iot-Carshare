@@ -1,10 +1,101 @@
-2020-06-12 13-19-09 - validation - INFO - Current Car object in init: <cardetails.CarDetails object at 0x6cff1370> None
-2020-06-12 13-19-09 - validation - INFO - User Choice: 9 None
-2020-06-12 13-19-19 - bluetoothlistener - INFO - Detected devices: ['BC:83:85:19:89:34'] None
-2020-06-12 13-19-19 - socketconnection - INFO - Validating engineer: ['BC:83:85:19:89:34'] None
-2020-06-12 13-19-22 - socketconnection - ERROR - [Errno 113] No route to host None
+2020-06-14 18-15-30 - validation - INFO - Current Car object in init: <cardetails.CarDetails object at 0x6cf7c670> None
+2020-06-14 18-15-30 - validation - INFO - User Choice: 9 None
+2020-06-14 18-15-40 - bluetoothlistener - INFO - Detected devices: ['BC:83:85:19:89:34'] None
+2020-06-14 18-15-40 - socketconnection - INFO - Validating engineer: ['BC:83:85:19:89:34'] None
+2020-06-14 18-15-40 - socketconnection - INFO - Socket connection response: b'{"password": null, "current_location": null, "engineer_code": null, "engineer_bluetooth": ["BC:83:85:19:89:34"], "username": "engineer", "usertoken": null, "info_date_time": "2020-06-14T18:15:40.413735", "action": null, "car_id": "car123"}' None
+2020-06-14 18-15-40 - socketconnection - INFO - Dictionary returned from server: {'password': None, 'current_location': None, 'engineer_code': None, 'info_date_time': '2020-06-14T18:15:40.413735', 'username': 'engineer', 'car_id': 'car123', 'engineer_bluetooth': ['BC:83:85:19:89:34'], 'action': None, 'usertoken': None} None
+2020-06-14 18-15-40 - socketconnection - INFO - Updating Socket Dictionary None
+2020-06-14 18-15-40 - socketconnection - INFO - Socket returned action: None None
+2020-06-14 18-15-40 - validation - INFO - returned_dict: {'password': None, 'current_location': None, 'engineer_code': None, 'info_date_time': datetime.datetime(2020, 6, 14, 18, 15, 40, 413735), 'username': 'engineer', 'car_id': 'car123', 'engineer_bluetooth': ['BC:83:85:19:89:34'], 'action': None, 'usertoken': None} None
+2020-06-14 18-15-49 - qrreader - INFO - Starting video stream... None
+2020-06-14 18-15-52 - qrreader - INFO - QRCODE Found: PIOT itWorks None
+2020-06-14 18-15-52 - qrreader - INFO - Analysing QR Code.... None
+2020-06-14 18-15-52 - qrreader - INFO - Most recent code is of valid format. None
+2020-06-14 18-15-52 - qrreader - INFO - Video Stream terminated. Returning result. None
+2020-06-14 18-15-52 - socketconnection - INFO - Engineer Code Socket Dict: {'password': None, 'current_location': [-37.771171, 144.95818], 'engineer_code': 'PIOT itWorks', 'engineer_bluetooth': None, 'username': None, 'usertoken': None, 'info_date_time': '2020-06-14T18:15:52.288634', 'action': 6, 'car_id': 'car123'} None
+2020-06-14 18-15-52 - socketconnection - INFO - Socket connection response: b'' None
+2020-06-14 18-15-52 - socketconnection - ERROR - Extreme error: Expecting value: line 1 column 1 (char 0) None
 Traceback (most recent call last):
-  File "/home/pi/Desktop/Assignment2/Iot-Carshare/AgentPi/socketconnection.py", line 204, in establish_connection
+  File "/home/pi/Desktop/Assignment2/Iot-Carshare/AgentPi/socketconnection.py", line 244, in establish_connection
+    returned_dictionary = json.loads(returned_bytes.decode("utf-8"))
+  File "/usr/lib/python3.5/json/__init__.py", line 319, in loads
+    return _default_decoder.decode(s)
+  File "/usr/lib/python3.5/json/decoder.py", line 339, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+  File "/usr/lib/python3.5/json/decoder.py", line 357, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+2020-06-14 18-24-07 - validation - INFO - Current Car object in init: <cardetails.CarDetails object at 0x6cf7c670> None
+2020-06-14 18-24-07 - validation - INFO - User Choice: 9 None
+2020-06-14 18-24-17 - bluetoothlistener - INFO - Detected devices: ['BC:83:85:19:89:34'] None
+2020-06-14 18-24-17 - socketconnection - INFO - Validating engineer: ['BC:83:85:19:89:34'] None
+2020-06-14 18-24-18 - socketconnection - INFO - Socket connection response: b'{"password": null, "current_location": null, "engineer_code": null, "engineer_bluetooth": ["BC:83:85:19:89:34"], "username": "engineer", "usertoken": null, "info_date_time": "2020-06-14T18:24:17.758039", "action": null, "car_id": "car123"}' None
+2020-06-14 18-24-18 - socketconnection - INFO - Dictionary returned from server: {'password': None, 'current_location': None, 'engineer_code': None, 'info_date_time': '2020-06-14T18:24:17.758039', 'username': 'engineer', 'car_id': 'car123', 'engineer_bluetooth': ['BC:83:85:19:89:34'], 'action': None, 'usertoken': None} None
+2020-06-14 18-24-18 - socketconnection - INFO - Updating Socket Dictionary None
+2020-06-14 18-24-18 - socketconnection - INFO - Socket returned action: None None
+2020-06-14 18-24-18 - validation - INFO - returned_dict: {'password': None, 'current_location': None, 'engineer_code': None, 'info_date_time': datetime.datetime(2020, 6, 14, 18, 24, 17, 758039), 'username': 'engineer', 'car_id': 'car123', 'engineer_bluetooth': ['BC:83:85:19:89:34'], 'action': None, 'usertoken': None} None
+2020-06-14 18-24-27 - qrreader - INFO - Starting video stream... None
+2020-06-14 18-24-30 - qrreader - INFO - QRCODE Found: PIOT itWorks None
+2020-06-14 18-24-30 - qrreader - INFO - Analysing QR Code.... None
+2020-06-14 18-24-30 - qrreader - INFO - Most recent code is of valid format. None
+2020-06-14 18-24-30 - qrreader - INFO - Video Stream terminated. Returning result. None
+2020-06-14 18-24-30 - socketconnection - INFO - Engineer Code Socket Dict: {'password': None, 'current_location': [-37.771171, 144.95818], 'engineer_code': 'PIOT itWorks', 'engineer_bluetooth': None, 'username': None, 'usertoken': None, 'info_date_time': '2020-06-14T18:24:30.329657', 'action': 6, 'car_id': 'car123'} None
+2020-06-14 18-24-30 - socketconnection - INFO - Socket connection response: b'' None
+2020-06-14 18-24-30 - socketconnection - ERROR - Extreme error: Expecting value: line 1 column 1 (char 0) None
+Traceback (most recent call last):
+  File "/home/pi/Desktop/Assignment2/Iot-Carshare/AgentPi/socketconnection.py", line 244, in establish_connection
+    returned_dictionary = json.loads(returned_bytes.decode("utf-8"))
+  File "/usr/lib/python3.5/json/__init__.py", line 319, in loads
+    return _default_decoder.decode(s)
+  File "/usr/lib/python3.5/json/decoder.py", line 339, in decode
+    obj, end = self.raw_decode(s, idx=_w(s, 0).end())
+  File "/usr/lib/python3.5/json/decoder.py", line 357, in raw_decode
+    raise JSONDecodeError("Expecting value", s, err.value) from None
+json.decoder.JSONDecodeError: Expecting value: line 1 column 1 (char 0)
+2020-06-14 18-37-28 - validation - INFO - Current Car object in init: <cardetails.CarDetails object at 0x6cf7c670> None
+2020-06-14 18-37-28 - validation - INFO - User Choice: 9 None
+2020-06-14 18-37-39 - bluetoothlistener - INFO - Detected devices: ['BC:83:85:19:89:34'] None
+2020-06-14 18-37-39 - socketconnection - INFO - Validating engineer: ['BC:83:85:19:89:34'] None
+2020-06-14 18-37-39 - socketconnection - INFO - Socket connection response: b'{"password": null, "current_location": null, "engineer_code": null, "engineer_bluetooth": null, "username": null, "usertoken": null, "info_date_time": "2020-06-14T18:37:39.397260", "action": null, "car_id": null}' None
+2020-06-14 18-37-39 - socketconnection - INFO - Dictionary returned from server: {'password': None, 'current_location': None, 'engineer_code': None, 'info_date_time': '2020-06-14T18:37:39.397260', 'username': None, 'car_id': None, 'engineer_bluetooth': None, 'action': None, 'usertoken': None} None
+2020-06-14 18-37-39 - socketconnection - INFO - Updating Socket Dictionary None
+2020-06-14 18-37-39 - socketconnection - INFO - Socket returned action: None None
+2020-06-14 18-37-39 - validation - INFO - returned_dict: False None
+2020-06-14 18-45-17 - validation - INFO - Current Car object in init: <cardetails.CarDetails object at 0x6cf7c670> None
+2020-06-14 18-45-17 - validation - INFO - User Choice: 9 None
+2020-06-14 18-45-27 - bluetoothlistener - INFO - Detected devices: ['BC:83:85:19:89:34'] None
+2020-06-14 18-45-27 - socketconnection - INFO - Validating engineer: ['BC:83:85:19:89:34'] None
+2020-06-14 18-45-27 - socketconnection - ERROR - Server connection refused: [Errno 111] Connection refused None
+Traceback (most recent call last):
+  File "/home/pi/Desktop/Assignment2/Iot-Carshare/AgentPi/socketconnection.py", line 206, in establish_connection
     socket_connection.connect(self.ADDRESS)
-OSError: [Errno 113] No route to host
-2020-06-12 13-19-22 - validation - INFO - returned_dict: None None
+ConnectionRefusedError: [Errno 111] Connection refused
+2020-06-14 18-45-27 - validation - INFO - returned_dict: None None
+2020-06-14 18-47-33 - validation - INFO - Current Car object in init: <cardetails.CarDetails object at 0x6cf7c670> None
+2020-06-14 18-47-33 - validation - INFO - User Choice: 9 None
+2020-06-14 18-47-44 - bluetoothlistener - INFO - Detected devices: ['BC:83:85:19:89:34'] None
+2020-06-14 18-47-44 - socketconnection - INFO - Validating engineer: ['BC:83:85:19:89:34'] None
+2020-06-14 18-47-44 - socketconnection - ERROR - Server connection refused: [Errno 111] Connection refused None
+Traceback (most recent call last):
+  File "/home/pi/Desktop/Assignment2/Iot-Carshare/AgentPi/socketconnection.py", line 206, in establish_connection
+    socket_connection.connect(self.ADDRESS)
+ConnectionRefusedError: [Errno 111] Connection refused
+2020-06-14 18-47-44 - validation - INFO - returned_dict: None None
+2020-06-14 18-48-45 - validation - INFO - Current Car object in init: <cardetails.CarDetails object at 0x6cf7c670> None
+2020-06-14 18-48-45 - validation - INFO - User Choice: 9 None
+2020-06-14 18-48-55 - bluetoothlistener - INFO - Detected devices: ['BC:83:85:19:89:34'] None
+2020-06-14 18-48-55 - socketconnection - INFO - Validating engineer: ['BC:83:85:19:89:34'] None
+2020-06-14 18-48-55 - socketconnection - INFO - Socket connection response: b'{"password": null, "current_location": null, "engineer_code": null, "engineer_bluetooth": ["BC:83:85:19:89:34"], "username": "engineer", "usertoken": null, "info_date_time": "2020-06-14T18:48:55.537364", "action": null, "car_id": "car123"}' None
+2020-06-14 18-48-55 - socketconnection - INFO - Dictionary returned from server: {'password': None, 'current_location': None, 'engineer_code': None, 'info_date_time': '2020-06-14T18:48:55.537364', 'username': 'engineer', 'car_id': 'car123', 'engineer_bluetooth': ['BC:83:85:19:89:34'], 'action': None, 'usertoken': None} None
+2020-06-14 18-48-55 - socketconnection - INFO - Updating Socket Dictionary None
+2020-06-14 18-48-55 - socketconnection - INFO - Socket returned action: None None
+2020-06-14 18-48-55 - validation - INFO - returned_dict: {'password': None, 'current_location': None, 'engineer_code': None, 'info_date_time': datetime.datetime(2020, 6, 14, 18, 48, 55, 537364), 'username': 'engineer', 'car_id': 'car123', 'engineer_bluetooth': ['BC:83:85:19:89:34'], 'action': None, 'usertoken': None} None
+2020-06-14 18-49-21 - qrreader - INFO - Starting video stream... None
+2020-06-14 18-49-23 - qrreader - INFO - QRCODE Found: PIOT itWorks None
+2020-06-14 18-49-23 - qrreader - INFO - Analysing QR Code.... None
+2020-06-14 18-49-23 - qrreader - INFO - Most recent code is of valid format. None
+2020-06-14 18-49-23 - qrreader - INFO - Video Stream terminated. Returning result. None
+2020-06-14 18-49-23 - socketconnection - INFO - Engineer Code Socket Dict: {'password': None, 'current_location': [-37.866852, 144.891067], 'engineer_code': 'PIOT itWorks', 'engineer_bluetooth': None, 'username': None, 'usertoken': None, 'info_date_time': '2020-06-14T18:49:23.653454', 'action': 6, 'car_id': 'car123'} None
+2020-06-14 18-49-24 - socketconnection - INFO - Socket connection response: b'{"password": null, "current_location": null, "engineer_code": null, "engineer_bluetooth": null, "username": null, "usertoken": null, "info_date_time": null, "action": 6, "car_id": "car123"}' None
+2020-06-14 18-49-24 - socketconnection - INFO - Dictionary returned from server: {'password': None, 'current_location': None, 'engineer_code': None, 'info_date_time': None, 'username': None, 'car_id': 'car123', 'engineer_bluetooth': None, 'action': 6, 'usertoken': None} None
+2020-06-14 18-49-24 - socketconnection - INFO - Socket returned action: 6 None

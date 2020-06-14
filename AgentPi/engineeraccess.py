@@ -10,6 +10,7 @@ import time
 
 import qrreader
 import utilities
+import socketconnection
 # To consolidate logs into one location.
 import logging
 log = logging.getLogger(__name__)
@@ -58,13 +59,14 @@ class EngineerAccess():
 
                 # Search for the engineers QR code and
                 # if it is of valid type, return the vehicle.
+                print("Please present your valid QR ID code.")
                 qr_reader = qrreader.QRReader()
                 engineer_code = qr_reader.read_qr_code()
 
                 # If the code is returned, pass it to the socket.
                 if engineer_code:
                     # TODO how do we update the master if the connection fails?
-                    socket_connection = SocketConnection(self.unlocked_car["car_id"])
+                    socket_connection = socketconnection.SocketConnection(self.unlocked_car["car_id"])
                     # Pass in the qr code to the socket connection and await a return.
                     car_returned = socket_connection.terminate_engineer(engineer_code)
                     engineer_in_car = False

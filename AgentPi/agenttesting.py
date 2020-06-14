@@ -27,6 +27,8 @@ import random
 import agentdata
 import utilities
 import socketconnection
+import bluetoothlistener
+import cardetails
 
 
 class TestUtilities(unittest.TestCase):
@@ -274,6 +276,7 @@ class TestSocketResponseAction2(unittest.TestCase):
         # print("Username that should be valid: {}".format(self.valid_dict["username"]))
         # self.assertEqual(returned_dict["username"], self.test_data_true.username)
         self.assertEqual(returned_dict, False)
+
     def test_a2_invalid_password(self):
         """
         Incorrect password - should return a valid dictionary that is empty or false.
@@ -331,7 +334,7 @@ class TestSocketResponseAction4(unittest.TestCase):
         test_dict = self.valid_dict
         test_dict["car_id"] = self.invalid_dict["car_id"]
         returned_dict = self.sock_conn.validation_returner(test_dict)
-        self.assertEqual(returned_dict, False)
+        self.assertEqual(returned_dict, True)
 
     def test_a4_invalid_username(self):
         """
@@ -411,6 +414,7 @@ class TestSocketValidation(unittest.TestCase):
             )
         # self.assertEqual(self.valid_dict["username"], returned_dict["username"])
         self.assertEqual(returned_dict, False)
+
     def test_invalid_cred(self):
         """
         Test invalid credential response.
@@ -430,6 +434,7 @@ class TestSocketValidation(unittest.TestCase):
             )
         # self.assertEqual(returned_dict["username"], self.valid_dict["username"])
         self.assertEqual(returned_dict, False)
+
     def test_invalid_token(self):
         """
         Test invalid token response.
@@ -496,6 +501,37 @@ class TestInvalidAction(unittest.TestCase):
             test_dict["action"] = action
             returned_dict = self.sock_conn_valid.validation_returner(test_dict)
             self.assertEqual(returned_dict, False)
+
+class TestBluetooth(unittest.TestCase):
+    """
+    Primary testing class for :mod:`bluetoothlistener`
+    """
+
+    def setUp(self):
+        """
+        Setup the bluetooth module to test on.
+        """
+        bt_test = bluetoothlistener.BluetoothListenerEngineer()
+        self.short_bt = bt_test.catch_bluetooth()
+        self.long_bt = bt_test.listen_bluetooth(10)
+        print("Test suite: {}".format(type(self).__name__))
+        print("This test may take up to 30 seconds to complete - Stand by....")
+
+    def test_bt_short(self):
+        """
+        Validate the short listen bluetooth return
+        """
+        self.assertEqual(type(self.short_bt), list)
+        if len(self.short_bt) > 0:
+            self.assertEqual(type(self.short_bt[0]), str)
+    
+    def test_bt_long(self):
+        """
+        Validate the long listen bluetooth return
+        """
+        self.assertEqual(type(self.short_bt), list)
+        if len(self.short_bt) > 0:
+            self.assertEqual(type(self.short_bt[0]), str)
 
 
 def dictionary_class_helper_true() -> agentdata.DictionaryConstructor:

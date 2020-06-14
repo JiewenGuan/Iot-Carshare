@@ -61,7 +61,7 @@ class CarIDLoader:
         Function for loading a car_id. Hides the process for 
         determining the car_id, and is called when instantiated.
         """
-        self.this_car_id = "testcarX"
+        self.this_car_id = "car123"
 
     def get_car_id(self):
         """
@@ -149,7 +149,7 @@ class Main():
             level = logging.DEBUG,
             filename = "operation_log.log", 
             filemode = "w", 
-            format = "%(asctime)s - %(name)s - %(levelname)s - %(message)s %(stack_info)s",
+            format = "%(asctime)s - %(name)s - %(levelname)s - %(message)s - %(stack_info)s",
             datefmt = "%Y-%m-%d %H-%M-%S"
             )
 
