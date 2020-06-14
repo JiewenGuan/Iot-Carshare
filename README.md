@@ -39,8 +39,8 @@ This project is divided into three primary direcctories with subdirectories as a
 
 AgentPi - contains the code for operating the Agent and the files associated with the socket connection.
 
-MasterPi - contains two subfolders: carapi that contains the files associated with the API that affords access to the database; website that contains the files associated with 
+MasterPi - contains two subfolders: carapi that contains the files associated with the API that affords access to the database; website that contains the files associated with serving the website for bookings and management.
 
-docs - contains the sphinx files associated with generating the published documentation
+docs - contains the sphinx files associated with generating the published documentation, and the html pages for viewing the documentation.
 
-The documentation contains full details of each directory, subdirectory, and file.
+The documentation contains full details of each directory, subdirectory, and file for AgentPi and MasterPi.
